@@ -23,7 +23,3 @@ void BasicTest::basic_true_test(){
 	CPPUNIT_ASSERT(1==1);
 	CPPUNIT_ASSERT(1+1==2);
 }
-
-void BasicTest::basic_false_test(){
-	CPPUNIT_ASSERT(1==2);
-}

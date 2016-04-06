@@ -9,15 +9,16 @@
 #include <cppunit/TestResultCollector.h>
 #include <cppunit/TestRunner.h>
 
-#include <cppunit/Test.h>
+//#include <cppunit/Test.h>
 #include <cppunit/TestFailure.h>
-#include <cppunit/portability/Stream.h>
+//#include <cppunit/portability/Stream.h>
 
-#include <stdio.h>
+//#include <stdio.h>
 
 
 // HERE add your unit test library
-#include "../headers/BasicTest.h"
+#include "BasicTest.h"
+#include "TrussTest.h"
 
 class ProgressListener : public CPPUNIT_NS::TestListener {
 public:

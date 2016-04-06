@@ -16,7 +16,6 @@ class BasicTest : public CPPUNIT_NS::TestFixture{
 	CPPUNIT_TEST_SUITE(BasicTest);
 
 	CPPUNIT_TEST(basic_true_test);
-	CPPUNIT_TEST(basic_false_test);
 
 	 CPPUNIT_TEST_SUITE_END();
 
@@ -27,7 +26,6 @@ public:
         void tearDown();
 
 	void basic_true_test(void);
-	void basic_false_test(void);
 };
 
 #endif //SSO_BASICTEST_H

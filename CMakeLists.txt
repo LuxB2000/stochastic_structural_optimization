@@ -8,7 +8,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 # Source files
-set(SOURCE_FILES main.cpp)
+set(SOURCE_FILES
+        core/headers/StructuralElement.h core/src/StructuralElement.cpp
+        core/headers/Truss.h core/src/Truss.cpp
+        )
 
 ## -- CppUnit config --
 # looking for the CppUnit library
@@ -34,13 +37,13 @@ include_directories(${UTESTS_DIR}/headers)
 include_directories(${UTESTS_DIR}/src)
 #Find all source files in unit test: !! unit test files are assume to be some_nameTest.{cpp,h}
 FILE(GLOB_RECURSE UTESTS_FILES "*Test.cpp" "*Test.h")
-message("Test: ${UTESTS_DIR}")
-message("Test: ${UTESTS_FILES}")
+#message("Test: ${UTESTS_DIR}")
+#message("Test: ${UTESTS_FILES}")
 #Add all unit tests in addition to all source files.
-add_executable(UnitTester test_runner.cpp ${UTESTS_FILES})
+add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES})
 target_link_libraries (UnitTester ${UnitTestLibs})
 ## --- end Unit testing config --
 
 
 # Release
-add_executable(sso ${SOURCE_FILES})
+add_executable(sso main.cpp ${SOURCE_FILES})
