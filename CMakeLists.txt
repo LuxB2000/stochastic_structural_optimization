@@ -13,6 +13,9 @@ set(SOURCE_FILES
         core/headers/Truss.h core/src/Truss.cpp
         )
 
+# Extrernal libraries
+set(LIBS -larmadillo)
+
 ## -- CppUnit config --
 # looking for the CppUnit library
 set(CppUnit_INCLUDE_DIR "/usr/local/cppunit/") #TODO: improve, should be more generic and use FIND_PATH
@@ -41,9 +44,10 @@ FILE(GLOB_RECURSE UTESTS_FILES "*Test.cpp" "*Test.h")
 #message("Test: ${UTESTS_FILES}")
 #Add all unit tests in addition to all source files.
 add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES})
-target_link_libraries (UnitTester ${UnitTestLibs})
+target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 ## --- end Unit testing config --
 
 
 # Release
 add_executable(sso main.cpp ${SOURCE_FILES})
+target_link_libraries(sso ${LIBS})

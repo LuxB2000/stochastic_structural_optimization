@@ -1,6 +1,7 @@
 //
 // Created by plumat on 4/6/16.
 //
+// Here are the tests relative to the Truss element
 
 #ifndef SSO_TRUSSTEST_H
 #define SSO_TRUSSTEST_H
@@ -8,6 +9,8 @@
 #include <cppunit/TestCase.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
+
+#include "../../core/headers/Truss.h"
 
 using namespace CppUnit;
 using namespace std;
@@ -30,6 +33,10 @@ public:
     void basic_test(void);
     void stiffness_test(void);
     void transformation_test(void);
+
+private:
+    Point *a, *b;
+    Truss *truss;
 };
 
 #endif //SSO_TRUSSTEST_H

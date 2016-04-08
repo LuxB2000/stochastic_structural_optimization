@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <iostream>
 
+#include <armadillo>
+
 class Point{
 public:
     Point(float x_coord, float y_coord, float z_coord){
