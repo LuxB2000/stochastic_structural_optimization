@@ -18,9 +18,11 @@ using namespace std;
 class TrussTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE(TrussTest);
 
-        CPPUNIT_TEST(basic_test);
-        CPPUNIT_TEST(stiffness_test);
-        CPPUNIT_TEST(transformation_test);
+        CPPUNIT_TEST(basic_tests);
+        CPPUNIT_TEST(getters_tests);
+        CPPUNIT_TEST(length_tests);
+        CPPUNIT_TEST(stiffness_tests);
+        CPPUNIT_TEST(transformation_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -30,9 +32,12 @@ public:
     void setUp();
     void tearDown();
 
-    void basic_test(void);
-    void stiffness_test(void);
-    void transformation_test(void);
+    void basic_tests(void);
+    void getters_tests(void);
+    void length_tests(void);
+
+    void stiffness_tests(void);
+    void transformation_tests(void);
 
 private:
     Point *a, *b;
