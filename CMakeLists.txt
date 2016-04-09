@@ -11,7 +11,7 @@ set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 set(SOURCE_FILES
         core/headers/StructuralElement.h core/src/StructuralElement.cpp
         core/headers/Truss.h core/src/Truss.cpp
-        )
+        core/headers/Point.h core/src/Point.cpp)
 
 # Extrernal libraries
 set(LIBS -larmadillo)
@@ -43,7 +43,7 @@ FILE(GLOB_RECURSE UTESTS_FILES "*Test.cpp" "*Test.h")
 #message("Test: ${UTESTS_DIR}")
 #message("Test: ${UTESTS_FILES}")
 #Add all unit tests in addition to all source files.
-add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES})
+add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} )
 target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 ## --- end Unit testing config --
 

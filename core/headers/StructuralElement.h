@@ -11,19 +11,8 @@
 
 #include <armadillo>
 
-class Point{
-public:
-    Point(float x_coord, float y_coord, float z_coord){
-        x = x_coord;
-        y = y_coord;
-        z = z_coord;
-    }
-    ~Point(){
+#include "Point.h"
 
-    }
-
-    float x, y, z;
-};
 
 class StructuralElement {
 public:
