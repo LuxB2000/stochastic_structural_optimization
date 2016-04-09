@@ -7,8 +7,8 @@
 Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
 
     // init the Truss
-    m_start_p = s_pt;
-    m_end_p = e_pt;
+    m_start_p = new Point(*s_pt);
+    m_end_p = new Point(*e_pt);
     m_L = sqrt(pow(m_start_p->x-m_end_p->x,2) + pow(m_start_p->y-m_end_p->y,2) + pow(m_start_p->z-m_end_p->z,2));
     m_material = mat;
     m_A = cross_sect;
@@ -26,8 +26,8 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
 
     // local stiffness matrix
     m_k = new StiffnessMatrixType(6,6,arma::fill::zeros); // 6x6 matrix with 0 values
-
     /*
+     * nodal forces    stiffness matrix    displacements
      * | qxl_1 |     | 1  0  0 -1  0  0 |    | u_1 |
      * | qyl_1 |     | 0  0  0  0  0  0 |    | v_1 |
      * | qzl_1 |     | 0  0  0  0  0  0 |    | w_1 |
@@ -43,12 +43,17 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
 
     // local transformation matrix
     m_c = new TransformationMatrixType(6,6,arma::fill::zeros); // 6x6 matrix with 0 values
+    double xl=0.0, yl=0.0, zl=0.0;
+    xl=(m_end_p->x-m_start_p->x)/m_L; // local x axis,  xl = cos(theta_x)
+    yl=(m_end_p->y-m_start_p->y)/m_L;
+    zl=(m_end_p->z-m_start_p->z)/m_L;
 }
 
 Truss::~Truss() {
     if(m_k) delete m_k;
     if(m_c) delete m_c;
-    // warning: we don't deallocate the points. TODO?
+    if(m_start_p) delete m_start_p;
+    if(m_end_p) delete m_end_p;
 }
 
 Truss::StiffnessMatrixType* Truss::GetLocalStiffnessMatrix() {
