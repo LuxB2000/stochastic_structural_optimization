@@ -12,6 +12,7 @@ set(SOURCE_FILES
         core/headers/StructuralElement.h core/src/StructuralElement.cpp
         core/headers/Truss.h core/src/Truss.cpp
         core/headers/Point.h core/src/Point.cpp
+        core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
         )
 
 # Extrernal libraries
@@ -46,7 +47,7 @@ FILE(GLOB_RECURSE UTESTS_FILES "*Test.cpp" "*Test.h")
 #message("Test: ${UTESTS_DIR}")
 #message("Test: ${UTESTS_FILES}")
 #Add all unit tests in addition to all source files.
-add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} )
+add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} tests/src/GramSchmidtProcessTest.cpp)
 target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 ## --- end Unit testing config --
 
