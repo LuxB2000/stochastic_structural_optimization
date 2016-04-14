@@ -37,8 +37,11 @@ public:
     ~Truss();
 
     // public functions
-    StiffnessMatrixType*      GetLocalStiffnessMatrix();
-    TransformationMatrixType* GetLocalTransformationMatrix();
+    StiffnessMatrixType*      GetLocalStiffnessMatrixPointer();
+    const StiffnessMatrixType GetLocalStiffnessMatrix();
+
+    TransformationMatrixType*       GetLocalTransformationMatrixPointer();
+    const TransformationMatrixType  GetLocalTransformationMatrix();
 
     // getters
     double GetLength(){return m_L;}

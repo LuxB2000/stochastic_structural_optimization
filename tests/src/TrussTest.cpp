@@ -29,11 +29,13 @@ void TrussTest::tearDown(){
 void TrussTest::basic_tests(){
 
     // check the existence of the matrix and sizes
-    CPPUNIT_ASSERT_MESSAGE("The stiffness matrix should be initialized",truss->GetLocalStiffnessMatrix()); // check if pointer is not null
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("The stiffness should a 6x6 matrix",36,static_cast<int>(truss->GetLocalStiffnessMatrix()->n_elem)); // should be a 3x3 matrix
+    Truss::StiffnessMatrixType kl = truss->GetLocalStiffnessMatrix();
+    CPPUNIT_ASSERT_MESSAGE("The stiffness matrix should be initialized",truss->GetLocalStiffnessMatrixPointer()); // check if pointer is not null
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("The stiffness should a 6x6 matrix",36,static_cast<int>(kl.n_elem)); // should be a 3x3 matrix
 
-    CPPUNIT_ASSERT_MESSAGE("The transformation matrix should be initialized",truss->GetLocalTransformationMatrix()); // check if pointer is not null
-    CPPUNIT_ASSERT_EQUAL_MESSAGE("The transformation matrix should a 6x6 matrix",36,static_cast<int>(truss->GetLocalTransformationMatrix()->n_elem)); // should be a 3x3 matrix
+    Truss::TransformationMatrixType cl = truss->GetLocalStiffnessMatrix();
+    CPPUNIT_ASSERT_MESSAGE("The transformation matrix should be initialized",truss->GetLocalTransformationMatrixPointer()); // check if pointer is not null
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("The transformation matrix should a 6x6 matrix",36,static_cast<int>(cl.n_elem)); // should be a 3x3 matrix
 
 }
 
@@ -62,10 +64,10 @@ void TrussTest::stiffness_tests() {
     // default values
     double coef = truss->GetCrossSection()*truss->GetYoungModulus()/truss->GetLength(), c=0.0;
     std::ostringstream st_c, st_i, st_j;
-    Truss::StiffnessMatrixType* s = truss->GetLocalStiffnessMatrix();
+    Truss::StiffnessMatrixType kl = truss->GetLocalStiffnessMatrix();
 
-    for(unsigned int i=0; i<s->n_rows; i++) {
-        for (unsigned int j = 0; j < s->n_cols; j++) {
+    for(unsigned int i=0; i<kl.n_rows; i++) {
+        for (unsigned int j = 0; j < kl.n_cols; j++) {
             if ((i == 0 & j == 0) | (i == 3 & (j==0 | j==3)) | (j == 3 & (i==0 | i==3))) {
                 if ((i != j)) c = -coef;
                 else c = coef;
@@ -76,7 +78,7 @@ void TrussTest::stiffness_tests() {
             std::string m = "The local stiffness must be " + st_c.str() + " at (" + st_i.str() + "," + st_j.str() + ")"  ;
             CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE(m,
                                                  c,
-                                                 truss->GetLocalStiffnessMatrix()->at(i, j),
+                                                kl(i, j),
                                                  1E-3 // delta
 
             );//
@@ -89,6 +91,7 @@ void TrussTest::stiffness_tests() {
 
 void TrussTest::transformation_tests() {
 
+    Truss::TransformationMatrixType cl = truss->GetLocalTransformationMatrix();
     Truss::TransformationMatrixType expected_basic = {
             {1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
             {0.0, 1.0, 0.0, 0.0, 0.0, 0.0},
@@ -97,11 +100,13 @@ void TrussTest::transformation_tests() {
             {0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
             {0.0, 0.0, 0.0, 0.0, 0.0, 1.0} };
 
-    arma::umat test = (expected_basic == *(truss->GetLocalTransformationMatrix()));
+    arma::umat test = (expected_basic == cl); // all elements should be equal to 1
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("The local transformation must be a fixed one",
-                                         0, // TODO: here the expected value
-                                         test(0,0),
-                                         0.3 // delta
+    std::cout << cl << std::endl;
+
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",
+                                         36.0, // we expect all element equal to 1, sum of all raw and columns == dim1*dim2
+                                         sum(sum(test,1)),
+                                         0 // delta
     );//
 }

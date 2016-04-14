@@ -36,10 +36,10 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
      * | qzl_2 |     | 0  0  0  0  0  0 |    | w_2 |
      */
     double coef = m_A*m_E/m_L;
-    m_k->at(0,0) = coef * 1;
-    m_k->at(0,3) = coef * -1;
-    m_k->at(3,0) = coef * -1;
-    m_k->at(3,3) = coef * 1;
+    (*m_k)(0,0) = coef * 1;
+    (*m_k)(0,3) = coef * -1;
+    (*m_k)(3,0) = coef * -1;
+    (*m_k)(3,3) = coef * 1;
 
     // local transformation matrix
     m_c = new TransformationMatrixType(6,6,arma::fill::zeros); // 6x6 matrix with 0 values
@@ -50,37 +50,36 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
             e2 = arma::vec(3,arma::fill::zeros),
             e3 = arma::vec(3,arma::fill::zeros),
             u = arma::vec(3,arma::fill::zeros);
-    double xl=0.0, yl=0.0, zl=0.0,theta_x=0.0, theta_y=0.0, theta_z=0.0, e1x=0.0, e1y=0.0, e1z=0.0;
-    e1.at(0) = (m_end_p->x-m_start_p->x)/m_L;
-    e1.at(1) = (m_end_p->y-m_start_p->y)/m_L;
-    e1.at(2) = (m_end_p->z-m_start_p->z)/m_L;
-    u.at(0) = 1; // u=(1,0,0), linearly independent of e1
-    if(dot(e1,u)!=0){
-        u.at(0) = 0;
-        u.at(1) = 1; // u=(0,1,0)
+    e1(0) = (m_end_p->x-m_start_p->x)/m_L;
+    e1(1) = (m_end_p->y-m_start_p->y)/m_L;
+    e1(2) = (m_end_p->z-m_start_p->z)/m_L;
+    u(0) = 1; // u=(1,0,0), should be linearly independent of e1
+    if(dot(e1,u)!=0){ // if not, take an other one
+        u(0) = 0;
+        u(2) = -1; // u=(0,0,-1)
     }
     e2 = cross(e1,u);
     e3 = cross(e1,e2);
     // fill the transformation matrix
-    m_c->at(0,0) = dot(x,e1);
-    m_c->at(0,1) = dot(x,e2);
-    m_c->at(0,2) = dot(x,e3);
-    m_c->at(1,0) = dot(y,e1);
-    m_c->at(1,1) = dot(y,e2);
-    m_c->at(1,2) = dot(y,e3);
-    m_c->at(2,0) = dot(z,e1);
-    m_c->at(2,1) = dot(z,e2);
-    m_c->at(2,2) = dot(z,e3);
+    (*m_c)(0,0) = dot(x,e1);
+    (*m_c)(0,1) = dot(x,e2);
+    (*m_c)(0,2) = dot(x,e3);
+    (*m_c)(1,0) = dot(y,e1);
+    (*m_c)(1,1) = dot(y,e2);
+    (*m_c)(1,2) = dot(y,e3);
+    (*m_c)(2,0) = dot(z,e1);
+    (*m_c)(2,1) = dot(z,e2);
+    (*m_c)(2,2) = dot(z,e3);
 
-    m_c->at(3,3) = dot(x,e1);
-    m_c->at(3,4) = dot(x,e2);
-    m_c->at(3,5) = dot(x,e3);
-    m_c->at(4,3) = dot(y,e1);
-    m_c->at(4,4) = dot(y,e2);
-    m_c->at(4,5) = dot(y,e3);
-    m_c->at(5,3) = dot(z,e1);
-    m_c->at(5,4) = dot(z,e2);
-    m_c->at(5,5) = dot(z,e3);
+    (*m_c)(3,3) = dot(x,e1);
+    (*m_c)(3,4) = dot(x,e2);
+    (*m_c)(3,5) = dot(x,e3);
+    (*m_c)(4,3) = dot(y,e1);
+    (*m_c)(4,4) = dot(y,e2);
+    (*m_c)(4,5) = dot(y,e3);
+    (*m_c)(5,3) = dot(z,e1);
+    (*m_c)(5,4) = dot(z,e2);
+    (*m_c)(5,5) = dot(z,e3);
 }
 
 Truss::~Truss() {
@@ -90,10 +89,20 @@ Truss::~Truss() {
     if(m_end_p) delete m_end_p;
 }
 
-Truss::StiffnessMatrixType* Truss::GetLocalStiffnessMatrix() {
+Truss::StiffnessMatrixType* Truss::GetLocalStiffnessMatrixPointer() {
     return m_k;
 }
 
-Truss::TransformationMatrixType* Truss::GetLocalTransformationMatrix() {
+const Truss::StiffnessMatrixType Truss::GetLocalStiffnessMatrix() {
+    return Truss::StiffnessMatrixType(*m_k);
+}
+
+Truss::TransformationMatrixType* Truss::GetLocalTransformationMatrixPointer() {
     return m_c;
 }
+
+const Truss::TransformationMatrixType Truss::GetLocalTransformationMatrix() {
+    return Truss::TransformationMatrixType(*m_c);
+}
+
+
