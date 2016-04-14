@@ -2,7 +2,7 @@
 proof of concept illustrating the evolutionnary algorithm applied to structural optimization
 
 ## Dependencies
-- Armadillo: http://arma.sourceforge.net/
+- Armadillo: http://arma.sourceforge.net/ - version 5.2 or higher,
 - CMake
 
 ## Build

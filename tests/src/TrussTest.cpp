@@ -89,12 +89,19 @@ void TrussTest::stiffness_tests() {
 
 void TrussTest::transformation_tests() {
 
-    Truss::TransformationMatrixType expected = Truss::TransformationMatrixType(6,6,arma::fill::zeros);
+    Truss::TransformationMatrixType expected_basic = {
+            {1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+            {0.0, 1.0, 0.0, 0.0, 0.0, 0.0},
+            {0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
+            {0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+            {0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
+            {0.0, 0.0, 0.0, 0.0, 0.0, 1.0} };
+
+    arma::umat test = (expected_basic == *(truss->GetLocalTransformationMatrix()));
 
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("The local transformation must be a fixed one",
                                          0, // TODO: here the expected value
-                                         truss->GetLocalTransformationMatrix()->at(0,0),
+                                         test(0,0),
                                          0.3 // delta
     );//
-
 }

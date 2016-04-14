@@ -11,9 +11,12 @@ set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 set(SOURCE_FILES
         core/headers/StructuralElement.h core/src/StructuralElement.cpp
         core/headers/Truss.h core/src/Truss.cpp
-        core/headers/Point.h core/src/Point.cpp)
+        core/headers/Point.h core/src/Point.cpp
+        )
 
 # Extrernal libraries
+FIND_LIBRARY(ARMADILLO larmadillo
+        /usr/local/lib)
 set(LIBS -larmadillo)
 
 ## -- CppUnit config --
