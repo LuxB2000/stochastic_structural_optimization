@@ -25,6 +25,7 @@ public:
     void tearDown();
 
     void basic_tests(void);
+    void building_tests(void);
 };
 
 

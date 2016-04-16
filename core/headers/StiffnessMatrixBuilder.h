@@ -11,16 +11,25 @@ class StiffnessMatrixBuilder {
 public:
 
     typedef arma::fmat StiffnessMatrixType;
+    typedef arma::fmat TransformationMatrixType;
 
     StiffnessMatrixBuilder();
     ~StiffnessMatrixBuilder();
 
-    void Build(StiffnessMatrixType* kl);
+    /*
+     * Build the GLOBAL stiffness matrix based on 
+     * - a truss element local stiffness matrix kl
+     * - a truss element local transformation matrix cl
+     */
+    void Build(StiffnessMatrixType* kl, TransformationMatrixType* cl);
+
+    // getter
     const StiffnessMatrixType GetStiffnessMatrix();
     StiffnessMatrixType* GetStiffnessMatrixPointer();
 
 private:
-    StiffnessMatrixType* m_kg;
+    int m_kg_truss_sz;
+    StiffnessMatrixType* m_kg_truss;
 };
 
 #endif //SSO_STIFFNESSMATRIX_H
