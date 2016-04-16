@@ -5,6 +5,7 @@ project(sso)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # configure the project paths
+set(CORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core")
 set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 # Source files
@@ -24,8 +25,6 @@ set(LIBS -larmadillo)
 ## -- CppUnit config --
 # looking for the CppUnit library
 FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h /usr/local/include /usr/include)
-#set(CppUnit_INCLUDE_DIR "/usr/local/cppunit/") #TODO: improve, should be more generic and use FIND_PATH
-#set(CPPUNIT_INCLUDE_DIR "/usr/local/cppunit/")
 
 include_directories(${CPPUNIT_INCLUDE_DIR})
 
@@ -44,16 +43,24 @@ LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARY})
 # add the tests
 include_directories(${UTESTS_DIR}/headers)
 include_directories(${UTESTS_DIR}/src)
-#Find all source files in unit test: !! unit test files are assume to be some_nameTest.{cpp,h}
-FILE(GLOB_RECURSE UTESTS_FILES "*Test.cpp" "*Test.h")
-#message("Test: ${UTESTS_DIR}")
-#message("Test: ${UTESTS_FILES}")
+
+# set tests files
+set(UTESTS_FILES
+    tests/headers/BasicTest.h tests/src/BasicTest.cpp
+    tests/headers/PointTest.h tests/src/PointTest.cpp
+    tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
+    tests/headers/TrussTest.h tests/src/TrussTest.cpp
+    tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
+)
+
 #Add all unit tests in addition to all source files.
-add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} tests/src/GramSchmidtProcessTest.cpp)
+add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} )
 target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 ## --- end Unit testing config --
 
 
 # Release
+include_directories(${CORE_DIR}/headers)
+include_directories(${CORE_DIR}/src)
 add_executable(sso main.cpp ${SOURCE_FILES})
 target_link_libraries(sso ${LIBS})
