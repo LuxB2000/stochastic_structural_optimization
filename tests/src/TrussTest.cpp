@@ -102,11 +102,31 @@ void TrussTest::transformation_tests() {
 
     arma::umat test = (expected_basic == cl); // all elements should be equal to 1
 
-    std::cout << cl << std::endl;
+    //std::cout << cl << std::endl;
 
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",
                                          36.0, // we expect all element equal to 1, sum of all raw and columns == dim1*dim2
                                          sum(sum(test,1)),
                                          0 // delta
     );//
+
+
+    Point b1 = Point(0.0,1.0,0.0);
+    Truss truss1 = Truss(a,&b1,1.0,Truss::BASIC);
+    Truss::TransformationMatrixType cl1 = truss1.GetLocalTransformationMatrix();
+    expected_basic = { // TODO, config la matrice correctement
+            {1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
+            {0.0, 1.0, 0.0, 0.0, 0.0, 0.0},
+            {0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
+            {0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
+            {0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
+            {0.0, 0.0, 0.0, 0.0, 0.0, 1.0}
+    };
+    std::cout << cl1 << std::endl;
+    test = (expected_basic == cl1); // all elements should be equal to 1
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",
+                                         36.0, // we expect all element equal to 1, sum of all raw and columns == dim1*dim2
+                                         sum(sum(test,1)),
+                                         0 // delta
+    );
 }

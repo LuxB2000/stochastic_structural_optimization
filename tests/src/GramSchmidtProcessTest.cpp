@@ -40,3 +40,18 @@ void GramSchmidtProcessTest::projection_tests() {
     }
 
 }
+
+void GramSchmidtProcessTest::process_tests(void) {
+    GramSchmidtProcess::VectorType v = {1.0,0.0,0.0}, e1={0.0,0.0,0.0}, e2={0.0,0.0,0.0}, e3={0.0,0.0,0.0};
+    m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+
+    v = {0.0,1.0,0.0};
+    m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+
+    v = {0.0,0.0,1.0};
+    m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+
+    v = {1.0,1.0,1.0};
+    m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+
+}
