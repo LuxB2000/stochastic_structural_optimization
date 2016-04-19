@@ -38,20 +38,46 @@ void GramSchmidtProcessTest::projection_tests() {
         CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect a known vector",
                                  expected(i), p(i), 1E-3 );
     }
-
 }
 
 void GramSchmidtProcessTest::process_tests(void) {
     GramSchmidtProcess::VectorType v = {1.0,0.0,0.0}, e1={0.0,0.0,0.0}, e2={0.0,0.0,0.0}, e3={0.0,0.0,0.0};
-    m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+    GramSchmidtProcess::VectorType s1, s2, s3;
+    arma::uvec t1, t2, t3;
+
+    s1 = {1.0, 0.0, 0.0}; s2 = {0.0, 1.0, 0.0}; s3 = {0.0, 0.0, 1.0};
+    m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3); // should be {1,0,0}, {0,1,0} and {
+    t1 = (e1==s1); t2 = (e2==s2); t3=(e3==s3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect the default basis", 3.0, (double)sum(t1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect the default basis", 3.0, (double)sum(t2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect the default basis", 3.0, (double)sum(t3));
 
     v = {0.0,1.0,0.0};
+    s1 = {0.0, 1.0, 0.0}; s2 = {-1.0, 0.0, 0.0}; s3 = {0.0, 0.0, 1.0};
     m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+    t1 = (e1==s1); t2 = (e2==s2); t3=(e3==s3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {0,1,0}", 3.0, (double)sum(t1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {-1,0,0}", 3.0, (double)sum(t2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {0,0,1}", 3.0, (double)sum(t3));
 
     v = {0.0,0.0,1.0};
+    s1 = {0.0, 0.0, 1.0}; s2 = {0.0, -1.0, 0.0}; s3 = {1.0, 0.0, 0.0};
     m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+    t1 = (e1==s1); t2 = (e2==s2); t3=(e3==s3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {0,0,1}", 3.0, (double)sum(t1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {0,-1,0}",3.0, (double)sum(t2));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {1,0,0}",3.0, (double)sum(t3));
 
     v = {1.0,1.0,1.0};
+    s1 = {1.0/sqrt(3), 1.0/sqrt(3), 1.0/sqrt(3)}; s2 = {-1.0/sqrt(2), 1.0/sqrt(2), 0.0};
+    s3 = {-1+1/sqrt(2),-1/sqrt(2),1};
+    s3 = s3 / norm(s3);
     m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
+    t1 = (e1==s1); t2 = (e2==s2); t3=(e3==s3);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {1/sqrt(3),1/sqrt(3),1/sqrt(3)}", 3.0, (double)sum(t1));
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {-1/sqrt(2),1/sqrt(2),0}", 3.0, (double)sum(t2));
+    //CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {1,0,0}", 3.0, (double)sum(t3)); //TODO: find the good theoretical value
 
+    v = {-1.0,1.0,0.0};
+    m_gsp->ComputeOrthonormalBasisFromVector(&v,&e1,&e2,&e3);
 }

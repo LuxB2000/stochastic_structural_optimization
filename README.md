@@ -11,5 +11,5 @@ proof of concept illustrating the evolutionnary algorithm applied to structural 
 > cmake ..
 
 ## Run
-Run the tests with:
+Run the unit tests with:
 > ./UnitTester

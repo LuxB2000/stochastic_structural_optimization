@@ -22,17 +22,18 @@ set(LIBS -larmadillo)
 
 ## -- CppUnit config --
 # looking for the CppUnit library
-set(CppUnit_INCLUDE_DIR "/usr/local/cppunit/") #TODO: improve, should be more generic and use FIND_PATH
-set(CPPUNIT_INCLUDE_DIR "/usr/local/cppunit/")
+FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h /usr/local/include /usr/include)
+#set(CppUnit_INCLUDE_DIR "/usr/local/cppunit/") #TODO: improve, should be more generic and use FIND_PATH
+#set(CPPUNIT_INCLUDE_DIR "/usr/local/cppunit/")
 
 include_directories(${CPPUNIT_INCLUDE_DIR})
 
 FIND_LIBRARY(CPPUNIT_LIBRARY cppunit
-           ${CPPUNIT_INCLUDE_DIR}/../lib
+           ${CPPUNIT_INCLUDE_DIR} /../lib
            /usr/local/lib
            /usr/lib)
 FIND_LIBRARY(CPPUNIT_DEBUG_LIBRARY cppunit
-           ${CPPUNIT_INCLUDE_DIR}/../lib
+           ${CPPUNIT_INCLUDE_DIR} /../lib
            /usr/local/lib
            /usr/lib)
 ## --- end CppUnit config ---
