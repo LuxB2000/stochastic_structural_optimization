@@ -13,6 +13,7 @@ set(SOURCE_FILES
         core/headers/Truss.h core/src/Truss.cpp
         core/headers/Point.h core/src/Point.cpp
         core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
+        core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
         )
 
 # Extrernal libraries
