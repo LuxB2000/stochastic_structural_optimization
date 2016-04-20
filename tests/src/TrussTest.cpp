@@ -4,7 +4,7 @@
 
 #include "TrussTest.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TrussTest); //TODO: CHANGE
+CPPUNIT_TEST_SUITE_REGISTRATION(TrussTest);
 
 TrussTest::TrussTest(){
 }
