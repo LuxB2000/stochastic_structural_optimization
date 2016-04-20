@@ -3,6 +3,7 @@
 //
 
 #include "../headers/Truss.h"
+#include "../headers/GramSchmidtProcessTest.h"
 
 Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
 
@@ -27,6 +28,7 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
     // local stiffness matrix
     m_k = new StiffnessMatrixType(6,6,arma::fill::zeros); // 6x6 matrix with 0 values
     /*
+     * x, y and z axis correspond to the coordinate system
      * nodal forces    stiffness matrix    displacements
      * | qxl_1 |     | 1  0  0 -1  0  0 |    | u_1 |
      * | qyl_1 |     | 0  0  0  0  0  0 |    | v_1 |
@@ -43,24 +45,30 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
 
     // local transformation matrix
     m_c = new TransformationMatrixType(6,6,arma::fill::zeros); // 6x6 matrix with 0 values
-    // global system
+    // global system //TODO: ask for it to an other Object
     arma::vec x={1,0,0}, y={0,1,0}, z={0,0,1};
     // local system of the truss
-    arma::vec e1 = arma::vec(3,arma::fill::zeros),
-            e2 = arma::vec(3,arma::fill::zeros),
-            e3 = arma::vec(3,arma::fill::zeros),
-            u = arma::vec(3,arma::fill::zeros);
-    e1(0) = (m_end_p->x-m_start_p->x)/m_L;
-    e1(1) = (m_end_p->y-m_start_p->y)/m_L;
-    e1(2) = (m_end_p->z-m_start_p->z)/m_L;
-    u(0) = 1; // u=(1,0,0), should be linearly independent of e1
+    typedef GramSchmidtProcess::VectorType VectorType;
+    VectorType e1 = VectorType(3,arma::fill::zeros),
+            e2 = VectorType(3,arma::fill::zeros),
+            e3 = VectorType(3,arma::fill::zeros),
+            u  = VectorType(3,arma::fill::zeros);
+    u(0) = (m_end_p->x-m_start_p->x)/m_L;
+    u(1) = (m_end_p->y-m_start_p->y)/m_L;
+    u(2) = (m_end_p->z-m_start_p->z)/m_L;
+    //u(0) = 1; // u=(1,0,0), should be linearly independent of e1
+    GramSchmidtProcess p = GramSchmidtProcess();
+    p.ComputeOrthonormalBasisFromVector(&u,&e1,&e2,&e3);
+            /*
     if(dot(e1,u)!=0){ // if not, take an other one
         u(0) = 0;
         u(2) = -1; // u=(0,0,-1)
     }
     e2 = cross(e1,u);
     e3 = cross(e1,e2);
+             */
     // fill the transformation matrix
+    // m(raw,column)
     (*m_c)(0,0) = dot(x,e1);
     (*m_c)(0,1) = dot(x,e2);
     (*m_c)(0,2) = dot(x,e3);

@@ -92,7 +92,7 @@ void TrussTest::stiffness_tests() {
 void TrussTest::transformation_tests() {
 
     Truss::TransformationMatrixType cl = truss->GetLocalTransformationMatrix();
-    Truss::TransformationMatrixType expected_basic = {
+    Truss::TransformationMatrixType expected = {
             {1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
             {0.0, 1.0, 0.0, 0.0, 0.0, 0.0},
             {0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
@@ -100,7 +100,7 @@ void TrussTest::transformation_tests() {
             {0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
             {0.0, 0.0, 0.0, 0.0, 0.0, 1.0} };
 
-    arma::umat test = (expected_basic == cl); // all elements should be equal to 1
+    arma::umat test = (expected == cl); // all elements should be equal to 1
 
     //std::cout << cl << std::endl;
 
@@ -110,24 +110,42 @@ void TrussTest::transformation_tests() {
                                          0 // delta
     );//
 
-/*
     Point b1 = Point(0.0,1.0,0.0);
     Truss truss1 = Truss(a,&b1,1.0,Truss::BASIC);
     Truss::TransformationMatrixType cl1 = truss1.GetLocalTransformationMatrix();
-    expected_basic = { // TODO, config la matrice correctement
-            {1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
-            {0.0, 1.0, 0.0, 0.0, 0.0, 0.0},
-            {0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
-            {0.0, 0.0, 0.0, 1.0, 0.0, 0.0},
-            {0.0, 0.0, 0.0, 0.0, 1.0, 0.0},
-            {0.0, 0.0, 0.0, 0.0, 0.0, 1.0}
+    expected = {
+            {0.0, -1.0, 0.0, 0.0,  0.0, 0.0},
+            {1.0,  0.0, 0.0, 0.0,  0.0, 0.0},
+            {0.0,  0.0, 1.0, 0.0,  0.0, 0.0},
+            {0.0,  0.0, 0.0, 0.0, -1.0, 0.0},
+            {0.0,  0.0, 0.0, 1.0,  0.0, 0.0},
+            {0.0,  0.0, 0.0, 0.0,  0.0, 1.0}
     };
     //std::cout << cl1 << std::endl;
-    test = (expected_basic == cl1); // all elements should be equal to 1
+    test = (expected == cl1); // all elements should be equal to 1
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",
                                          36.0, // we expect all element equal to 1, sum of all raw and columns == dim1*dim2
                                          sum(sum(test,1)),
                                          0 // delta
     );
-*/
+
+    float px = 4.0, py = 6.0, pz = 0.0;
+    Point b2 = Point(px,py,pz);
+    Truss truss2 = Truss(a,&b2,1.0,Truss::BASIC);
+    Truss::TransformationMatrixType cl2 = truss2.GetLocalTransformationMatrix();
+    expected = {
+            {cos(atan(py/px)),-sin(atan(py/px)) , 0.0, 0.0,  0.0, 0.0},
+            {sin(atan(py/px)), cos(atan(py/px)), 0.0, 0.0,  0.0, 0.0},
+            {0.0,  0.0, 1.0, 0.0,  0.0, 0.0},
+            {0.0,  0.0, 0.0, cos(atan(py/px)),-sin(atan(py/px)), 0.0},
+            {0.0,  0.0, 0.0, sin(atan(py/px)), cos(atan(py/px)), 0.0},
+            {0.0,  0.0, 0.0, 0.0,  0.0, 1.0}
+    };
+    //std::cout << cl2 << std::endl;
+    test = (expected == cl2); // all elements should be equal to 1
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",
+                                         36.0, // we expect all element equal to 1, sum of all raw and columns == dim1*dim2
+                                         sum(sum(test,1)),
+                                         0 // delta
+    );
 }
