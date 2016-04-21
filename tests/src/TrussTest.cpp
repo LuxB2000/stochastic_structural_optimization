@@ -148,4 +148,17 @@ void TrussTest::transformation_tests() {
                                          sum(sum(test,1)),
                                          0 // delta
     );
+
+    // a point position shouldn't have any influence on the result
+    Point a3= Point(1,1,1);
+    Point b3=Point(px+a3.x, py+a3.y, pz+a3.z);
+    Truss truss3 = Truss(&a3,&b3,1.0,Truss::BASIC);
+    Truss::TransformationMatrixType cl3 = truss3.GetLocalTransformationMatrix();
+    test = (expected == cl2); // all elements should be equal to 1, a point shouldn't have an influce, we expect the same matrix as previously
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",
+                                         36.0, // we expect all element equal to 1, sum of all raw and columns == dim1*dim2
+                                         sum(sum(test,1)),
+                                         0 // delta
+    );
+
 }
