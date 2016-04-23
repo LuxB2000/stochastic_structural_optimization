@@ -5,32 +5,53 @@
 #include "../headers/StiffnessMatrixBuilder.h"
 
 
-StiffnessMatrixBuilder::StiffnessMatrixBuilder() {
+StiffnessMatrixBuilder::StiffnessMatrixBuilder(int nbr_dof) {
     /* Truss stiffness matrix
-     * x, y and z axis correspond to the GLOBAL coordinate system
-     * nodal forces    stiffness matrix    displacements
-     * | qxl_1 |     | k00 k01 k02 k03 k04 k05 |    | u_1 |
-     * | qyl_1 |     | k10 k11 k12 k13 k14 k15 |    | v_1 |
-     * | qzl_1 |     | k20 k21 k22 k23 k24 k25 |    | w_1 |
-     * | qxl_2 |  =  | k30 k31 k32 k33 k34 k35 |  * | u_2 |
-     * | qyl_2 |     | k40 k41 k42 k43 k44 k45 |    | v_2 |
-     * | qzl_2 |     | k50 k51 k52 k53 k54 k55 |    | w_2 |
+     * U, V and W correspond to degree of freedom (translations) in the GLOBAL coordinate system
+     *                      U_1 V_1 W_1 .... W_nbf_dof
+     *         U_1       |                              |
+     *         V_1       |                              |
+     *         W_1       |                              |
+     * kg =    ...       |                              |
+     *         U_nbf_dof |                              |
+     *         V_nbf_dof |                              |
+     *         W_nbf_dof |                              |
      */
-    m_kg_truss = new StiffnessMatrixType(6,6,arma::fill::zeros);
+    m_kg_truss = new StiffnessMatrixType();
+    m_kg_truss->set_size(nbr_dof,nbr_dof);
+    m_kg_truss->fill(arma::fill::zeros);
 }
 
 StiffnessMatrixBuilder::~StiffnessMatrixBuilder() {
     if(m_kg_truss) delete m_kg_truss;
 }
 
-void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kl, TransformationMatrixType* tm) {
+void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kl, TransformationMatrixType* tm, unsigned int j1, unsigned int j2) {
     /*
+     * The stiffness matrix in the global coordinates
      * global stiffness = transformation matrix * local stiffness * transposed transformation matrix
-     *
-     *      | tm^t  0   |        | tm  0 |
-     * kg = |           | * kl * |       |
-     *      | 0    tm^t |        | 0  tm |
+     * kg = tm^t * kl * tm = 6x6 in Truss
      */
+
+    unsigned int c=0,r=0,k=0,j=0,l1=j1*3,l2=j2*3; // mult by 3 since 3 dof in truss
+    StiffnessMatrixType kg = (*tm).t() * (*kl) * (*tm);
+
+    for(c=0;c<6;c++)
+    for(r=0;r<6;r++)
+    {
+        if(c<3 && r<3){
+            (*m_kg_truss)(l1+r,l1+c) = (*m_kg_truss)(l1+r,l1+c) + kg(r,c);
+        }
+        else if(c>=3 && r>=3){
+            (*m_kg_truss)(l2+r-3,l2+c-3) = (*m_kg_truss)(l2+r-3,l2+c-3) + kg(r,c);
+        }
+        else if(c>=3 && r<3){
+            (*m_kg_truss)(l1+r,l2+c-3) = (*m_kg_truss)(l1+r,l2+c-3) + kg(r,c);
+        }
+        else if(c<3 && r>=3){
+            (*m_kg_truss)(l2+r-3,l1+c) = (*m_kg_truss)(l2+r-3,l1+c) + kg(r,c);
+        }
+    }
 
 }
 

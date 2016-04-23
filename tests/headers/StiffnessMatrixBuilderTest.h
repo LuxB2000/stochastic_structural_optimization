@@ -16,6 +16,7 @@ class StiffnessMatrixBuilderTest  : public CPPUNIT_NS::TestFixture{
 
     CPPUNIT_TEST_SUITE(StiffnessMatrixBuilderTest);
         CPPUNIT_TEST(basic_tests);
+        CPPUNIT_TEST(building_tests);
     CPPUNIT_TEST_SUITE_END();
 
 public:
