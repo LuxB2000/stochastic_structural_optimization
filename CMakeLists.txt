@@ -6,7 +6,12 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
 # configure the project paths
 set(CORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core")
+set(CORE_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers")
+set(CORE_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src")
 set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
+
+
+include_directories(${CORE_H_DIR})
 
 # Source files
 set(SOURCE_FILES
@@ -15,6 +20,7 @@ set(SOURCE_FILES
         core/headers/Point.h core/src/Point.cpp
         core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
         core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
+        core/headers/TrussSolver.h core/src/TrussSolver.cpp
         )
 
 # Extrernal libraries
@@ -46,11 +52,12 @@ include_directories(${UTESTS_DIR}/src)
 
 # set tests files
 set(UTESTS_FILES
-    tests/headers/BasicTest.h tests/src/BasicTest.cpp
-    tests/headers/PointTest.h tests/src/PointTest.cpp
-    tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
-    tests/headers/TrussTest.h tests/src/TrussTest.cpp
-    tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
+        tests/headers/BasicTest.h tests/src/BasicTest.cpp
+        tests/headers/PointTest.h tests/src/PointTest.cpp
+        tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
+        tests/headers/TrussTest.h tests/src/TrussTest.cpp
+        tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
+        tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
 )
 
 #Add all unit tests in addition to all source files.
