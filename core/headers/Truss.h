@@ -28,11 +28,12 @@
 class Truss: StructuralElement {
 public:
     // enum and typedef
-    enum material {BASIC}; // possible materials
+    enum material {BASIC,TEST}; // possible materials
     typedef arma::fmat StiffnessMatrixType;
     typedef arma::fmat TransformationMatrixType;
 
     // constructors and destructor
+    // cross section is given in mm^2
     Truss(Point* starting_pt, Point* ending_pt, double cross_section, material type_material);
     ~Truss();
 
