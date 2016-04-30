@@ -34,7 +34,7 @@ void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kl, TransformationMatrix
      */
 
     unsigned int c=0,r=0,k=0,j=0,l1=j1*3,l2=j2*3; // mult by 3 since 3 dof in truss
-    StiffnessMatrixType kg = (*tm).t() * (*kl) * (*tm);
+    StiffnessMatrixType kg = (*tm) * (*kl) * (*tm).t();
 
     for(c=0;c<6;c++)
     for(r=0;r<6;r++)
@@ -42,14 +42,14 @@ void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kl, TransformationMatrix
         if(c<3 && r<3){
             (*m_kg_truss)(l1+r,l1+c) = (*m_kg_truss)(l1+r,l1+c) + kg(r,c);
         }
-        else if(c>=3 && r>=3){
-            (*m_kg_truss)(l2+r-3,l2+c-3) = (*m_kg_truss)(l2+r-3,l2+c-3) + kg(r,c);
-        }
         else if(c>=3 && r<3){
             (*m_kg_truss)(l1+r,l2+c-3) = (*m_kg_truss)(l1+r,l2+c-3) + kg(r,c);
         }
+        else if(c>=3 && r>=3){
+            (*m_kg_truss)(l2+r-3,l2+c-3) = (*m_kg_truss)(l2+r-3,l2+c-3) + kg(r,c);
+        }
         else if(c<3 && r>=3){
-            (*m_kg_truss)(l2+r-3,l1+c) = (*m_kg_truss)(l2+r-3,l1+c) + kg(r,c);
+        (*m_kg_truss)(l2+r-3,l1+c) = (*m_kg_truss)(l2+r-3,l1+c) + kg(r,c);
         }
     }
 
