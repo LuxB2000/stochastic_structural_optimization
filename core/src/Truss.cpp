@@ -22,6 +22,7 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
         case TEST:
             // numbers coming from "Introduction to Finite Element Analysis Using Matlab and Abacus" Amar Khennane 2013
             m_E = 2E5; // in MPa
+            break;
         default:
             m_E = 1.0;
             std::cerr << "Material is not supported, default value is used." <<std::endl;
