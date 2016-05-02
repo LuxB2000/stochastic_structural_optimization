@@ -28,7 +28,7 @@ void TrussSolverTest::basic_tests(){
     TrussSolver solver = TrussSolver();
 }
 
-void TrussSolverTest::compute_displacements_tests() {
+void TrussSolverTest::compute_all_tests() {
 
     // Try to match examples developed in the book:
     // "Introduction to Finite Element Analysis Using Matlab and Abaqus, Amar Khennane, 2013", chap 1, page 9-19
@@ -40,7 +40,7 @@ void TrussSolverTest::compute_displacements_tests() {
     // |
     //  -->x
     //
-    //         2 --> f3x
+    //         2 --> f2x
     //  t3  /  |
     //     /   | t2
     //    0 ---1
@@ -52,7 +52,7 @@ void TrussSolverTest::compute_displacements_tests() {
 
     // problem inputs
     float A = 2300; // section in mm^2
-    double fx3 = 12000; //external force, in N
+    float fx2 = 12000; //external force, in N
     float x0=0.0, y0=0.0, z0=0.0, x1=4000.0, y1=0.0, z1=0.0, x2=4000.0, y2=6000.0, z2=0.0; // coord in millimeters
 
     // defining the points
@@ -71,8 +71,8 @@ void TrussSolverTest::compute_displacements_tests() {
 
     // build the global force vector, in format (fx0,fy0,fz0,...,fxN,fyN,fzN)
     TrussSolver::ForceVectorType f = TrussSolver::ForceVectorType(n_dof*n_pt,arma::fill::zeros);
-    // only one external force: fx3
-    f(6)=fx3;
+    // only one external force: fx2
+    f(6)=fx2;
 
     // Boundary conditions
     TrussSolver::BoundaryConditionsVectorType bc = TrussSolver::BoundaryConditionsVectorType();
@@ -88,7 +88,7 @@ void TrussSolverTest::compute_displacements_tests() {
 
    //std::cout << disp << std::endl;
 
-    long l = disp.n_elem;
+    long l = expected.n_elem;
     CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect to have the same size",l,(long)disp.n_elem);
     // dx0, dy0, dy1 can be ignored since there are joints
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the same displacements dx1",expected(3),disp(3),1E-3); // dx1
@@ -99,4 +99,15 @@ void TrussSolverTest::compute_displacements_tests() {
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the same displacements dz0",expected(2),disp(2),1E-6); // dz0
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the same displacements dz1",expected(5),disp(5),1E-6); // dz1
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the same displacements dz2",expected(8),disp(8),1E-6); // dz2
+
+
+    // find the forces
+    solver.ComputeSupportReaction(&disp,stiffnessMatrixBuilder.GetStiffnessMatrixPointer(),&f,&bc);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect to have the same size",n_dof*n_pt,(unsigned int)f.n_elem);
+    // want no change in fx3
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the fx2 force",fx2,(float)f(6),1E-2); //Fx2
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the Rx0 force",(float)-12E3,(float)f(0),1E-2); // Rx0
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the Ry0 force",(float)-18E3,(float)f(1),1E-2); // Ry0
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the Ry1 force",(float)18E3,(float)f(4),1E-2); // Ry1
+
 }

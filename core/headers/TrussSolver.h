@@ -27,7 +27,9 @@ public:
      * @input ForceVectorType *f
      * @input BoundaryConditionVectorType* bcv
      */
-    void ComputeDisplacements(DisplacementVectorType* disp, StiffnessMatrixType* K, ForceVectorType* f, BoundaryConditionsVectorType* bcp);
+    void ComputeDisplacements(DisplacementVectorType* disp, StiffnessMatrixType* K, ForceVectorType* f, BoundaryConditionsVectorType* bcv);
+
+    void ComputeSupportReaction(DisplacementVectorType* disp, StiffnessMatrixType* K, ForceVectorType* f, BoundaryConditionsVectorType* bcv);
 
 };
 

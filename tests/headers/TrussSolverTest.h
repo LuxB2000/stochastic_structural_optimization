@@ -18,7 +18,7 @@ class TrussSolverTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE(TrussSolverTest);
 
         CPPUNIT_TEST(basic_tests);
-        CPPUNIT_TEST(compute_displacements_tests);
+        CPPUNIT_TEST(compute_all_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -29,7 +29,7 @@ public:
     void tearDown();
 
     void basic_tests(void);
-    void compute_displacements_tests(void);
+    void compute_all_tests(void);
 
 private:
 };
