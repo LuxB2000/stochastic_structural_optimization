@@ -80,7 +80,7 @@ void TrussSolverTest::compute_all_tests() {
     bc.push_back({0,1}); // at joint 0, Ry=0
     bc.push_back({1,1}); // at joint 1, Ry=0
 
-    // find the displacements
+    //1 - find the displacements
     TrussSolver::DisplacementVectorType disp = TrussSolver::DisplacementVectorType(),
         expected = {0,0,0, 0,0,0, 0.9635,(float)-0.2348,0};
     TrussSolver solver = TrussSolver();
@@ -100,14 +100,15 @@ void TrussSolverTest::compute_all_tests() {
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the same displacements dz1",expected(5),disp(5),1E-6); // dz1
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the same displacements dz2",expected(8),disp(8),1E-6); // dz2
 
-
-    // find the forces
+    //2- find the support reactions
     solver.ComputeSupportReaction(&disp,stiffnessMatrixBuilder.GetStiffnessMatrixPointer(),&f,&bc);
+    //std::cout << f << std::endl;
     CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect to have the same size",n_dof*n_pt,(unsigned int)f.n_elem);
-    // want no change in fx3
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the fx2 force",fx2,(float)f(6),1E-2); //Fx2
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the fx2 force",fx2,(float)f(6),1E-2); // want no change in fx2
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the Rx0 force",(float)-12E3,(float)f(0),1E-2); // Rx0
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the Ry0 force",(float)-18E3,(float)f(1),1E-2); // Ry0
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find the Ry1 force",(float)18E3,(float)f(4),1E-2); // Ry1
+
+    //3 - find the internal forces
 
 }
