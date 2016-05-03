@@ -24,13 +24,12 @@
 #include <vector>
 
 #include "StructuralElement.h"
+#include "Types.h"
 
 class Truss: StructuralElement {
 public:
     // enum and typedef
     enum material {BASIC,TEST}; // possible materials
-    typedef arma::fmat StiffnessMatrixType;
-    typedef arma::fmat TransformationMatrixType;
 
     // constructors and destructor
     // cross section is given in mm^2
@@ -49,12 +48,18 @@ public:
     double GetCrossSection(){return m_A;}
     double GetYoungModulus(){return m_E;}
 
+    // setters
+    //void SetInternalForces();
+    void SetInternalForcesInGlobalCoordinnates();
+    void SetNodalDisplacements();
+
 private:
     double m_A, m_E, m_L;
     material m_material;
     Point *m_start_p, *m_end_p;
     StiffnessMatrixType      *m_k;
     TransformationMatrixType *m_c;
+    ForceVectorType m_internalForces;
 };
 
 

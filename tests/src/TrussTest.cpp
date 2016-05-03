@@ -3,6 +3,7 @@
 //
 
 #include "TrussTest.h"
+#include "Types.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TrussTest);
 
@@ -29,11 +30,11 @@ void TrussTest::tearDown(){
 void TrussTest::basic_tests(){
 
     // check the existence of the matrix and sizes
-    Truss::StiffnessMatrixType kl = truss->GetLocalStiffnessMatrix();
+    StiffnessMatrixType kl = truss->GetLocalStiffnessMatrix();
     CPPUNIT_ASSERT_MESSAGE("The stiffness matrix should be initialized",truss->GetLocalStiffnessMatrixPointer()); // check if pointer is not null
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The stiffness should a 6x6 matrix",36,static_cast<int>(kl.n_elem)); // should be a 3x3 matrix
 
-    Truss::TransformationMatrixType cl = truss->GetLocalStiffnessMatrix();
+    TransformationMatrixType cl = truss->GetLocalStiffnessMatrix();
     CPPUNIT_ASSERT_MESSAGE("The transformation matrix should be initialized",truss->GetLocalTransformationMatrixPointer()); // check if pointer is not null
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The transformation matrix should a 6x6 matrix",36,static_cast<int>(cl.n_elem)); // should be a 3x3 matrix
 
@@ -64,7 +65,7 @@ void TrussTest::stiffness_tests() {
     // default values
     double coef = truss->GetCrossSection()*truss->GetYoungModulus()/truss->GetLength(), c=0.0;
     std::ostringstream st_c, st_i, st_j;
-    Truss::StiffnessMatrixType kl = truss->GetLocalStiffnessMatrix();
+    StiffnessMatrixType kl = truss->GetLocalStiffnessMatrix();
 
     for(unsigned int i=0; i<kl.n_rows; i++) {
         for (unsigned int j = 0; j < kl.n_cols; j++) {
@@ -91,8 +92,8 @@ void TrussTest::stiffness_tests() {
 
 void TrussTest::transformation_tests() {
 
-    Truss::TransformationMatrixType cl = truss->GetLocalTransformationMatrix();
-    Truss::TransformationMatrixType expected = {
+    TransformationMatrixType cl = truss->GetLocalTransformationMatrix();
+    TransformationMatrixType expected = {
             {1.0, 0.0, 0.0, 0.0, 0.0, 0.0},
             {0.0, 1.0, 0.0, 0.0, 0.0, 0.0},
             {0.0, 0.0, 1.0, 0.0, 0.0, 0.0},
@@ -112,7 +113,7 @@ void TrussTest::transformation_tests() {
 
     Point b1 = Point(0.0,1.0,0.0);
     Truss truss1 = Truss(a,&b1,1.0,Truss::BASIC);
-    Truss::TransformationMatrixType cl1 = truss1.GetLocalTransformationMatrix();
+    TransformationMatrixType cl1 = truss1.GetLocalTransformationMatrix();
     expected = {
             {0.0, -1.0, 0.0, 0.0,  0.0, 0.0},
             {1.0,  0.0, 0.0, 0.0,  0.0, 0.0},
@@ -132,7 +133,7 @@ void TrussTest::transformation_tests() {
     float px = 4.0, py = 6.0, pz = 0.0;
     Point b2 = Point(px,py,pz);
     Truss truss2 = Truss(a,&b2,1.0,Truss::BASIC);
-    Truss::TransformationMatrixType cl2 = truss2.GetLocalTransformationMatrix();
+    TransformationMatrixType cl2 = truss2.GetLocalTransformationMatrix();
     expected = {
             {cos(atan(py/px)),-sin(atan(py/px)) , 0.0, 0.0,  0.0, 0.0},
             {sin(atan(py/px)), cos(atan(py/px)), 0.0, 0.0,  0.0, 0.0},
@@ -153,7 +154,7 @@ void TrussTest::transformation_tests() {
     Point a3= Point(1,1,1);
     Point b3=Point(px+a3.x, py+a3.y, pz+a3.z);
     Truss truss3 = Truss(&a3,&b3,1.0,Truss::BASIC);
-    Truss::TransformationMatrixType cl3 = truss3.GetLocalTransformationMatrix();
+    TransformationMatrixType cl3 = truss3.GetLocalTransformationMatrix();
     test = (expected == cl2); // all elements should be equal to 1, a point shouldn't have an influce, we expect the same matrix as previously
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",
                                          36.0, // we expect all element equal to 1, sum of all raw and columns == dim1*dim2

@@ -32,7 +32,7 @@ void StiffnessMatrixBuilderTest::basic_tests() {
     StiffnessMatrixBuilder k_builder = StiffnessMatrixBuilder(N*dof);
     CPPUNIT_ASSERT_MESSAGE("We expect the matrix initialized",k_builder.GetStiffnessMatrixPointer());
 
-    StiffnessMatrixBuilder::StiffnessMatrixType kl = k_builder.GetStiffnessMatrix();
+    StiffnessMatrixType kl = k_builder.GetStiffnessMatrix();
     CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect a matrix with 9 columns",9,static_cast<int>(kl.n_cols));
     CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect a matrix with 9 columns",9,static_cast<int>(kl.n_rows));
 }
@@ -40,7 +40,7 @@ void StiffnessMatrixBuilderTest::basic_tests() {
 void StiffnessMatrixBuilderTest::building_tests(){
 
     arma::umat test;
-    StiffnessMatrixBuilder::StiffnessMatrixType kg ;
+    StiffnessMatrixType kg ;
 
     // construct a system with 3 point
     int N = 3;
@@ -53,7 +53,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
     Point b = Point(4000.0,0.0,0.0);
     Truss truss = Truss(&a,&b,A,Truss::TEST);
     float coef = (float) ( truss.GetCrossSection()*truss.GetYoungModulus()/truss.GetLength() );
-    StiffnessMatrixBuilder::StiffnessMatrixType expected = {
+    StiffnessMatrixType expected = {
             {coef, 0.0, 0.0, -coef, 0.0, 0.0, 0.0, 0.0, 0.0},   // U0
             {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},      // V0
             {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},      // W0
@@ -75,7 +75,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
     Point b1 = Point(4000.0,6000.0,0.0);
     Truss truss1 = Truss(&b,&b1,A,Truss::TEST);
     float coef1 = (float) ( truss1.GetCrossSection()*truss1.GetYoungModulus()/truss1.GetLength() );
-    StiffnessMatrixBuilder::StiffnessMatrixType expected1 = {
+    StiffnessMatrixType expected1 = {
          //  U0   V0   W0   U1   V1   W1   U2   V2   W2
             {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},      // U0
             {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},      // V0
@@ -87,7 +87,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
             {0.0, 0.0, 0.0, 0.0,-coef1,0.0, 0.0,coef1, 0.0},      // V2
             {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}       // W2
     };
-    StiffnessMatrixBuilder::StiffnessMatrixType expected_s = expected1;
+    StiffnessMatrixType expected_s = expected1;
     expected1 = expected1 + expected;
 
     k_builder.Build(truss1.GetLocalStiffnessMatrixPointer(),truss1.GetLocalTransformationMatrixPointer(),1,2);
@@ -101,7 +101,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
     float c = (cos(atan(b1.y/b1.x))), s = ( sin(atan(b1.y/b1.x)) );
     Truss truss2 = Truss(&a,&b1,A,Truss::TEST);
     float coef2 = (float)(truss2.GetCrossSection()*truss2.GetYoungModulus()/truss2.GetLength());
-    StiffnessMatrixBuilder::StiffnessMatrixType expected2 = {
+    StiffnessMatrixType expected2 = {
          //  U0        V0    W0   U1   V1   W1   U2   V2   W2
         {c*coef2*c,s*coef2*c, 0.0, 0.0, 0.0, 0.0,-c*coef2*c,-s*coef2*c, 0.0},      // U0
         {c*coef2*s,s*coef2*s, 0.0, 0.0, 0.0, 0.0,-s*coef2*c,-s*coef2*s, 0.0},      // V0

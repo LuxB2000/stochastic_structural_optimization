@@ -15,6 +15,7 @@ include_directories(${CORE_H_DIR})
 
 # Source files
 set(SOURCE_FILES
+        core/headers/Types.h
         core/headers/StructuralElement.h core/src/StructuralElement.cpp
         core/headers/Truss.h core/src/Truss.cpp
         core/headers/Point.h core/src/Point.cpp
@@ -52,13 +53,14 @@ include_directories(${UTESTS_DIR}/src)
 
 # set tests files
 set(UTESTS_FILES
+        core/headers/Types.h
         tests/headers/BasicTest.h tests/src/BasicTest.cpp
         tests/headers/PointTest.h tests/src/PointTest.cpp
         tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
         tests/headers/TrussTest.h tests/src/TrussTest.cpp
         tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
-)
+        )
 
 #Add all unit tests in addition to all source files.
 add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} )

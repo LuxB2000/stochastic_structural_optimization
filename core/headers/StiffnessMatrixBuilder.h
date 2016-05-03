@@ -7,13 +7,10 @@
 
 #include "armadillo"
 #include <vector>
+#include "Types.h"
 
 class StiffnessMatrixBuilder {
 public:
-
-    typedef arma::fmat StiffnessMatrixType;
-    typedef arma::fmat TransformationMatrixType;
-    typedef std::vector<unsigned int> DOFType;
 
     /*
      * Constructor

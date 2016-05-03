@@ -70,18 +70,18 @@ void TrussSolverTest::compute_all_tests() {
     stiffnessMatrixBuilder.Build(t2.GetLocalStiffnessMatrixPointer(),t2.GetLocalTransformationMatrixPointer(),0,2);
 
     // build the global force vector, in format (fx0,fy0,fz0,...,fxN,fyN,fzN)
-    TrussSolver::ForceVectorType f = TrussSolver::ForceVectorType(n_dof*n_pt,arma::fill::zeros);
+    ForceVectorType f = ForceVectorType(n_dof*n_pt,arma::fill::zeros);
     // only one external force: fx2
     f(6)=fx2;
 
     // Boundary conditions
-    TrussSolver::BoundaryConditionsVectorType bc = TrussSolver::BoundaryConditionsVectorType();
+    BoundaryConditionsVectorType bc = BoundaryConditionsVectorType();
     bc.push_back({0,0}); // at joint 0, Rx=0
     bc.push_back({0,1}); // at joint 0, Ry=0
     bc.push_back({1,1}); // at joint 1, Ry=0
 
     //1 - find the displacements
-    TrussSolver::DisplacementVectorType disp = TrussSolver::DisplacementVectorType(),
+    DisplacementVectorType disp = DisplacementVectorType(),
         expected = {0,0,0, 0,0,0, 0.9635,(float)-0.2348,0};
     TrussSolver solver = TrussSolver();
     solver.ComputeDisplacements( &disp,stiffnessMatrixBuilder.GetStiffnessMatrixPointer(),&f,&bc);

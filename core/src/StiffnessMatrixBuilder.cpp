@@ -55,11 +55,11 @@ void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kl, TransformationMatrix
 
 }
 
-const StiffnessMatrixBuilder::StiffnessMatrixType StiffnessMatrixBuilder::GetStiffnessMatrix() {
+const StiffnessMatrixType StiffnessMatrixBuilder::GetStiffnessMatrix() {
     return StiffnessMatrixType(*m_kg_truss);
 }
 
-StiffnessMatrixBuilder::StiffnessMatrixType *StiffnessMatrixBuilder::GetStiffnessMatrixPointer() {
+StiffnessMatrixType *StiffnessMatrixBuilder::GetStiffnessMatrixPointer() {
     return m_kg_truss;
 }
 

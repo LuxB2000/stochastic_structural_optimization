@@ -101,20 +101,26 @@ Truss::~Truss() {
     if(m_end_p) delete m_end_p;
 }
 
-Truss::StiffnessMatrixType* Truss::GetLocalStiffnessMatrixPointer() {
+StiffnessMatrixType* Truss::GetLocalStiffnessMatrixPointer() {
     return m_k;
 }
 
-const Truss::StiffnessMatrixType Truss::GetLocalStiffnessMatrix() {
-    return Truss::StiffnessMatrixType(*m_k);
+const StiffnessMatrixType Truss::GetLocalStiffnessMatrix() {
+    return StiffnessMatrixType(*m_k);
 }
 
-Truss::TransformationMatrixType* Truss::GetLocalTransformationMatrixPointer() {
+TransformationMatrixType* Truss::GetLocalTransformationMatrixPointer() {
     return m_c;
 }
 
-const Truss::TransformationMatrixType Truss::GetLocalTransformationMatrix() {
-    return Truss::TransformationMatrixType(*m_c);
+const TransformationMatrixType Truss::GetLocalTransformationMatrix() {
+    return TransformationMatrixType(*m_c);
 }
+
+void Truss::SetInternalForcesInGlobalCoordinnates() {
+
+}
+
+
 
 

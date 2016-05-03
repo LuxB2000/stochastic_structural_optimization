@@ -7,14 +7,10 @@
 #define SSO_TRUSSSOLVER_H
 
 #include "armadillo"
+#include "Types.h"
 
 class TrussSolver{
 public:
-    typedef arma::fvec     DisplacementVectorType;
-    typedef arma::fmat     StiffnessMatrixType;
-    typedef arma::fvec     ForceVectorType;
-    typedef struct BoundaryConditionsTyped  {unsigned  int bc[2];} BoundaryConditionsType;
-    typedef std::vector<BoundaryConditionsType>   BoundaryConditionsVectorType;
 
     TrussSolver();
     ~TrussSolver();
