@@ -22,6 +22,7 @@ set(SOURCE_FILES
         core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
         core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
         core/headers/TrussSolver.h core/src/TrussSolver.cpp
+				core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
         )
 
 # Extrernal libraries
@@ -60,6 +61,7 @@ set(UTESTS_FILES
         tests/headers/TrussTest.h tests/src/TrussTest.cpp
         tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
+        tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
         )
 
 #Add all unit tests in addition to all source files.
