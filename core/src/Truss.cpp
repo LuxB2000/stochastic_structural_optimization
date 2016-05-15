@@ -14,6 +14,12 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
     m_material = mat;
     m_A = cross_sect;
 
+    // two points for a truss, three dimensions to move around
+    m_disp_local_coord = new DisplacementVectorType(6,arma::fill::zeros);
+
+    // truss: 3 translations possible
+    m_f = new ForceVectorType(3,arma::fill::zeros);
+
     // specified the Young's modulus based on the material type
     switch (m_material){
         case BASIC:
@@ -99,6 +105,8 @@ Truss::~Truss() {
     if(m_c) delete m_c;
     if(m_start_p) delete m_start_p;
     if(m_end_p) delete m_end_p;
+    if(m_disp_local_coord) delete m_disp_local_coord;
+    if(m_f) delete m_f;
 }
 
 StiffnessMatrixType* Truss::GetLocalStiffnessMatrixPointer() {
@@ -117,8 +125,9 @@ const TransformationMatrixType Truss::GetLocalTransformationMatrix() {
     return TransformationMatrixType(*m_c);
 }
 
-void Truss::SetInternalForcesInGlobalCoordinnates() {
-
+void Truss::SetDisplacementInGlobalCoordinates(DisplacementVectorType disp_global_coord) {
+    *m_disp_local_coord = m_c->t() * disp_global_coord;
+    *m_f = *m_k * *m_disp_local_coord;
 }
 
 
