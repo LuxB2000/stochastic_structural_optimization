@@ -18,6 +18,7 @@ set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 	set(SOURCE_FILES
 					core/headers/Types.h
 					core/headers/Point.h core/src/Point.cpp
+					core/headers/math_tools.h
 
 					core/headers/StructuralElement.h core/src/StructuralElement.cpp
 					# simple truss objects
@@ -77,8 +78,11 @@ include_directories(${UTESTS_ST_DIR})
 	set(UTESTS_FILES
 					core/headers/Types.h
 					core/headers/Material.h
+					core/headers/math_tools.h
+
 					tests/headers/BasicTest.h tests/src/BasicTest.cpp
 					tests/headers/PointTest.h tests/src/PointTest.cpp
+					tests/headers/MathToolsTest.h tests/src/MathToolsTest.cpp
 					tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
 					${UTESTS_HT_DIR}/InternalTrussObjectTest.h ${UTESTS_ST_DIR}/InternalTrussObjectTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
