@@ -44,14 +44,14 @@ void SimpleCornerTrussTest::basic_tests(){
 			81,static_cast<int>(ctruss.GetStiffnessMatrixInGlobalCoordPointer()->n_elem));
  // force
 	CPPUNIT_ASSERT_MESSAGE("The force vector should be initialized",
-			ctruss.GetNodalForcesPointer() );
+			ctruss.GetElementForcesInLocalCoordPointer() );
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("The force vector should a 1x9 matrix",
-			9,static_cast<int>(ctruss.GetNodalForcesPointer()->n_elem));
+			9,static_cast<int>(ctruss.GetElementForcesInLocalCoordPointer()->n_elem));
 	// displacements
 	CPPUNIT_ASSERT_MESSAGE("The disp. vector should be initialized",
-			ctruss.GetDisplacementInLocalCoordinatesPointer());
+			ctruss.GetNodalDisplacementInLocalCoordinatesPointer());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("The disp. vector should a 1x9 matrix",
-			9,static_cast<int>(ctruss.GetDisplacementInLocalCoordinatesPointer()->n_elem));
+			9,static_cast<int>(ctruss.GetNodalDisplacementInLocalCoordinatesPointer()->n_elem));
 }
 
 void SimpleCornerTrussTest::getters_tests(){

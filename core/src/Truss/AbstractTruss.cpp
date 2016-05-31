@@ -28,7 +28,7 @@ AbstractTruss::AbstractTruss(){
 	m_k = NULL;
 	m_disp_local_coord = NULL;
 	m_c = NULL;
-	m_f = NULL;
+	m_elementForces = NULL;
 }
 
 AbstractTruss::~AbstractTruss(){
@@ -42,7 +42,7 @@ AbstractTruss::~AbstractTruss(){
 	if( m_k ) delete m_k;
 	if( m_disp_local_coord ) delete m_disp_local_coord;
 	if( m_c ) delete m_c;
-	if( m_f ) delete m_f;
+	if( m_elementForces ) delete m_elementForces;
 }
 
 void AbstractTruss::m_ComputeLength(){

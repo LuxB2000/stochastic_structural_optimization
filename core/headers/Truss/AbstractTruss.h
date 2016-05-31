@@ -39,18 +39,11 @@ public:
 	// getters
 	// =======
 	// get Displacement 
-	const DisplacementVectorType GetDisplacementInLocalCoordinates(){
+	const DisplacementVectorType GetNodalDisplacementInLocalCoordinates(){
 		return DisplacementVectorType(*m_disp_local_coord);
 	}
-	DisplacementVectorType* GetDisplacementInLocalCoordinatesPointer(){
+	DisplacementVectorType* GetNodalDisplacementInLocalCoordinatesPointer(){
 		return m_disp_local_coord;
-	}
-	// get nodal forces
-	virtual const ForceVectorType GetNodalForces() {
-		return ForceVectorType(*m_f);
-	}
-	ForceVectorType* GetNodalForcesPointer() {
-		return m_f;
 	}
 	// get Stifness
   StiffnessMatrixType* GetStiffnessMatrixInGlobalCoordPointer(){
@@ -60,22 +53,26 @@ public:
 		return StiffnessMatrixType(*m_k); 
 	}
 
-	// we don't want to give access to the transformation matrix since
-	// the Truss can be corner etc. The transformation matrix is local to 
-	// InternalTrussObject
-	// TODO: Is really usefull to give access to nodal forces in local coord.?
-	// Due to local coord system, the length of the force vector is equal
-	// to #InernalTruss*2*3 (2pts per InternalTruss and 3 dof).
+	// get elements forces
+	// return a number of elements * ndof vector with encoing is (F0x,F0y,F0z,F1x,...,FNz) where N is the number
+	// of elements
+	 ForceVectorType GetElementForcesInLocalCoord(){
+		 return ForceVectorType(*m_elementForces);
+	 }
+	 ForceVectorType* GetElementForcesInLocalCoordPointer(){
+		 return m_elementForces;
+	 }
+
 	
 protected:
   double m_A, m_E, m_L;
-	unsigned int m_numberOfInternalTruss;
+	unsigned int m_numberOfInternalTruss, m_numberOfNodes, m_numberOfDOF;
 	typedef std::vector<InternalTrussObject*> InternalTrussVectorType;
 	InternalTrussVectorType* m_abstractTrussVector;
 	StiffnessMatrixType* m_k;
 	DisplacementVectorType* m_disp_local_coord;
 	TransformationMatrixType* m_c;
-	ForceVectorType* m_f;
+	ForceVectorType* m_elementForces;
 
 	// compute the length
 	virtual void m_ComputeLength();

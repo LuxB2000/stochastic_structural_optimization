@@ -26,6 +26,8 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 	m_A = cross_section;
 	m_material = type_material;
 	m_numberOfInternalTruss = 2;
+	m_numberOfNodes = m_numberOfInternalTruss + 1; // works only for Truss and Beams
+	m_numberOfDOF = 3;
 
 	// compose of two internal truss object
 	m_abstractTrussVector = new InternalTrussVectorType();
@@ -50,11 +52,11 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 	// Using the stiffness matrix builder
 	// transformation matrix is local to InternalTruss only and can't be global to the CornerTruss
   m_k = new StiffnessMatrixType(9, 9, arma::fill::zeros );
-  m_disp_local_coord = new DisplacementVectorType(9, arma::fill::zeros ); // 3 point, 3 directions of displacements
-  m_f = new ForceVectorType( 9, arma::fill::zeros );
+  m_disp_local_coord = new DisplacementVectorType(m_numberOfNodes * m_numberOfDOF, arma::fill::zeros ); // 3 point, 3 directions of displacements
+  m_elementForces = new ForceVectorType( m_numberOfInternalTruss*m_numberOfDOF, arma::fill::zeros );
 
 	StiffnessMatrixBuilder stiffBuilder = StiffnessMatrixBuilder(
-			((m_numberOfInternalTruss-1)*2+1)*3 );// 3 points * nbr of dof
+			m_numberOfNodes*m_numberOfDOF );// 3 points * nbr of dof
 	stiffBuilder.Build( t1->GetLocalStiffnessMatrixPointer(), t1->GetLocalTransformationMatrixPointer(), 0, 1 );
 	stiffBuilder.Build( t2->GetLocalStiffnessMatrixPointer(), t2->GetLocalTransformationMatrixPointer(), 1, 2);
 	m_k = new StiffnessMatrixType( stiffBuilder.GetStiffnessMatrix() );
