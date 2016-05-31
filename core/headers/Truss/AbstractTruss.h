@@ -34,7 +34,7 @@ public:
 
 	// setters
 	// =======
-	virtual void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp) =0;
+	virtual void SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp) =0;
 
 	// getters
 	// =======

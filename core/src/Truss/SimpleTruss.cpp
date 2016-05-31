@@ -48,8 +48,8 @@ SimpleTruss::SimpleTruss(
 		// populate the matrices
     m_c = new TransformationMatrixType( t->GetLocalTransformationMatrix());
     m_k = new StiffnessMatrixType( t->GetLocalStiffnessMatrix() );
-    m_disp_local_coord = new DisplacementVectorType( t->GetDisplacementInLocalCoordinates() );
-    m_f = new ForceVectorType( t->GetNodalForces() );
+    m_disp_local_coord = new DisplacementVectorType( t->GetNodalDisplacementInLocalCoordinates() );
+    m_f = new ForceVectorType( t->GetElementForces() );
 }
 
 SimpleTruss::~SimpleTruss(){
@@ -69,10 +69,10 @@ double SimpleTruss::GetLength(){
 	return m_L;
 }
  
-void SimpleTruss::SetDisplacementInGlobalCoordinates(
+void SimpleTruss::SetNodalDisplacementInGlobalCoordinates(
 		DisplacementVectorType disp){
 	InternalTrussObject* t = m_abstractTrussVector->at(m_numberOfInternalTruss-1);
-	t->SetDisplacementInGlobalCoordinates( disp );
-	m_disp_local_coord = new DisplacementVectorType( t->GetDisplacementInLocalCoordinates() );
-	m_f = new ForceVectorType( t->GetNodalForces() );
+	t->SetNodalDisplacementInGlobalCoordinates( disp );
+	m_disp_local_coord = new DisplacementVectorType( t->GetNodalDisplacementInLocalCoordinates() );
+	m_f = new ForceVectorType( t->GetElementForces() );
 }

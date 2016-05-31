@@ -67,7 +67,7 @@ SimpleCornerTruss::~SimpleCornerTruss(){
 	if( m_mid_p ) delete m_mid_p;
 }
 
-void SimpleCornerTruss::SetDisplacementInGlobalCoordinates(
+void SimpleCornerTruss::SetNodalDisplacementInGlobalCoordinates(
 		DisplacementVectorType disp){
 	// displacement at each truss
 	DisplacementVectorType disp0 = DisplacementVectorType(6,arma::fill::zeros),
@@ -80,13 +80,13 @@ void SimpleCornerTruss::SetDisplacementInGlobalCoordinates(
 		disp1(i) = disp(i+3); // truss 2 is made of pt 1 and 2 -> elements 3 to 9
 	}
 	
-	m_abstractTrussVector->at(0)->SetDisplacementInGlobalCoordinates( disp0 );
-	m_abstractTrussVector->at(1)->SetDisplacementInGlobalCoordinates( disp1 );
+	m_abstractTrussVector->at(0)->SetNodalDisplacementInGlobalCoordinates( disp0 );
+	m_abstractTrussVector->at(1)->SetNodalDisplacementInGlobalCoordinates( disp1 );
 
-	//std::cout << m_abstractTrussVector->at(0)->GetDisplacementInLocalCoordinates() << std::endl;
-	//std::cout << m_abstractTrussVector->at(1)->GetDisplacementInLocalCoordinates() << std::endl;
-	//std::cout << m_abstractTrussVector->at(0)->GetNodalForces() << std::endl;
-	//std::cout << m_abstractTrussVector->at(1)->GetNodalForces() << std::endl;
+	//std::cout << m_abstractTrussVector->at(0)->GetNodalDisplacementInLocalCoordinates() << std::endl;
+	//std::cout << m_abstractTrussVector->at(1)->GetNodalDisplacementInLocalCoordinates() << std::endl;
+	//std::cout << m_abstractTrussVector->at(0)->GetElementForces() << std::endl;
+	//std::cout << m_abstractTrussVector->at(1)->GetElementForces() << std::endl;
 
 	// the nodal forces are local -> fx at pt1 (pt commun to t0 and t1) may be
 	// different depending the local coord system

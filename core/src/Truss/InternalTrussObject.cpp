@@ -125,7 +125,7 @@ const TransformationMatrixType InternalTrussObject::GetLocalTransformationMatrix
     return TransformationMatrixType(*m_c);
 }
 
-void InternalTrussObject::SetDisplacementInGlobalCoordinates(DisplacementVectorType disp_global_coord) {
+void InternalTrussObject::SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp_global_coord) {
     *m_disp_local_coord = m_c->t() * disp_global_coord;
     *m_f = *m_k * *m_disp_local_coord;
 }

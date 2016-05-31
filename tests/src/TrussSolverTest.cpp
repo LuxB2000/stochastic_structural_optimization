@@ -127,13 +127,13 @@ void TrussSolverTest::compute_all_tests() {
     disp_glob_coord1(4) = disp(7);
     disp_glob_coord1(5) = disp(8);
 
-    t0.SetDisplacementInGlobalCoordinates(disp_glob_coord0);
-    t1.SetDisplacementInGlobalCoordinates(disp_glob_coord1);
-    t2.SetDisplacementInGlobalCoordinates(disp_glob_coord1);
+    t0.SetNodalDisplacementInGlobalCoordinates(disp_glob_coord0);
+    t1.SetNodalDisplacementInGlobalCoordinates(disp_glob_coord1);
+    t2.SetNodalDisplacementInGlobalCoordinates(disp_glob_coord1);
 
-    DisplacementVectorType disp_local_coord = t0.GetDisplacementInLocalCoordinates();
-    DisplacementVectorType disp_local_coord1 = t1.GetDisplacementInLocalCoordinates();
-    DisplacementVectorType disp_local_coord2 = t2.GetDisplacementInLocalCoordinates();
+    DisplacementVectorType disp_local_coord = t0.GetNodalDisplacementInLocalCoordinates();
+    DisplacementVectorType disp_local_coord1 = t1.GetNodalDisplacementInLocalCoordinates();
+    DisplacementVectorType disp_local_coord2 = t2.GetNodalDisplacementInLocalCoordinates();
 
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.0,disp_local_coord(0),1E-6); // pt0
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.0,disp_local_coord(1),1E-6);
@@ -152,9 +152,9 @@ void TrussSolverTest::compute_all_tests() {
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.0,disp_local_coord2(5),1E-6);
 
     //4 - find the internal forces
-    ForceVectorType f0 = t0.GetNodalForces();
-    ForceVectorType f1 = t1.GetNodalForces();
-    ForceVectorType f2 = t2.GetNodalForces();
+    ForceVectorType f0 = t0.GetElementForces();
+    ForceVectorType f1 = t1.GetElementForces();
+    ForceVectorType f2 = t2.GetElementForces();
 
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the nodal force",(float)-21.631E3,f2(0),10); // pt0
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the nodal force",(float)0.0,f2(1),1E-3);

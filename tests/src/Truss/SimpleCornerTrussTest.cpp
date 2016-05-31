@@ -170,7 +170,7 @@ void SimpleCornerTrussTest::nodal_forces_tests(){
 	//std::cout << f << std::endl;
 
 	// 3 - find the diplacements in local coordinates
-	ctruss.SetDisplacementInGlobalCoordinates( disp );
+	ctruss.SetNodalDisplacementInGlobalCoordinates( disp );
 	
 	// 4 - find the internal forces
 }

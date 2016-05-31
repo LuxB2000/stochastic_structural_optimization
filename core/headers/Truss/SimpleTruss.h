@@ -34,7 +34,7 @@ public:
 	double GetCrossSection();
 	double GetYoungModulus();
 
-  void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp);
+  void SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp);
 
 private:
     Material m_material;
