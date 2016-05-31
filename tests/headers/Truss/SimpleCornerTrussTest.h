@@ -33,7 +33,7 @@ class SimpleCornerTrussTest : public CPPUNIT_NS::TestFixture{
         CPPUNIT_TEST(basic_tests);
         CPPUNIT_TEST(getters_tests);
         CPPUNIT_TEST(length_tests);
-        //CPPUNIT_TEST(stiffness_tests);
+        CPPUNIT_TEST(stiffness_tests);
         //CPPUNIT_TEST(nodal_forces_tests);
 
     CPPUNIT_TEST_SUITE_END();

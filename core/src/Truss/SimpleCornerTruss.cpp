@@ -42,6 +42,7 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 			m_material);
 	m_abstractTrussVector->push_back( t2 );
 
+	m_E = t1->GetYoungModulus();
 	// TODO: use a dedicated function
 	m_L = t1->GetLength() + t2->GetLength();
 	
@@ -56,6 +57,9 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 
 	StiffnessMatrixBuilder stiffBuilder = StiffnessMatrixBuilder(
 			((m_numberOfInternalTruss-1)*2+1)*3 );// 3 points * nbr of dof
+	stiffBuilder.Build( t1->GetLocalStiffnessMatrixPointer(), t1->GetLocalTransformationMatrixPointer(), 0, 1 );
+	stiffBuilder.Build( t2->GetLocalStiffnessMatrixPointer(), t2->GetLocalTransformationMatrixPointer(), 1, 2);
+	m_k = new StiffnessMatrixType( stiffBuilder.GetStiffnessMatrix() );
 
 }
 

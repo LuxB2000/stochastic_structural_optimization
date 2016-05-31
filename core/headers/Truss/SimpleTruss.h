@@ -36,6 +36,10 @@ public:
 
   void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp);
 
+	//TODO: remove and change the SimpleTrussTest and change the object to InternalTrussObject
+  StiffnessMatrixType*      GetLocalStiffnessMatrixPointer(){ return m_k; }
+  const StiffnessMatrixType GetLocalStiffnessMatrix() { return StiffnessMatrixType(*m_k); }
+
 private:
     Material m_material;
     Point *m_start_p, *m_end_p;
