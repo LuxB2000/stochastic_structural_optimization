@@ -33,6 +33,10 @@ set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 					# complex truss object
 					${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
 
+					# Point Manaber
+					${CORE_H_DIR}/PointManager ${CORE_S_DIR}/PointManager.cpp
+
+
 					# complex structure
 					core/headers/Frame.h core/src/Frame.cpp
 					core/headers/Structure.h core/src/Structure.cpp
@@ -88,6 +92,8 @@ include_directories(${UTESTS_ST_DIR})
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
 					${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
+
+					${UTESTS_H_DIR}/PointManagerTest.h ${UTESTS_S_DIR}/PointManagerTest.cpp
 
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp
 				tests/headers/StructureTest.h tests/src/StructureTest.cpp
