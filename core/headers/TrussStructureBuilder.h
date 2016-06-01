@@ -14,6 +14,7 @@ public:
 	// building the structure
 	void Build6TrussFrame(VectorParameterType params);
 
+	//TODO: Push6TrussesFrame // add a frame at the `end` of the building
 	//TODO: Structure* GetStructure();
 
 private:

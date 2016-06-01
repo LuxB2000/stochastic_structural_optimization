@@ -23,6 +23,7 @@ set(SOURCE_FILES
         core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
         core/headers/TrussSolver.h core/src/TrussSolver.cpp
 				core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
+				core/headers/Structure.h core/src/Structure.cpp
         )
 
 # Extrernal libraries
@@ -62,6 +63,7 @@ set(UTESTS_FILES
         tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
         tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
+				tests/headers/StructureTest.h tests/src/StructureTest.cpp
         )
 
 #Add all unit tests in addition to all source files.

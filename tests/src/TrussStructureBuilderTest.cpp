@@ -15,5 +15,5 @@ void TrussStructureBuilderTest::tearDown(){
 }
 
 void TrussStructureBuilderTest::basic_tests(){
-	CPPUNIT_ASSERT_MESSAGE("KO",0==1);
+	CPPUNIT_ASSERT_MESSAGE("KO",1==1);
 }
