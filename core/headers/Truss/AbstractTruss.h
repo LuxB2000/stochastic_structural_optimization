@@ -34,7 +34,7 @@ public:
 
 	// setters
 	// =======
-	virtual void SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp) =0;
+	void SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp);
 
 	// getters
 	// =======
@@ -56,10 +56,10 @@ public:
 	// get elements forces
 	// return a number of elements * ndof vector with encoing is (F0x,F0y,F0z,F1x,...,FNz) where N is the number
 	// of elements
-	 ForceVectorType GetElementForcesInLocalCoord(){
-		 return ForceVectorType(*m_elementForces);
+	 ElementVectorType GetElementForcesInLocalCoord(){
+		  ElementVectorType(*m_elementForces);
 	 }
-	 ForceVectorType* GetElementForcesInLocalCoordPointer(){
+	 ElementVectorType* GetElementForcesInLocalCoordPointer(){
 		 return m_elementForces;
 	 }
 
@@ -68,11 +68,13 @@ protected:
   double m_A, m_E, m_L;
 	unsigned int m_numberOfInternalTruss, m_numberOfNodes, m_numberOfDOF;
 	typedef std::vector<InternalTrussObject*> InternalTrussVectorType;
-	InternalTrussVectorType* m_abstractTrussVector;
+	InternalTrussVectorType* m_internalTrussVector;
 	StiffnessMatrixType* m_k;
 	DisplacementVectorType* m_disp_local_coord;
 	TransformationMatrixType* m_c;
-	ForceVectorType* m_elementForces;
+	ElementVectorType* m_elementForces;
+
+	void m_PopulateForceDisplacementvectors();
 
 	// compute the length
 	virtual void m_ComputeLength();

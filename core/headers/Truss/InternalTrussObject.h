@@ -51,8 +51,15 @@ public:
 			return DisplacementVectorType(*m_disp_local_coord);
 		}
 		// in local coordinate
+		//TODO: remove
     const ForceVectorType GetElementForces(){
 			return ForceVectorType(*m_f);
+		}
+    const ForceVectorType GetInternalForces(){
+			return ForceVectorType(*m_f);
+		}
+    ForceVectorType* GetInternalForcesPointer(){
+			return m_f;
 		}
 
     // setters

@@ -28,7 +28,7 @@ public:
 	SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point* ending_pt, double cross_section, Material type_material);
 	~SimpleCornerTruss();
 	
-	void SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp);
+	//void SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp);
 
 private:
     Material m_material;

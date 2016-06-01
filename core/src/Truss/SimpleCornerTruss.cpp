@@ -27,33 +27,28 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 	m_material = type_material;
 	m_numberOfInternalTruss = 2;
 	m_numberOfNodes = m_numberOfInternalTruss + 1; // works only for Truss and Beams
-	m_numberOfDOF = 3;
 
 	// compose of two internal truss object
-	m_abstractTrussVector = new InternalTrussVectorType();
+	m_internalTrussVector = new InternalTrussVectorType();
 	InternalTrussObject* t1 = new InternalTrussObject( 
 			m_start_p, 
 			m_mid_p, 
 			m_A,
 			m_material);
-	m_abstractTrussVector->push_back( t1 );
+	m_internalTrussVector->push_back( t1 );
 	InternalTrussObject* t2 = new InternalTrussObject(
 			m_mid_p,
 			m_end_p,
 			m_A,
 			m_material);
-	m_abstractTrussVector->push_back( t2 );
+	m_internalTrussVector->push_back( t2 );
 
 	m_E = t1->GetYoungModulus();
 	this->m_ComputeLength();
 	
-	// populate the matrices
-	// TODO: use a dedicated function
 	// Using the stiffness matrix builder
 	// transformation matrix is local to InternalTruss only and can't be global to the CornerTruss
   m_k = new StiffnessMatrixType(9, 9, arma::fill::zeros );
-  m_disp_local_coord = new DisplacementVectorType(m_numberOfNodes * m_numberOfDOF, arma::fill::zeros ); // 3 point, 3 directions of displacements
-  m_elementForces = new ForceVectorType( m_numberOfInternalTruss*m_numberOfDOF, arma::fill::zeros );
 
 	StiffnessMatrixBuilder stiffBuilder = StiffnessMatrixBuilder(
 			m_numberOfNodes*m_numberOfDOF );// 3 points * nbr of dof
@@ -61,6 +56,9 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 	stiffBuilder.Build( t2->GetLocalStiffnessMatrixPointer(), t2->GetLocalTransformationMatrixPointer(), 1, 2);
 	m_k = new StiffnessMatrixType( stiffBuilder.GetStiffnessMatrix() );
 
+	// populate the matrices
+	m_PopulateForceDisplacementvectors();
+  m_disp_local_coord = new DisplacementVectorType(m_numberOfNodes * m_numberOfDOF, arma::fill::zeros ); // 3 point, 3 directions of displacements
 }
 
 SimpleCornerTruss::~SimpleCornerTruss(){
@@ -69,6 +67,7 @@ SimpleCornerTruss::~SimpleCornerTruss(){
 	if( m_mid_p ) delete m_mid_p;
 }
 
+/*
 void SimpleCornerTruss::SetNodalDisplacementInGlobalCoordinates(
 		DisplacementVectorType disp){
 	// displacement at each truss
@@ -82,13 +81,13 @@ void SimpleCornerTruss::SetNodalDisplacementInGlobalCoordinates(
 		disp1(i) = disp(i+3); // truss 2 is made of pt 1 and 2 -> elements 3 to 9
 	}
 	
-	m_abstractTrussVector->at(0)->SetNodalDisplacementInGlobalCoordinates( disp0 );
-	m_abstractTrussVector->at(1)->SetNodalDisplacementInGlobalCoordinates( disp1 );
+	m_internalTrussVector->at(0)->SetNodalDisplacementInGlobalCoordinates( disp0 );
+	m_internalTrussVector->at(1)->SetNodalDisplacementInGlobalCoordinates( disp1 );
 
-	//std::cout << m_abstractTrussVector->at(0)->GetNodalDisplacementInLocalCoordinates() << std::endl;
-	//std::cout << m_abstractTrussVector->at(1)->GetNodalDisplacementInLocalCoordinates() << std::endl;
-	//std::cout << m_abstractTrussVector->at(0)->GetElementForces() << std::endl;
-	//std::cout << m_abstractTrussVector->at(1)->GetElementForces() << std::endl;
+	//std::cout << m_internalTrussVector->at(0)->GetNodalDisplacementInLocalCoordinates() << std::endl;
+	//std::cout << m_internalTrussVector->at(1)->GetNodalDisplacementInLocalCoordinates() << std::endl;
+	//std::cout << m_internalTrussVector->at(0)->GetElementForces() << std::endl;
+	//std::cout << m_internalTrussVector->at(1)->GetElementForces() << std::endl;
 
 	// the nodal forces are local -> fx at pt1 (pt commun to t0 and t1) may be
 	// different depending the local coord system
@@ -97,3 +96,4 @@ void SimpleCornerTruss::SetNodalDisplacementInGlobalCoordinates(
 	//
 	
 }
+*/
