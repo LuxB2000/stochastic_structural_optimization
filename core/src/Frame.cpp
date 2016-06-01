@@ -26,7 +26,6 @@ Frame::Frame(){
 }
 
 Frame::~Frame(){
-	if( m_origin ) delete m_origin;
 	if( m_truss_params ) delete m_truss_params;
 }
 
@@ -50,11 +49,11 @@ TrussFrame::~TrussFrame(){
  * Simple5Truss
  */
 Simple5TrussFrame::Simple5TrussFrame(){
-	m_origin = new Point(0.0,0.0,0.0);
 	m_truss_params = new FrameParametersVectorType(m_numberOfInputsParams,0);
 }
 
-Simple5TrussFrame::Simple5TrussFrame(Point origin, float l1, float l2, float a2, float l3, float a3 ){
+Simple5TrussFrame::Simple5TrussFrame(Point* origin, float l1, float l2, float a2, float l3, float a3 ){
+	m_origin = origin;
 	m_truss_params = new FrameParametersVectorType(m_numberOfInputsParams,0);
 	m_truss_params->at(1) = l1;
 	m_truss_params->at(2) = l2;
@@ -65,8 +64,8 @@ Simple5TrussFrame::Simple5TrussFrame(Point origin, float l1, float l2, float a2,
 	m_BuildFrame();
 }
 
-Simple5TrussFrame::Simple5TrussFrame(Point origin, FrameParametersVectorType v){
-	m_origin = new Point(0.0,0.0,0.0);
+Simple5TrussFrame::Simple5TrussFrame(Point* origin, FrameParametersVectorType v){
+	m_origin = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 	m_truss_params = new FrameParametersVectorType( v );
 	m_BuildFrame();
 }

@@ -21,17 +21,16 @@ Structure::Structure(){
 	this->m_init();
 }
 
-Structure::Structure(Point origin){
+Structure::Structure(Point* origin){
 	this->m_init();
-	m_origin = new Point(origin);
+	m_origin =origin;
 }
 
 Structure::~Structure(){
-	if(m_origin) delete m_origin;
 }
 
 void Structure::m_init(){
-	m_origin = new Point(0.0,0.0,0.0);
+	m_origin = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 	m_numOfFrames = 0;
 }
 

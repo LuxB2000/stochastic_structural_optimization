@@ -15,7 +15,8 @@ class PointManagerTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE(PointManagerTest);
 
         CPPUNIT_TEST(basic_tests);
-				CPPUNIT_TEST(add_delete_point_test);
+				CPPUNIT_TEST(add_point_test);
+				CPPUNIT_TEST(add_connextion_test);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -26,7 +27,8 @@ public:
     void tearDown();
 
     void basic_tests(void);
-		void add_delete_point_test(void);
+		void add_point_test(void);
+		void add_connextion_test(void);
 
 
 private:

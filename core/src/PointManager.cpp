@@ -21,8 +21,8 @@ PointManager::~PointManager(){
 	}
 }
 
-int PointManager::m_fromCoordToIndex( float x, float y, float z){
-	return x + y * MAXDIMSPACE + z * MAXDIMSPACE*MAXDIMSPACE;
+PointManager::IndexType PointManager::m_fromCoordToIndex( float x, float y, float z){
+	return x + y * MAXDIMSPACE + z*MAXDIMSPACE*MAXDIMSPACE;
 }
 
 Point* PointManager::GetPoint(float x, float y, float z){

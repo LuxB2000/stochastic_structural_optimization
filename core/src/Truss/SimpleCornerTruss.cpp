@@ -20,9 +20,9 @@
 
 SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point* ending_pt, double cross_section, Material type_material){
 
-	m_start_p = new Point( *starting_pt );
-	m_mid_p = new Point( *middle_pt );
-	m_end_p = new Point( *ending_pt );
+	m_start_p = starting_pt;
+	m_mid_p = middle_pt ;
+	m_end_p = ending_pt ;
 	m_A = cross_section;
 	m_material = type_material;
 	m_numberOfInternalTruss = 2;
@@ -45,6 +45,7 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 
 	m_E = t1->GetYoungModulus();
 	this->m_ComputeLength();
+std::cout << "TEST: " << m_L << " " << m_end_p->z << " " << t2->GetLength() << std::endl;
 	
 	// Using the stiffness matrix builder
 	// transformation matrix is local to InternalTruss only and can't be global to the CornerTruss
@@ -61,8 +62,5 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 }
 
 SimpleCornerTruss::~SimpleCornerTruss(){
-	if( m_start_p ) delete m_start_p;
-	if( m_end_p ) delete m_end_p;
-	if( m_mid_p ) delete m_mid_p;
 }
 

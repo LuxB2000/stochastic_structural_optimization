@@ -51,6 +51,8 @@ AbstractTruss::~AbstractTruss(){
 void AbstractTruss::m_ComputeLength(){
 	unsigned int i=0,l=0;
 	l = m_internalTrussVector->size();
+
+	m_L = 0;
 	for(i=0; i<l; i++ ){
 		m_L += m_internalTrussVector->at(i)->GetLength();
 	}

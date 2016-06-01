@@ -38,7 +38,7 @@ void FrameTest::basic_tests(){
 }
 
 void FrameTest::parameters_tests(void){
-	Point origine = Point(0.0,0.0,0.0);
+	Point* origine = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 																	// l1    l2   a2    l3    a3
 	FrameParametersVectorType param =	{1.5, 0.75, 43.2, 0.35, 90};
 	Simple5TrussFrame f = Simple5TrussFrame(origine, param);
@@ -46,8 +46,7 @@ void FrameTest::parameters_tests(void){
 }
 
 void FrameTest::build_tests(){
-	Point origine = Point(0.0,0.0,0.0);
+	Point* origine = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 	FrameParametersVectorType param =	{1.5, 0.75, 43.2, 0.35, 90};
 	Simple5TrussFrame f = Simple5TrussFrame(origine, param);
-
 }

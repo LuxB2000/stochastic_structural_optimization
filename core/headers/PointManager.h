@@ -55,7 +55,7 @@ private:
 	PointManager();
 	~PointManager();
 
-	typedef int IndexType;
+	typedef unsigned long IndexType;
 
 	IndexType m_fromCoordToIndex(float x, float y, float z);
 

@@ -8,8 +8,8 @@
 InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_sect, Material mat) {
 
     // init the InternalTrussObject
-    m_start_p = new Point(*s_pt);
-    m_end_p = new Point(*e_pt);
+    m_start_p = s_pt;
+    m_end_p = e_pt;
     m_L = sqrt(pow(m_start_p->x-m_end_p->x,2) + pow(m_start_p->y-m_end_p->y,2) + pow(m_start_p->z-m_end_p->z,2));
     m_material = mat;
     m_A = cross_sect;
@@ -103,8 +103,6 @@ InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_
 InternalTrussObject::~InternalTrussObject() {
     if(m_k) delete m_k;
     if(m_c) delete m_c;
-    if(m_start_p) delete m_start_p;
-    if(m_end_p) delete m_end_p;
     if(m_disp_local_coord) delete m_disp_local_coord;
     if(m_f) delete m_f;
 }

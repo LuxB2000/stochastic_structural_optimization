@@ -26,14 +26,14 @@
 class Structure{
 public:
 	Structure();
-	Structure(Point origin);
+	Structure(Point* origin);
 	~Structure();
 
 	// setter
-	void SetOrigin(Point new_origin){ m_origin = new Point(new_origin);}
+	void SetOrigin(Point* new_origin){ m_origin = new_origin;}
 
 	// getter
-	const Point GetOrigin(){return Point(*m_origin);}
+	Point* GetOrigin(){return m_origin;}
 	const unsigned int GetNumberOfFrames(){ return m_numOfFrames; }
 private:
 	void m_init();

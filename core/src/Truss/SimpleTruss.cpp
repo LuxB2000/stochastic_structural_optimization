@@ -24,8 +24,8 @@ SimpleTruss::SimpleTruss(
 		Material type_material)
 {
 
-    m_start_p = new Point(*starting_pt);
-    m_end_p = new Point(*ending_pt);
+    m_start_p =starting_pt;
+    m_end_p = ending_pt;
     m_material = type_material;
     m_A = cross_section;
 
@@ -52,8 +52,6 @@ SimpleTruss::SimpleTruss(
 }
 
 SimpleTruss::~SimpleTruss(){
-	if( m_start_p ) delete m_start_p;
-	if( m_end_p ) delete m_end_p;
 }
 
 double SimpleTruss::GetCrossSection(){
