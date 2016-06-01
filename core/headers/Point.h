@@ -9,7 +9,8 @@
 class Point{
 public:
     // coordinates are given in millimeters in the GLOBAL system.
-    Point(float x_coord, float y_coord, float z_coord);
+    Point(float x_coord, float y_coord, float z_coord); //TODO: remove
+    Point(float x_coord, float y_coord, float z_coord, int id);
     Point(const Point& p);
     ~Point();
 
@@ -18,6 +19,7 @@ public:
 		bool operator!=(const Point &p) const;
 
     float x, y, z;
+		int index;
 };
 
 #endif //SSO_POINT_H

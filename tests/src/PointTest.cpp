@@ -24,6 +24,7 @@ void PointTest::tearDown() {
 
 void PointTest::basic_tests() {
     float x=1.0, y=2.0, z=3.5;
+		int id = 1;
 
     // test default constructor
     Point a = Point(x,y,z);
@@ -31,6 +32,16 @@ void PointTest::basic_tests() {
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Expect the x coordinate", x, a.x);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Expect the y coordinate", y, a.y);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("Expect the z coordinate", z, a.z);
+
+
+		// test constructor with index
+    Point a1 = Point(x,y,z,id);
+
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Expect the x coordinate", x, a1.x);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Expect the y coordinate", y, a1.y);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Expect the z coordinate", z, a1.z);
+    CPPUNIT_ASSERT_EQUAL_MESSAGE("Expect the index", id, a1.index);
+
 
     // copy constructor
     Point b = Point(a);
