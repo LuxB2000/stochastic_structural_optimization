@@ -175,10 +175,21 @@ void SimpleCornerTrussTest::nodal_forces_tests(){
 
 	// 3 - find the diplacements in local coordinates
 	ctruss.SetNodalDisplacementInGlobalCoordinates( disp );
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect the node displacements vector with a size equal to number of truss(2), each containing 2*dof local diplacements",
+			2,static_cast<int>(ctruss.GetNodeDisplacements()->size()));
 
 	
 	// 4 - find the internal forces
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect a element vector forces with a size equal to number of truss: 2",
 			2,(int)ctruss.GetElementForces()->size());
 	//std::cout << *(ctruss.GetElementForces()->at(0)) << std::endl; // first element forces
+
+	// the sum of the internal forces must be zeros along each truss, if not, the system won't be in equalibrium
+	unsigned int i=0,l=0;
+	l=ctruss.GetElementForces()->size();
+	for(i=0;i<l;i++){
+		CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect each element to be in equilibrium",0,
+				(int)(sum(*(ctruss.GetElementForces()->at(i)))) );
+	}
+	// todo: check with the projections of the elements along each global coord system direction + add the external forces and applications
 }
