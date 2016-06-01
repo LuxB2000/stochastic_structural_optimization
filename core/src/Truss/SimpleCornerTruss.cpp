@@ -45,7 +45,6 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 
 	m_E = t1->GetYoungModulus();
 	this->m_ComputeLength();
-std::cout << "TEST: " << m_L << " " << m_end_p->z << " " << t2->GetLength() << std::endl;
 	
 	// Using the stiffness matrix builder
 	// transformation matrix is local to InternalTruss only and can't be global to the CornerTruss

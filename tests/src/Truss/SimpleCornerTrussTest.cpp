@@ -77,7 +77,6 @@ void SimpleCornerTrussTest::length_tests(){
 			1.0+sqrt(2), SimpleCornerTruss(a1,b1,c2,area,m).GetLength() );
 
 	Point* c3 = PointManager::GetInstance().GetPoint(1.0,2.0,1.0);
-	std::cout << "TEST :: " << c3->z <<std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE( "Simple corner should have a length as the sum of the different parts even in 3D",
 			1.0+sqrt(3), SimpleCornerTruss(a1,b1,c3,area,m).GetLength() );
 }
