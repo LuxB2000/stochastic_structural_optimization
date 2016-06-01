@@ -18,13 +18,22 @@
 #ifndef sso_FRAME_H
 #define sso_FRAME_H
 
-#include "Point.h"
 #include "Types.h"
+#include "Point.h"
+#include "SimpleCornerTruss.h"
+#include "SimpleTruss.h"
 
 class Frame{
 public:
 	Frame();
 	~Frame();
+	FrameParametersVectorType* GetParameters(){
+		return m_truss_params;
+	}
+
+protected:
+	Point* m_origin;
+	FrameParametersVectorType* m_truss_params;
 
 };
 
@@ -32,6 +41,9 @@ class TrussFrame : public Frame{
 public:
 	TrussFrame();
 	~TrussFrame();
+protected:
+	typedef std::vector<AbstractTruss*> TrussVector;
+	TrussVector* m_trusses;
 };
 
 /*
@@ -47,15 +59,17 @@ public:
  *   o    o
  * 1 |    | 5
  *   |    |
+ * symetric frame
  */
 class Simple5TrussFrame : public TrussFrame{
-	Simple5TrussFrame(Point origin, FrameParametersVectorType params );
+public:
+	Simple5TrussFrame();
+	Simple5TrussFrame(Point oritin, FrameParametersVectorType v);
+	Simple5TrussFrame(Point origin, float l1, float l2, float a2, float l3, float a3 );
 	~Simple5TrussFrame();
 private:
-	Simple5TrussFrame();
-	Point* m_origin;
-	FrameParametersVectorType* m_truss_params;
-	static const unsigned int m_number_of_inputs_params = 12;
+	void m_BuildFrame();
+	static const unsigned int m_numberOfInputsParams = 5;
 };
 
 #endif

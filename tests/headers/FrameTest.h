@@ -30,17 +30,20 @@ class FrameTest :
     CPPUNIT_TEST_SUITE(FrameTest);
 
 			CPPUNIT_TEST(basic_tests);
+			CPPUNIT_TEST(parameters_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
 public:
 		FrameTest();
 		virtual ~FrameTest();
-    void setUp();
-    void tearDown();
+		void setUp();
+		void tearDown();
 
 		// tests
     void basic_tests(void);
+		void parameters_tests(void);
+		void build_tests(void);
 };
 
 #endif

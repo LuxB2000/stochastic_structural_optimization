@@ -88,6 +88,7 @@ include_directories(${UTESTS_ST_DIR})
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
 					${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
+
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp
 				tests/headers/StructureTest.h tests/src/StructureTest.cpp
         tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp

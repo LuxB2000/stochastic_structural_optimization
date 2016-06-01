@@ -16,10 +16,12 @@ typedef arma::fvec InternalForceVectorType;
 typedef arma::fvec DisplacementVectorType;
 typedef struct BoundaryConditionsTyped  {unsigned  int bc[2];} BoundaryConditionsType;
 typedef std::vector<BoundaryConditionsType>   BoundaryConditionsVectorType;
-typedef std::vector<float> FrameParametersVectorType;
 
 // Truss types
 typedef std::vector<InternalForceVectorType*> ElementForceVectorType;
 typedef std::vector<DisplacementVectorType*> NodeDisplacementVectorType;
+
+// Frame types
+typedef std::vector<float> FrameParametersVectorType;
 
 #endif //SSO_TYPES_H

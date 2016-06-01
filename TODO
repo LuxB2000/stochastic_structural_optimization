@@ -3,5 +3,6 @@
 - Beam
   - more general class
   - Introducting moments
-	  - change the sizes of the matrices
+		- change the sizes of the matrices
 	- continuous loads on the element
+		- load and weight
