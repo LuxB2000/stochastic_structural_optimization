@@ -39,11 +39,8 @@ public:
 	// getters
 	// =======
 	// get Displacement 
-	const DisplacementVectorType GetNodalDisplacementInLocalCoordinates(){
-		return DisplacementVectorType(*m_disp_local_coord);
-	}
-	DisplacementVectorType* GetNodalDisplacementInLocalCoordinatesPointer(){
-		return m_disp_local_coord;
+	NodeDisplacementVectorType* GetNodeDisplacements(){
+		return m_nodeDisplacements;
 	}
 	// get Stifness
   StiffnessMatrixType* GetStiffnessMatrixInGlobalCoordPointer(){
@@ -52,34 +49,35 @@ public:
   const StiffnessMatrixType GetStiffnessMatrixInGlobalCoord(){
 		return StiffnessMatrixType(*m_k); 
 	}
-
 	// get elements forces
 	// return a number of elements * ndof vector with encoing is (F0x,F0y,F0z,F1x,...,FNz) where N is the number
 	// of elements
-	 ElementVectorType GetElementForcesInLocalCoord(){
-		  ElementVectorType(*m_elementForces);
-	 }
-	 ElementVectorType* GetElementForcesInLocalCoordPointer(){
-		 return m_elementForces;
+	// forces are in local coordinates
+	 ElementForceVectorType* GetElementForces(){
+		  return m_elementForces;
 	 }
 
 	
 protected:
   double m_A, m_E, m_L;
 	unsigned int m_numberOfInternalTruss, m_numberOfNodes, m_numberOfDOF;
+	
+	// will contains the internal truss objects
 	typedef std::vector<InternalTrussObject*> InternalTrussVectorType;
 	InternalTrussVectorType* m_internalTrussVector;
-	StiffnessMatrixType* m_k;
-	DisplacementVectorType* m_disp_local_coord;
-	TransformationMatrixType* m_c;
-	ElementVectorType* m_elementForces;
 
+	// arma object, pure matrices
+	StiffnessMatrixType* m_k;
+	TransformationMatrixType* m_c;
+
+	ElementForceVectorType* m_elementForces;
+	NodeDisplacementVectorType* m_nodeDisplacements;
+
+	// populate the force and displacement vectors
 	void m_PopulateForceDisplacementvectors();
 
 	// compute the length
 	virtual void m_ComputeLength();
-	// populat the different matrices
-	//virtual void m_PopulateMatrices() = 0;
 
 };
 

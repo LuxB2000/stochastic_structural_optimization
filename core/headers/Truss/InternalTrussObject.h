@@ -47,13 +47,14 @@ public:
     double GetLength(){return m_L;}
     double GetCrossSection(){return m_A;}
     double GetYoungModulus(){return m_E;}
-    const DisplacementVectorType GetNodalDisplacementInLocalCoordinates(){
+
+		// getters
+		// all give information in local coordinates
+		DisplacementVectorType GetNodeDisplacements(){
 			return DisplacementVectorType(*m_disp_local_coord);
 		}
-		// in local coordinate
-		//TODO: remove
-    const ForceVectorType GetElementForces(){
-			return ForceVectorType(*m_f);
+		DisplacementVectorType* GetNodeDisplacementsPointer(){
+			return m_disp_local_coord;
 		}
     const ForceVectorType GetInternalForces(){
 			return ForceVectorType(*m_f);

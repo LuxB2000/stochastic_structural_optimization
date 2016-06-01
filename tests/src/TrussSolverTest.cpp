@@ -131,9 +131,9 @@ void TrussSolverTest::compute_all_tests() {
     t1.SetNodalDisplacementInGlobalCoordinates(disp_glob_coord1);
     t2.SetNodalDisplacementInGlobalCoordinates(disp_glob_coord1);
 
-    DisplacementVectorType disp_local_coord = t0.GetNodalDisplacementInLocalCoordinates();
-    DisplacementVectorType disp_local_coord1 = t1.GetNodalDisplacementInLocalCoordinates();
-    DisplacementVectorType disp_local_coord2 = t2.GetNodalDisplacementInLocalCoordinates();
+    DisplacementVectorType disp_local_coord = t0.GetNodeDisplacements();
+    DisplacementVectorType disp_local_coord1 = t1.GetNodeDisplacements();
+    DisplacementVectorType disp_local_coord2 = t2.GetNodeDisplacements();
 
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.0,disp_local_coord(0),1E-6); // pt0
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.0,disp_local_coord(1),1E-6);
@@ -152,9 +152,9 @@ void TrussSolverTest::compute_all_tests() {
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.0,disp_local_coord2(5),1E-6);
 
     //4 - find the internal forces
-    ForceVectorType f0 = t0.GetElementForces();
-    ForceVectorType f1 = t1.GetElementForces();
-    ForceVectorType f2 = t2.GetElementForces();
+    ForceVectorType f0 = t0.GetInternalForces();
+    ForceVectorType f1 = t1.GetInternalForces();
+    ForceVectorType f2 = t2.GetInternalForces();
 
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the nodal force",(float)-21.631E3,f2(0),10); // pt0
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the nodal force",(float)0.0,f2(1),1E-3);

@@ -44,14 +44,18 @@ void SimpleCornerTrussTest::basic_tests(){
 			81,static_cast<int>(ctruss.GetStiffnessMatrixInGlobalCoordPointer()->n_elem));
  // force
 	CPPUNIT_ASSERT_MESSAGE("The force vector should be initialized",
-			ctruss.GetElementForcesInLocalCoordPointer() );
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("The force vector should a 1x9 matrix",
-			9,static_cast<int>(ctruss.GetElementForcesInLocalCoordPointer()->n_elem));
+			ctruss.GetElementForces() );
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("The force element vector should contains two elements",
+			2,static_cast<int>(ctruss.GetElementForces()->size()));
+	CPPUNIT_ASSERT_MESSAGE("Each element of the force element vector should be size dof",
+			ctruss.GetElementForces()->at(0)->n_elem==3 && ctruss.GetElementForces()->at(1)->n_elem==3);
 	// displacements
-	CPPUNIT_ASSERT_MESSAGE("The disp. vector should be initialized",
-			ctruss.GetNodalDisplacementInLocalCoordinatesPointer());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("The disp. vector should a 1x9 matrix",
-			9,static_cast<int>(ctruss.GetNodalDisplacementInLocalCoordinatesPointer()->n_elem));
+	CPPUNIT_ASSERT_MESSAGE("The node displacement vector should be initialized",
+			ctruss.GetNodeDisplacements());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("The node displacement vector should contains two displacements (1 per truss)",
+			2,static_cast<int>(ctruss.GetNodeDisplacements()->size()));
+	CPPUNIT_ASSERT_MESSAGE("Each displacement of the node displacement vector should be size 2*dof",
+			ctruss.GetNodeDisplacements()->at(0)->n_elem==6 && ctruss.GetNodeDisplacements()->at(1)->n_elem==6);
 }
 
 void SimpleCornerTrussTest::getters_tests(){
@@ -171,6 +175,10 @@ void SimpleCornerTrussTest::nodal_forces_tests(){
 
 	// 3 - find the diplacements in local coordinates
 	ctruss.SetNodalDisplacementInGlobalCoordinates( disp );
+
 	
 	// 4 - find the internal forces
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect a element vector forces with a size equal to number of truss: 2",
+			2,(int)ctruss.GetElementForces()->size());
+	//std::cout << *(ctruss.GetElementForces()->at(0)) << std::endl; // first element forces
 }

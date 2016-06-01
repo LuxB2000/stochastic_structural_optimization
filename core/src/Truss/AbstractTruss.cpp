@@ -29,9 +29,9 @@ AbstractTruss::AbstractTruss(){
 	// create NULL ptr
 	m_internalTrussVector = NULL;
 	m_k = NULL;
-	m_disp_local_coord = NULL;
 	m_c = NULL;
 	m_elementForces = NULL;
+	m_nodeDisplacements = NULL;
 }
 
 AbstractTruss::~AbstractTruss(){
@@ -43,14 +43,13 @@ AbstractTruss::~AbstractTruss(){
 		}
 	}
 	if( m_k ) delete m_k;
-	if( m_disp_local_coord ) delete m_disp_local_coord;
 	if( m_c ) delete m_c;
 	if( m_elementForces ) delete m_elementForces;
+	if( m_nodeDisplacements ) delete m_nodeDisplacements;
 }
 
 void AbstractTruss::m_ComputeLength(){
 	unsigned int i=0,l=0;
-	//TODO manage the error: if m_internalTrussVector is empty
 	l = m_internalTrussVector->size();
 	for(i=0; i<l; i++ ){
 		m_L += m_internalTrussVector->at(i)->GetLength();
@@ -79,10 +78,12 @@ void AbstractTruss::m_PopulateForceDisplacementvectors(){
 	unsigned int i=0,l=0;
 	l = m_internalTrussVector->size();
 	// reinit the element force because it will contains pointers // useful?
-	m_elementForces = new ElementVectorType();
+	m_elementForces = new ElementForceVectorType();
+	m_nodeDisplacements = new NodeDisplacementVectorType();
 
 	for( i=0; i<l; i++){
 		m_elementForces->push_back(m_internalTrussVector->at(i)->GetInternalForcesPointer());
+		m_nodeDisplacements->push_back(m_internalTrussVector->at(i)->GetNodeDisplacementsPointer());
 	}
 }
 

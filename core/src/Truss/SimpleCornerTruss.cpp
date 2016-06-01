@@ -58,7 +58,6 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 
 	// populate the matrices
 	m_PopulateForceDisplacementvectors();
-  m_disp_local_coord = new DisplacementVectorType(m_numberOfNodes * m_numberOfDOF, arma::fill::zeros ); // 3 point, 3 directions of displacements
 }
 
 SimpleCornerTruss::~SimpleCornerTruss(){
@@ -67,33 +66,3 @@ SimpleCornerTruss::~SimpleCornerTruss(){
 	if( m_mid_p ) delete m_mid_p;
 }
 
-/*
-void SimpleCornerTruss::SetNodalDisplacementInGlobalCoordinates(
-		DisplacementVectorType disp){
-	// displacement at each truss
-	DisplacementVectorType disp0 = DisplacementVectorType(6,arma::fill::zeros),
-												 disp1 = DisplacementVectorType(6,arma::fill::zeros);
-
-	unsigned int i = 0, l = 0;
-	l = disp.n_elem;
-	for(i=0; i<l-3; i++){
-		disp0(i) = disp(i); // truss 1 is made of pt 0 and 1 -> elements 0 to 6
-		disp1(i) = disp(i+3); // truss 2 is made of pt 1 and 2 -> elements 3 to 9
-	}
-	
-	m_internalTrussVector->at(0)->SetNodalDisplacementInGlobalCoordinates( disp0 );
-	m_internalTrussVector->at(1)->SetNodalDisplacementInGlobalCoordinates( disp1 );
-
-	//std::cout << m_internalTrussVector->at(0)->GetNodalDisplacementInLocalCoordinates() << std::endl;
-	//std::cout << m_internalTrussVector->at(1)->GetNodalDisplacementInLocalCoordinates() << std::endl;
-	//std::cout << m_internalTrussVector->at(0)->GetElementForces() << std::endl;
-	//std::cout << m_internalTrussVector->at(1)->GetElementForces() << std::endl;
-
-	// the nodal forces are local -> fx at pt1 (pt commun to t0 and t1) may be
-	// different depending the local coord system
-	// The length of the nodal foce vector is equal to the number of 
-	// InternalTruss * 2 * 3 (2 pts per Truss, 3 directions for each force)
-	//
-	
-}
-*/
