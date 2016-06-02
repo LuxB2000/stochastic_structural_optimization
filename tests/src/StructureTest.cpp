@@ -32,5 +32,19 @@ void StructureTest::setUp(){
 }
 
 void StructureTest::basic_tests(){
-	CPPUNIT_ASSERT_MESSAGE("OK",1==1);
+	Structure structure = Structure();
+	CPPUNIT_ASSERT_MESSAGE("We expect an empty structure",structure.GetNumberOfFrames()==0);
+
+}
+
+void StructureTest::origin_tests(){
+	Structure structure = Structure();
+	CPPUNIT_ASSERT_MESSAGE("We expect the default origin", 
+			structure.GetOrigin()==Point(0,0,0));
+	
+	Point new_origin = Point(1.0,1.0,1.0);
+	structure.SetOrigin(new_origin);
+	CPPUNIT_ASSERT_MESSAGE("We expect the default origin", 
+			structure.GetOrigin()==new_origin);
+
 }

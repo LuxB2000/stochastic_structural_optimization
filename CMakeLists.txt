@@ -22,9 +22,9 @@ set(SOURCE_FILES
         core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
         core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
         core/headers/TrussSolver.h core/src/TrussSolver.cpp
-				core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
-				core/headers/Structure.h core/src/Structure.cpp
 				core/headers/Frame.h core/src/Frame.cpp
+				core/headers/Structure.h core/src/Structure.cpp
+				core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
         )
 
 # Extrernal libraries
