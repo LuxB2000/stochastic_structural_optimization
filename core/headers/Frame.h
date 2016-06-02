@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  Structure.cpp
+ *       Filename:  Frame.h
  *
- *    Description:  
+ *    Description:  A frame constituting the building
  *
  *        Version:  1.0
- *        Created:  02/06/16 11:08:59
+ *        Created:  02/06/16 12:59:22
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -15,11 +15,15 @@
  * =====================================================================================
  */
 
-#include "Structure.h"
+#ifndef sso_FRAME_H
+#define sso_FRAME_H
 
-Structure::Structure(){
-}
+class Frame{
+public:
+	Frame();
+	~Frame();
 
-Structure::~Structure(){
-}
+};
+
+#endif
 

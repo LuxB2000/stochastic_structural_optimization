@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  Structure.cpp
+ *       Filename:  Frame.cpp
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  02/06/16 11:08:59
+ *        Created:  02/06/16 12:59:40
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -15,11 +15,11 @@
  * =====================================================================================
  */
 
-#include "Structure.h"
+#include "Frame.h"
 
-Structure::Structure(){
+Frame::Frame(){
 }
 
-Structure::~Structure(){
+Frame::~Frame(){
 }
 

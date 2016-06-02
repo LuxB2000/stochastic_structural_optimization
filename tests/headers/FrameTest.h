@@ -1,12 +1,12 @@
 /*
  * =====================================================================================
  *
- *       Filename:  StructureTest.h
+ *       Filename:  FrameTest.h
  *
  *    Description:  
  *
  *        Version:  1.0
- *        Created:  02/06/16 11:10:35
+ *        Created:  02/06/16 13:04:20
  *       Revision:  none
  *       Compiler:  gcc
  *
@@ -15,33 +15,32 @@
  * =====================================================================================
  */
 
-#ifndef sso_STRUCTURETEST_H
-#define sso_STRUCTURETEST_H
+#ifndef sso_FRAMETEST_H
+#define sso_FRAMETEST_H
 
 #include <cppunit/TestCase.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "Structure.h"
+#include "Frame.h"
 
-class StructureTest :
+class FrameTest :
 	public CPPUNIT_NS::TestFixture{
 
-    CPPUNIT_TEST_SUITE(StructureTest);
+    CPPUNIT_TEST_SUITE(FrameTest);
 
 			CPPUNIT_TEST(basic_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
 public:
-		StructureTest();
-		virtual ~StructureTest();
+		FrameTest();
+		virtual ~FrameTest();
     void setUp();
     void tearDown();
 
 		// tests
     void basic_tests(void);
 };
-
 
 #endif

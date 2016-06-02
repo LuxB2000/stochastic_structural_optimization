@@ -10,8 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Jerome Plumat (JP), j.plumat@auckland.ac.nz
- *        Company:  UoA, Auckand, NZ
+ *         Author:  Jerome Plumat (JP)
  *
  * =====================================================================================
  */
