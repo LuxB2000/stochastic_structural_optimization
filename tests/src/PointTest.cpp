@@ -40,3 +40,17 @@ void PointTest::basic_tests() {
 
 }
 
+void PointTest::operator_tests(){
+	Point p1 = Point(1.0,1.0,1.0);
+	Point p2 = Point(1.0,1.0,1.0);
+	Point p3 = Point(1.1,1.0,1.0);
+	Point p4 = Point(1.0,0.0,1.0);
+
+	CPPUNIT_ASSERT_MESSAGE("We expect two points been equal", p1==p2);
+	CPPUNIT_ASSERT_MESSAGE("We expect two points been different", !(p1==p3));
+	CPPUNIT_ASSERT_MESSAGE("We expect two points been different", !(p1==p4));
+
+	CPPUNIT_ASSERT_MESSAGE("We expect two points been equal", !(p1!=p2));
+	CPPUNIT_ASSERT_MESSAGE("We expect two points been different", (p1!=p3));
+	CPPUNIT_ASSERT_MESSAGE("We expect two points been different", (p1!=p4));
+}

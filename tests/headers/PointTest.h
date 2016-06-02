@@ -18,6 +18,7 @@ class PointTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE(PointTest);
 
         CPPUNIT_TEST(basic_tests);
+        CPPUNIT_TEST(operator_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -28,6 +29,8 @@ public:
     void tearDown();
 
     void basic_tests(void);
+    void operator_tests(void);
+
 
 private:
 };

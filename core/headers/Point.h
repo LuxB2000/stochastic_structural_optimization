@@ -13,6 +13,10 @@ public:
     Point(const Point& p);
     ~Point();
 
+		// operator
+		bool operator==(const Point &p) const;
+		bool operator!=(const Point &p) const;
+
     float x, y, z;
 };
 

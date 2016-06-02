@@ -21,4 +21,11 @@ Point::Point(const Point &p) {
 
 }
 
+bool Point::operator==(const Point &p) const {
+	return (this->x==p.x && this->y==p.y && this->z==p.z);
+}
+
+bool Point::operator!=(const Point &p) const {
+	return (this->x!=p.x || this->y!=p.y || this->z!=p.z);
+}
 
