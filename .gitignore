@@ -5,5 +5,3 @@
 build/*
 # ignoring the vim temporary files
 *.swp 
-# ignoring the CLion (JetStorm IDE) files
-*./idea

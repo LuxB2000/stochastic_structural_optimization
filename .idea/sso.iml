@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="CPP_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/core/src/GramSchmidtProcess.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/Truss.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/Point.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/TrussSolver.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/StructuralElement.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/src/StiffnessMatrixBuilder.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/headers/Point.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/headers/StructuralElement.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/headers/Types.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/headers/StiffnessMatrixBuilder.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/headers/GramSchmidtProcess.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/headers/Truss.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/core/headers/TrussSolver.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/test_runner.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/main.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/src/PointTest.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/src/StiffnessMatrixBuilderTest.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/src/GramSchmidtProcessTest.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/src/TrussSolverTest.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/src/TrussTest.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/src/BasicTest.cpp" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/headers/StiffnessMatrixBuilderTest.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/headers/TrussSolverTest.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/headers/BasicTest.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/headers/GramSchmidtProcessTest.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/headers/PointTest.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/tests/headers/TrussTest.h" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/CMakeLists.txt" isTestSource="false" />
+    </content>
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library">
+      <library name="Header Search Paths">
+        <CLASSES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </CLASSES>
+        <SOURCES>
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include-fixed" />
+          <root url="file:///usr/lib/gcc/x86_64-linux-gnu/5/include" />
+          <root url="file:///usr/include" />
+          <root url="file:///usr/local/include" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>
