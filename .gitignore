@@ -1,1 +1,7 @@
-./build/*
+# ignoring compiled files
+*.o
+*.so
+# ignoring all the files in the building documents
+build/*
+# ignoring the vim temporary files
+*.swp 
