@@ -1,8 +1,27 @@
+/*
+ * =====================================================================================
+ *
+ *       Filename:  TrussStructureBuilder.h
+ *
+ *    Description:  A building structure builder, contains all the global
+ *			information to construct the building.
+ *
+ *        Version:  1.0
+ *        Created:  01/06/16 21:48:12
+ *       Revision:  none
+ *       Compiler:  gcc
+ *
+ *         Author:  Jerome Plumat (JP)
+ *
+ * =====================================================================================
+ */
 
 #ifndef sso_TRUSSSTRUCTUREBUILDER_H
 #define sso_TRUSSSTRUCTUREBUILDER_H
 
 #include <vector>
+
+#include "Structure.h"
 
 class TrussStructureBuilder{
 public:
@@ -11,14 +30,17 @@ public:
 	TrussStructureBuilder();
 	~TrussStructureBuilder();
 
-	// building the structure
-	void Build6TrussFrame(VectorParameterType params);
+	// create a frame and add it to the building. The new frame will be added 
+	// at the `end` of the building. The `end` is defined as far as possible of
+	// the origin.
+	// The first frame will be set at the origin.
+	void Push6TrussFrame(VectorParameterType params);
 
-	//TODO: Push6TrussesFrame // add a frame at the `end` of the building
-	//TODO: Structure* GetStructure();
+	// getter
+	Structure* GetStructure(){ return m_structure; }
 
 private:
-	//TODO: m_structure;
+	Structure* m_structure;
 };
 
 #endif

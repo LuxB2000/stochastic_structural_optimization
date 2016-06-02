@@ -3,9 +3,9 @@
  *
  *       Filename:  Structure.h
  *
- *    Description:  Object representing the building structure
- *			A structure is defined a set of Frame, each frame is composed of 
- *			trusses or beams. Each Structure has an origin
+ *    Description:  Object representing the building structure.
+ *			A structure is defined a set of frames, each frame is composed of 
+ *			trusses or beams. Each Structure has an origin.
  *
  *        Version:  1.0
  *        Created:  02/06/16 11:04:53
@@ -21,14 +21,24 @@
 #define sso_STRUCTURE_H
 
 #include "Point.h"
+#include "Frame.h"
 
 class Structure{
 public:
 	Structure();
+	Structure(Point origin);
 	~Structure();
 
+	// setter
+	void SetOrigin(Point new_origin){ m_origin = new Point(new_origin);}
+
+	// getter
+	const Point GetOrigin(){return Point(*m_origin);}
+	const unsigned int GetNumberOfFrames(){ return m_numOfFrames; }
 private:
-	Point* m_origine;
+	void m_init();
+	Point* m_origin;
+	unsigned int m_numOfFrames;
 
 };
 

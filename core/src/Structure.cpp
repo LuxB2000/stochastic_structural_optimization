@@ -18,8 +18,20 @@
 #include "Structure.h"
 
 Structure::Structure(){
+	this->m_init();
+}
+
+Structure::Structure(Point origin){
+	this->m_init();
+	m_origin = new Point(origin);
 }
 
 Structure::~Structure(){
+	if(m_origin) delete m_origin;
+}
+
+void Structure::m_init(){
+	m_origin = new Point(0.0,0.0,0.0);
+	m_numOfFrames = 0;
 }
 
