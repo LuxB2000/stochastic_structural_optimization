@@ -3,7 +3,7 @@
  *
  *       Filename:  StructureTest.cpp
  *
- *    Description:  
+ *    Description:  The test relative to the Structure
  *
  *        Version:  1.0
  *        Created:  02/06/16 11:14:07
