@@ -18,6 +18,7 @@ set(SOURCE_FILES
         core/headers/Types.h
         core/headers/StructuralElement.h core/src/StructuralElement.cpp
 				core/headers/AbstractTruss.h core/src/AbstractTruss.cpp
+				core/headers/TrussObject.h core/src/TrussObject.cpp
         core/headers/Point.h core/src/Point.cpp
         core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
         core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
