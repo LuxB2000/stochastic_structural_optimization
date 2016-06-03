@@ -2,7 +2,7 @@
 
 #include "../headers/TrussSolverTest.h"
 
-#include "AbstractTruss.h"
+#include "SimpleTruss.h"
 #include "StiffnessMatrixBuilder.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TrussSolverTest);
@@ -59,9 +59,9 @@ void TrussSolverTest::compute_all_tests() {
     Point p0 = Point(x0,y0,z0), p1 = Point(x1,y1,z1), p2 = Point(x2,y2,z2);
 
     // build the trusses
-    AbstractTruss t0 = AbstractTruss(&p0,&p1,A,AbstractTruss::TEST);
-    AbstractTruss t1 = AbstractTruss(&p1,&p2,A,AbstractTruss::TEST);
-    AbstractTruss t2 = AbstractTruss(&p0,&p2,A,AbstractTruss::TEST);
+    SimpleTruss t0 = SimpleTruss(&p0,&p1,A,TEST);
+    SimpleTruss t1 = SimpleTruss(&p1,&p2,A,TEST);
+    SimpleTruss t2 = SimpleTruss(&p0,&p2,A,TEST);
 
     // build the stiffness matrix
     StiffnessMatrixBuilder stiffnessMatrixBuilder = StiffnessMatrixBuilder(n_dof*n_pt);

@@ -11,59 +11,60 @@ set(CORE_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src")
 set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 
-include_directories(${CORE_H_DIR})
+	include_directories(${CORE_H_DIR})
 
 # Source files
-set(SOURCE_FILES
-        core/headers/Types.h
-        core/headers/StructuralElement.h core/src/StructuralElement.cpp
-				core/headers/AbstractTruss.h core/src/AbstractTruss.cpp
-				core/headers/TrussObject.h core/src/TrussObject.cpp
-				core/headers/SimpleTruss.h core/src/SimpleTruss.cpp
-        core/headers/Point.h core/src/Point.cpp
-        core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
-        core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
-        core/headers/TrussSolver.h core/src/TrussSolver.cpp
-				core/headers/Frame.h core/src/Frame.cpp
-				core/headers/Structure.h core/src/Structure.cpp
-				core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
-        )
+	set(SOURCE_FILES
+					core/headers/Types.h
+					core/headers/StructuralElement.h core/src/StructuralElement.cpp
+					core/headers/InternalTrussObject.h core/src/InternalTrussObject.cpp
+					core/headers/AbstractTruss.h core/src/AbstractTruss.cpp
+					core/headers/SimpleTruss.h core/src/SimpleTruss.cpp
+					core/headers/Point.h core/src/Point.cpp
+					core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
+					core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
+					core/headers/TrussSolver.h core/src/TrussSolver.cpp
+					core/headers/Frame.h core/src/Frame.cpp
+					core/headers/Structure.h core/src/Structure.cpp
+					core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
+					)
 
 # Extrernal libraries
-FIND_LIBRARY(ARMADILLO larmadillo
-        /usr/local/lib)
-set(LIBS -larmadillo)
+	FIND_LIBRARY(ARMADILLO larmadillo
+					/usr/local/lib)
+	set(LIBS -larmadillo)
 
 ## -- CppUnit config --
 # looking for the CppUnit library
-FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h /usr/local/include /usr/include)
+	FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h /usr/local/include /usr/include)
 
-include_directories(${CPPUNIT_INCLUDE_DIR})
+	include_directories(${CPPUNIT_INCLUDE_DIR})
 
-FIND_LIBRARY(CPPUNIT_LIBRARY cppunit
-           ${CPPUNIT_INCLUDE_DIR} /../lib
-           /usr/local/lib
-           /usr/lib)
-FIND_LIBRARY(CPPUNIT_DEBUG_LIBRARY cppunit
-           ${CPPUNIT_INCLUDE_DIR} /../lib
-           /usr/local/lib
-           /usr/lib)
+	FIND_LIBRARY(CPPUNIT_LIBRARY cppunit
+						 ${CPPUNIT_INCLUDE_DIR} /../lib
+						 /usr/local/lib
+						 /usr/lib)
+	FIND_LIBRARY(CPPUNIT_DEBUG_LIBRARY cppunit
+						 ${CPPUNIT_INCLUDE_DIR} /../lib
+						 /usr/local/lib
+						 /usr/lib)
 ## --- end CppUnit config ---
 
 ## --- Unit testing config --
-LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARY})
+	LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARY})
 # add the tests
-include_directories(${UTESTS_DIR}/headers)
-include_directories(${UTESTS_DIR}/src)
+	include_directories(${UTESTS_DIR}/headers)
+	include_directories(${UTESTS_DIR}/src)
 
 # set tests files
-set(UTESTS_FILES
-        core/headers/Types.h
-        tests/headers/BasicTest.h tests/src/BasicTest.cpp
-        tests/headers/PointTest.h tests/src/PointTest.cpp
-        tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
-				tests/headers/AbstractTrussTest.h tests/src/AbstractTrussTest.cpp
-        tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
+	set(UTESTS_FILES
+					core/headers/Types.h
+					core/headers/Material.h
+					tests/headers/BasicTest.h tests/src/BasicTest.cpp
+					tests/headers/PointTest.h tests/src/PointTest.cpp
+					tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
+					tests/headers/SimpleTrussTest.h tests/src/SimpleTrussTest.cpp
+					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp
 				tests/headers/StructureTest.h tests/src/StructureTest.cpp
