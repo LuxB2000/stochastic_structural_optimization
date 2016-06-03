@@ -17,7 +17,7 @@ include_directories(${CORE_H_DIR})
 set(SOURCE_FILES
         core/headers/Types.h
         core/headers/StructuralElement.h core/src/StructuralElement.cpp
-        core/headers/Truss.h core/src/Truss.cpp
+				core/headers/AbstractTruss.h core/src/AbstractTruss.cpp
         core/headers/Point.h core/src/Point.cpp
         core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
         core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
@@ -60,7 +60,7 @@ set(UTESTS_FILES
         tests/headers/BasicTest.h tests/src/BasicTest.cpp
         tests/headers/PointTest.h tests/src/PointTest.cpp
         tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
-        tests/headers/TrussTest.h tests/src/TrussTest.cpp
+				tests/headers/AbstractTrussTest.h tests/src/AbstractTrussTest.cpp
         tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp

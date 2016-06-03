@@ -18,7 +18,6 @@
 
 // HERE add your unit test library
 #include "BasicTest.h"
-#include "TrussTest.h"
 #include "PointTest.h"
 
 class ProgressListener : public CPPUNIT_NS::TestListener {

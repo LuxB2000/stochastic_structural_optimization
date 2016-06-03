@@ -2,12 +2,12 @@
 // Created by plumat on 4/6/16.
 //
 
-#include "../headers/Truss.h"
+#include "../headers/AbstractTruss.h"
 #include "../headers/GramSchmidtProcessTest.h"
 
-Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
+AbstractTruss::AbstractTruss(Point* s_pt, Point *e_pt, double cross_sect, AbstractTruss::material mat) {
 
-    // init the Truss
+    // init the AbstractTruss
     m_start_p = new Point(*s_pt);
     m_end_p = new Point(*e_pt);
     m_L = sqrt(pow(m_start_p->x-m_end_p->x,2) + pow(m_start_p->y-m_end_p->y,2) + pow(m_start_p->z-m_end_p->z,2));
@@ -100,7 +100,7 @@ Truss::Truss(Point* s_pt, Point *e_pt, double cross_sect, Truss::material mat) {
     (*m_c)(5,5) = dot(z,e3);
 }
 
-Truss::~Truss() {
+AbstractTruss::~AbstractTruss() {
     if(m_k) delete m_k;
     if(m_c) delete m_c;
     if(m_start_p) delete m_start_p;
@@ -109,23 +109,23 @@ Truss::~Truss() {
     if(m_f) delete m_f;
 }
 
-StiffnessMatrixType* Truss::GetLocalStiffnessMatrixPointer() {
+StiffnessMatrixType* AbstractTruss::GetLocalStiffnessMatrixPointer() {
     return m_k;
 }
 
-const StiffnessMatrixType Truss::GetLocalStiffnessMatrix() {
+const StiffnessMatrixType AbstractTruss::GetLocalStiffnessMatrix() {
     return StiffnessMatrixType(*m_k);
 }
 
-TransformationMatrixType* Truss::GetLocalTransformationMatrixPointer() {
+TransformationMatrixType* AbstractTruss::GetLocalTransformationMatrixPointer() {
     return m_c;
 }
 
-const TransformationMatrixType Truss::GetLocalTransformationMatrix() {
+const TransformationMatrixType AbstractTruss::GetLocalTransformationMatrix() {
     return TransformationMatrixType(*m_c);
 }
 
-void Truss::SetDisplacementInGlobalCoordinates(DisplacementVectorType disp_global_coord) {
+void AbstractTruss::SetDisplacementInGlobalCoordinates(DisplacementVectorType disp_global_coord) {
     *m_disp_local_coord = m_c->t() * disp_global_coord;
     *m_f = *m_k * *m_disp_local_coord;
 }
