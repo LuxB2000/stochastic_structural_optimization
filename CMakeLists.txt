@@ -10,7 +10,6 @@ set(CORE_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers")
 set(CORE_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src")
 set(CORE_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Truss")
 set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
-set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 
 	include_directories(${CORE_H_DIR})
@@ -57,8 +56,16 @@ set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 ## --- Unit testing config --
 	LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARY})
 # add the tests
-	include_directories(${UTESTS_DIR}/headers)
-	include_directories(${UTESTS_DIR}/src)
+set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
+set(UTESTS_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers")
+set(UTESTS_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src")
+set(UTESTS_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Truss")
+set(UTESTS_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Truss")
+
+include_directories(${UTESTS_H_DIR})
+include_directories(${UTESTS_S_DIR})
+include_directories(${UTESTS_HT_DIR})
+include_directories(${UTESTS_ST_DIR})
 
 # set tests files
 	set(UTESTS_FILES
@@ -67,7 +74,7 @@ set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 					tests/headers/BasicTest.h tests/src/BasicTest.cpp
 					tests/headers/PointTest.h tests/src/PointTest.cpp
 					tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
-					tests/headers/SimpleTrussTest.h tests/src/SimpleTrussTest.cpp
+					${UTESTS_HT_DIR}/SimpleTrussTest.h ${UTESTS_ST_DIR}/SimpleTrussTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp
