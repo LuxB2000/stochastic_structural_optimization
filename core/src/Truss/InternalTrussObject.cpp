@@ -2,8 +2,8 @@
 // Created by plumat on 4/6/16.
 //
 
-#include "../headers/InternalTrussObject.h"
-#include "../headers/GramSchmidtProcessTest.h"
+#include "InternalTrussObject.h"
+#include "GramSchmidtProcessTest.h"
 
 InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_sect, Material mat) {
 

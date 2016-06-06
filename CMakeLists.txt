@@ -8,6 +8,8 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core")
 set(CORE_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers")
 set(CORE_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src")
+set(CORE_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Truss")
+set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 
 
@@ -16,11 +18,13 @@ set(UTESTS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests")
 # Source files
 	set(SOURCE_FILES
 					core/headers/Types.h
-					core/headers/StructuralElement.h core/src/StructuralElement.cpp
-					core/headers/InternalTrussObject.h core/src/InternalTrussObject.cpp
-					core/headers/AbstractTruss.h core/src/AbstractTruss.cpp
-					core/headers/SimpleTruss.h core/src/SimpleTruss.cpp
 					core/headers/Point.h core/src/Point.cpp
+
+					core/headers/StructuralElement.h core/src/StructuralElement.cpp
+					# truss objects
+					${CORE_HT_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
+					${CORE_HT_DIR}/AbstractTruss.h ${CORE_ST_DIR}/AbstractTruss.cpp
+					${CORE_HT_DIR}/SimpleTruss.h ${CORE_ST_DIR}/SimpleTruss.cpp
 					core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
 					core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
 					core/headers/TrussSolver.h core/src/TrussSolver.cpp
@@ -78,7 +82,8 @@ target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 
 
 # Release
-include_directories(${CORE_DIR}/headers)
+include_directories(${CORE_H_DIR})
+include_directories(${CORE_HT_DIR})
 include_directories(${CORE_DIR}/src)
 add_executable(sso main.cpp ${SOURCE_FILES})
 target_link_libraries(sso ${LIBS})
