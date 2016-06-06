@@ -28,9 +28,9 @@ public:
 	
 	// getters
 	// virtual
-	virtual double GetLength()=0;
-	virtual double GetCrossSection()=0;
-	virtual double GetYoungModulus()=0;
+	virtual double GetLength(){ return m_L;}
+	virtual double GetCrossSection(){ return m_A;}
+	virtual double GetYoungModulus(){ return m_E;}
 	virtual void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp) =0;
 	virtual ForceVectorType GetNodalForces() {return ForceVectorType(*m_f);}
 
@@ -43,6 +43,7 @@ public:
   const TransformationMatrixType  GetLocalTransformationMatrix(){ return TransformationMatrixType(*m_c); }
 	
 protected:
+  double m_A, m_E, m_L;
 	unsigned int m_numberOfInternalTruss;
 	typedef std::vector<InternalTrussObject*> InternalTrussVectorType;
 	InternalTrussVectorType* m_abstractTrussVector;

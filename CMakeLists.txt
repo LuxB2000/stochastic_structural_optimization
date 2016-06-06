@@ -24,6 +24,8 @@ set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 					${CORE_HT_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
 					${CORE_HT_DIR}/AbstractTruss.h ${CORE_ST_DIR}/AbstractTruss.cpp
 					${CORE_HT_DIR}/SimpleTruss.h ${CORE_ST_DIR}/SimpleTruss.cpp
+					${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
+
 					core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
 					core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
 					core/headers/TrussSolver.h core/src/TrussSolver.cpp
@@ -75,6 +77,7 @@ include_directories(${UTESTS_ST_DIR})
 					tests/headers/PointTest.h tests/src/PointTest.cpp
 					tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
 					${UTESTS_HT_DIR}/SimpleTrussTest.h ${UTESTS_ST_DIR}/SimpleTrussTest.cpp
+					${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp

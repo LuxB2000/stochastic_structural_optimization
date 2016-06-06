@@ -37,7 +37,6 @@ public:
   void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp);
 
 private:
-    double m_A, m_E, m_L;
     Material m_material;
     Point *m_start_p, *m_end_p;
 
