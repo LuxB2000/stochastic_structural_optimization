@@ -18,6 +18,17 @@
 #include "AbstractTruss.h"
 
 AbstractTruss::AbstractTruss(){
+	
+	// init all the data
+	m_L = 0.0;
+	m_A = 0.0;
+	m_E = 0.0;
+	// create NULL ptr
+	m_abstractTrussVector = NULL;
+	m_k = NULL;
+	m_disp_local_coord = NULL;
+	m_c = NULL;
+	m_f = NULL;
 }
 
 AbstractTruss::~AbstractTruss(){
