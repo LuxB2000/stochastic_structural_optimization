@@ -52,6 +52,11 @@ protected:
 	TransformationMatrixType* m_c;
 	ForceVectorType* m_f;
 
+	// compute the length
+	//virtual void m_ComputeLength() = 0;
+	// populat the different matrices
+	//virtual void m_PopulateMatrices() = 0;
+
 };
 
 #endif

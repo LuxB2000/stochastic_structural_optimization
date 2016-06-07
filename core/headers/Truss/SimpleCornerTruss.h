@@ -20,6 +20,7 @@
 
 #include "AbstractTruss.h"
 #include "InternalTrussObject.h"
+#include "StiffnessMatrixBuilder.h"
 
 class SimpleCornerTruss : public AbstractTruss{
 public:
@@ -27,7 +28,7 @@ public:
 	SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point* ending_pt, double cross_section, Material type_material);
 	~SimpleCornerTruss();
 	
-  void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp);
+	void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp);
 
 private:
     Material m_material;

@@ -20,15 +20,19 @@ set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 					core/headers/Point.h core/src/Point.cpp
 
 					core/headers/StructuralElement.h core/src/StructuralElement.cpp
-					# truss objects
+					# simple truss objects
 					${CORE_HT_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
 					${CORE_HT_DIR}/AbstractTruss.h ${CORE_ST_DIR}/AbstractTruss.cpp
 					${CORE_HT_DIR}/SimpleTruss.h ${CORE_ST_DIR}/SimpleTruss.cpp
-					${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
 
 					core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
 					core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
 					core/headers/TrussSolver.h core/src/TrussSolver.cpp
+
+					# complex truss object
+					${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
+
+					# complex structure
 					core/headers/Frame.h core/src/Frame.cpp
 					core/headers/Structure.h core/src/Structure.cpp
 					core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
