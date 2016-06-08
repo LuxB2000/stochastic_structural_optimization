@@ -69,3 +69,23 @@ void SimpleCornerTrussTest::length_tests(){
 	CPPUNIT_ASSERT_EQUAL_MESSAGE( "Simple corner should have a length as the sum of the different parts even in 3D",
 			1.0+sqrt(3), SimpleCornerTruss(&a1,&b1,&c3,area,m).GetLength() );
 }
+
+void SimpleCornerTrussTest::stiffness_tests(){
+	Point a1 = Point(0.0,0.0,0.0);
+	Point b1 = Point(0.0,1.0,0.0);
+	Point c1 = Point(0.0,2.0,0.0);
+	double area = 1.0;
+
+	StiffnessMatrixType expected = {
+		// U1 V1 W1 U2 V2 W2 U3 V3 W3 
+		// U1
+		// V1
+		// W1
+		// U2
+		// V2
+		// W2
+		// U3
+		// V3
+		// W3
+	};
+}

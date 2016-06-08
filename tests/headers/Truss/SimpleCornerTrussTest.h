@@ -10,8 +10,7 @@
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Jerome Plumat (JP), j.plumat@auckland.ac.nz
- *        Company:  UoA, Auckand, NZ
+ *         Author:  Jerome Plumat (JP)
  *
  * =====================================================================================
  */
@@ -35,7 +34,6 @@ class SimpleCornerTrussTest : public CPPUNIT_NS::TestFixture{
         CPPUNIT_TEST(getters_tests);
         CPPUNIT_TEST(length_tests);
         //CPPUNIT_TEST(stiffness_tests);
-        //CPPUNIT_TEST(transformation_tests);
         //CPPUNIT_TEST(nodal_forces_tests);
 
     CPPUNIT_TEST_SUITE_END();
@@ -51,7 +49,6 @@ public:
     void length_tests(void);
 
     void stiffness_tests(void);
-    void transformation_tests(void);
     void nodal_forces_tests(void);
 
 private:
