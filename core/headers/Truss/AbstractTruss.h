@@ -32,15 +32,33 @@ public:
 	virtual double GetCrossSection(){ return m_A;}
 	virtual double GetYoungModulus(){ return m_E;}
 	virtual void SetDisplacementInGlobalCoordinates(DisplacementVectorType disp) =0;
-	virtual ForceVectorType GetNodalForces() {return ForceVectorType(*m_f);}
 
 	// generic
-	const DisplacementVectorType GetDisplacementInLocalCoordinates(){return DisplacementVectorType(*m_disp_local_coord);}
+	// get Displacement 
+	const DisplacementVectorType GetDisplacementInLocalCoordinates(){
+		return DisplacementVectorType(*m_disp_local_coord);
+	}
+	DisplacementVectorType* GetDisplacementInLocalCoordinatesPointer(){
+		return m_disp_local_coord;
+	}
+	// get nodal forces
+	virtual const ForceVectorType GetNodalForces() {
+		return ForceVectorType(*m_f);
+	}
+	ForceVectorType* GetNodalForcesPointer() {
+		return m_f;
+	}
+	// Stifness
   StiffnessMatrixType*      GetLocalStiffnessMatrixPointer(){ return m_k; }
   const StiffnessMatrixType GetLocalStiffnessMatrix() { return StiffnessMatrixType(*m_k); }
-  TransformationMatrixType*  GetLocalTransformationMatrixPointer(){ 
-    return m_c; }
-  const TransformationMatrixType  GetLocalTransformationMatrix(){ return TransformationMatrixType(*m_c); }
+
+	// TODO: remove transformation Matrix
+  TransformationMatrixType*  GetLocalTransformationMatrixPointer(){
+    return m_c;
+	}
+  const TransformationMatrixType  GetLocalTransformationMatrix(){
+		return TransformationMatrixType(*m_c);
+	}
 	
 protected:
   double m_A, m_E, m_L;

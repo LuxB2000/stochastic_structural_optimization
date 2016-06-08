@@ -48,10 +48,11 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 	// populate the matrices
 	// TODO: use a dedicated function
 	// Using the stiffness matrix builder
-  m_c = new TransformationMatrixType(); //TODO
+	// transformation matrix is local to InternalTruss only and can't be global to the CornerTruss
+	// TODO: remove access to transformation matrix
   m_k = new StiffnessMatrixType(9, 9, arma::fill::zeros );
-  m_disp_local_coord = new DisplacementVectorType( ); //TODO
-  m_f = new ForceVectorType( ); //TODO
+  m_disp_local_coord = new DisplacementVectorType(9, arma::fill::zeros ); // 3 point, 3 directions of displacements
+  m_f = new ForceVectorType( 9, arma::fill::zeros );
 
 	StiffnessMatrixBuilder stiffBuilder = StiffnessMatrixBuilder(
 			((m_numberOfInternalTruss-1)*2+1)*3 );// 3 points * nbr of dof

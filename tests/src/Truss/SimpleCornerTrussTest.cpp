@@ -41,10 +41,10 @@ void SimpleCornerTrussTest::basic_tests(){
 			ctruss.GetLocalStiffnessMatrixPointer()); // check if pointer is not null
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("The stiffness should a 9x9 matrix",
 			81,static_cast<int>(ctruss.GetLocalStiffnessMatrixPointer()->n_elem));
-    CPPUNIT_ASSERT_MESSAGE("The transformation matrix should be initialized",
-			ctruss.GetLocalTransformationMatrixPointer());// check if pointer is not null
-  //  CPPUNIT_ASSERT_EQUAL_MESSAGE("The transformation matrix should a 6x6 matrix",
-	//		36,static_cast<int>(ctruss.GetLocalTransformationMatrixPointer()->n_elem));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("The force vector should a 1x9 matrix",
+			9,static_cast<int>(ctruss.GetNodalForcesPointer()->n_elem));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("The force vector should a 1x9 matrix",
+			9,static_cast<int>(ctruss.GetDisplacementInLocalCoordinatesPointer()->n_elem));
 }
 
 void SimpleCornerTrussTest::getters_tests(){
