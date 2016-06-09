@@ -1,7 +1,7 @@
 //
 // Created by plumat on 4/6/16.
 //
-// Here are the tests relative to the SimpleTruss element
+// Here are the tests relative to the InternalTrussObject element
 
 #ifndef SSO_TRUSSTEST_H
 #define SSO_TRUSSTEST_H
@@ -10,13 +10,14 @@
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "SimpleTruss.h"
+#include "InternalTrussObject.h"
+#include "Types.h"
 
 using namespace CppUnit;
 using namespace std;
 
-class SimpleTrussTest : public CPPUNIT_NS::TestFixture{
-    CPPUNIT_TEST_SUITE(SimpleTrussTest);
+class InternalTrussObjectTest : public CPPUNIT_NS::TestFixture{
+    CPPUNIT_TEST_SUITE(InternalTrussObjectTest);
 
         CPPUNIT_TEST(basic_tests);
         CPPUNIT_TEST(getters_tests);
@@ -27,8 +28,8 @@ class SimpleTrussTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE_END();
 
 public:
-    SimpleTrussTest();
-    virtual ~SimpleTrussTest();
+    InternalTrussObjectTest();
+    virtual ~InternalTrussObjectTest();
     void setUp();
     void tearDown();
 
@@ -41,7 +42,7 @@ public:
 
 private:
     Point *a, *b;
-    SimpleTruss *truss;
+    InternalTrussObject *truss;
 };
 
 #endif //SSO_TRUSSTEST_H

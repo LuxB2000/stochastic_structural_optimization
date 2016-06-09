@@ -2,32 +2,31 @@
 // Created by plumat on 4/6/16.
 //
 
-#include "SimpleTrussTest.h"
-#include "Types.h"
+#include "InternalTrussObjectTest.h"
 
-CPPUNIT_TEST_SUITE_REGISTRATION(SimpleTrussTest);
+CPPUNIT_TEST_SUITE_REGISTRATION(InternalTrussObjectTest);
 
-SimpleTrussTest::SimpleTrussTest(){
+InternalTrussObjectTest::InternalTrussObjectTest(){
 }
 
-SimpleTrussTest::~SimpleTrussTest(){
+InternalTrussObjectTest::~InternalTrussObjectTest(){
 }
 
-void SimpleTrussTest::setUp(){
+void InternalTrussObjectTest::setUp(){
     // here set up EACH unit test
     a = new Point(0.0,0.0,0.0);
     b = new Point(1.0,0.0,0.0);
-    truss = new SimpleTruss(a,b,1.0,BASIC);
+    truss = new InternalTrussObject(a,b,1.0,BASIC);
 }
 
-void SimpleTrussTest::tearDown(){
+void InternalTrussObjectTest::tearDown(){
     // here clean after EACH unit test
     if(truss) delete truss;
     if(a) delete a;
     if(b) delete b;
 }
 
-void SimpleTrussTest::basic_tests(){
+void InternalTrussObjectTest::basic_tests(){
 
     // check the existence of the matrix and sizes
     StiffnessMatrixType kl = truss->GetLocalStiffnessMatrix();
@@ -40,7 +39,7 @@ void SimpleTrussTest::basic_tests(){
 
 }
 
-void SimpleTrussTest::getters_tests(){
+void InternalTrussObjectTest::getters_tests(){
 
     // get the basic elements from constructor
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The default length must be 1.0",1.0,truss->GetLength());
@@ -48,20 +47,20 @@ void SimpleTrussTest::getters_tests(){
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The default Young Modulus must be 1.0",1.0,truss->GetYoungModulus());
 }
 
-void SimpleTrussTest::length_tests() {
+void InternalTrussObjectTest::length_tests() {
     // test different lengths
     Point a = Point(0.0,0.0,0.0);
     Point b = Point(1.0,1.0,0.0);
-    SimpleTruss t = SimpleTruss(&a, &b, 1.0,BASIC);
+    InternalTrussObject t = InternalTrussObject(&a, &b, 1.0,BASIC);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The default length must be sqrt(2)",sqrt(2),t.GetLength());
     Point a2 = Point(0.0,0.0,0.0);
     Point b2 = Point(1.0,1.0,1.0);
-    SimpleTruss t2 = SimpleTruss(&a2, &b2, 1.0,BASIC);
+    InternalTrussObject t2 = InternalTrussObject(&a2, &b2, 1.0,BASIC);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The default length must be sqrt(3)",sqrt(3),t2.GetLength());
 }
 
 
-void SimpleTrussTest::stiffness_tests() {
+void InternalTrussObjectTest::stiffness_tests() {
     // default values
     double coef = truss->GetCrossSection()*truss->GetYoungModulus()/truss->GetLength(), c=0.0;
     std::ostringstream st_c, st_i, st_j;
@@ -90,7 +89,7 @@ void SimpleTrussTest::stiffness_tests() {
     // test an other configuration
 }
 
-void SimpleTrussTest::transformation_tests() {
+void InternalTrussObjectTest::transformation_tests() {
 
     TransformationMatrixType cl = truss->GetLocalTransformationMatrix();
     TransformationMatrixType expected = {
@@ -112,7 +111,7 @@ void SimpleTrussTest::transformation_tests() {
     );//
 
     Point b1 = Point(0.0,1.0,0.0);
-    SimpleTruss truss1 = SimpleTruss(a,&b1,1.0,BASIC);
+    InternalTrussObject truss1 = InternalTrussObject(a,&b1,1.0,BASIC);
     TransformationMatrixType cl1 = truss1.GetLocalTransformationMatrix();
     expected = {
             {0.0, -1.0, 0.0, 0.0,  0.0, 0.0},
@@ -132,7 +131,7 @@ void SimpleTrussTest::transformation_tests() {
 
     float px = 4.0, py = 6.0, pz = 0.0;
     Point b2 = Point(px,py,pz);
-    SimpleTruss truss2 = SimpleTruss(a,&b2,1.0,BASIC);
+    InternalTrussObject truss2 = InternalTrussObject(a,&b2,1.0,BASIC);
     TransformationMatrixType cl2 = truss2.GetLocalTransformationMatrix();
     expected = {
             {cos(atan(py/px)),-sin(atan(py/px)) , 0.0, 0.0,  0.0, 0.0},
@@ -153,7 +152,7 @@ void SimpleTrussTest::transformation_tests() {
     // a point position shouldn't have any influence on the result
     Point a3= Point(1,1,1);
     Point b3=Point(px+a3.x, py+a3.y, pz+a3.z);
-    SimpleTruss truss3 = SimpleTruss(&a3,&b3,1.0,BASIC);
+    InternalTrussObject truss3 = InternalTrussObject(&a3,&b3,1.0,BASIC);
     TransformationMatrixType cl3 = truss3.GetLocalTransformationMatrix();
     test = (expected == cl2); // all elements should be equal to 1, a point shouldn't have an influce, we expect the same matrix as previously
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",

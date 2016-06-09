@@ -51,7 +51,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
     // first truss: from joint 0 and joint 1
     Point a = Point(0.0,0.0,0.0);
     Point b = Point(4000.0,0.0,0.0);
-    SimpleTruss truss = SimpleTruss(&a,&b,A,TEST);
+    InternalTrussObject truss = InternalTrussObject(&a,&b,A,TEST);
     float coef = (float) ( truss.GetCrossSection()*truss.GetYoungModulus()/truss.GetLength() );
     StiffnessMatrixType expected = {
             {coef, 0.0, 0.0, -coef, 0.0, 0.0, 0.0, 0.0, 0.0},   // U0
@@ -73,7 +73,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
 
     // add an other truss between joint 1 and 2
     Point b1 = Point(4000.0,6000.0,0.0);
-    SimpleTruss truss1 = SimpleTruss(&b,&b1,A,TEST);
+    InternalTrussObject truss1 = InternalTrussObject(&b,&b1,A,TEST);
     float coef1 = (float) ( truss1.GetCrossSection()*truss1.GetYoungModulus()/truss1.GetLength() );
     StiffnessMatrixType expected1 = {
          //  U0   V0   W0   U1   V1   W1   U2   V2   W2
@@ -99,7 +99,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
 
     // add an other truss between joint 0 and 2
     float c = (cos(atan(b1.y/b1.x))), s = ( sin(atan(b1.y/b1.x)) );
-    SimpleTruss truss2 = SimpleTruss(&a,&b1,A,TEST);
+    InternalTrussObject truss2 = InternalTrussObject(&a,&b1,A,TEST);
     float coef2 = (float)(truss2.GetCrossSection()*truss2.GetYoungModulus()/truss2.GetLength());
     StiffnessMatrixType expected2 = {
          //  U0        V0    W0   U1   V1   W1   U2   V2   W2
