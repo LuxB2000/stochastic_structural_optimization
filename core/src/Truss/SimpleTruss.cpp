@@ -40,8 +40,9 @@ SimpleTruss::SimpleTruss(
 				m_material);
 		m_abstractTrussVector->push_back(t);
 
-		m_L = t->GetLength();
 		m_E = t->GetYoungModulus();
+
+		this->m_ComputeLength();
 
 
 		// populate the matrices

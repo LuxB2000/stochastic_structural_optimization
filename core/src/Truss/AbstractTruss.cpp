@@ -44,3 +44,12 @@ AbstractTruss::~AbstractTruss(){
 	if( m_c ) delete m_c;
 	if( m_f ) delete m_f;
 }
+
+void AbstractTruss::m_ComputeLength(){
+	unsigned int i=0,l=0;
+	//TODO manage the error: if m_abstractTrussVector is empty
+	l = m_abstractTrussVector->size();
+	for(i=0; i<l; i++ ){
+		m_L += m_abstractTrussVector->at(i)->GetLength();
+	}
+}

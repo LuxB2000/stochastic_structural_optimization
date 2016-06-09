@@ -75,7 +75,7 @@ protected:
 	ForceVectorType* m_f;
 
 	// compute the length
-	//virtual void m_ComputeLength() = 0;
+	virtual void m_ComputeLength();
 	// populat the different matrices
 	//virtual void m_PopulateMatrices() = 0;
 

@@ -43,8 +43,7 @@ SimpleCornerTruss::SimpleCornerTruss(Point* starting_pt, Point* middle_pt, Point
 	m_abstractTrussVector->push_back( t2 );
 
 	m_E = t1->GetYoungModulus();
-	// TODO: use a dedicated function
-	m_L = t1->GetLength() + t2->GetLength();
+	this->m_ComputeLength();
 	
 	// populate the matrices
 	// TODO: use a dedicated function
