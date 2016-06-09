@@ -60,13 +60,9 @@ public:
 		return StiffnessMatrixType(*m_k); 
 	}
 
-	// TODO: remove transformation Matrix
-  TransformationMatrixType* GetLocalTransformationMatrixPointer(){
-    return m_c;
-	}
-  const TransformationMatrixType  GetLocalTransformationMatrix(){
-		return TransformationMatrixType(*m_c);
-	}
+	// we don't want to give access to the transformation matrix since
+	// the Truss can be corner etc. The transformation matrix is local to 
+	// InternalTrussObject
 	
 protected:
   double m_A, m_E, m_L;
