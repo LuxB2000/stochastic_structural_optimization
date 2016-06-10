@@ -121,3 +121,56 @@ void SimpleCornerTrussTest::stiffness_tests(){
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect to find a binary matrix with only 1 values",81,static_cast<int>(sum(sum(test,1))));
 
 }
+
+void SimpleCornerTrussTest::nodal_forces_tests(){
+	// TODO: compute the actual values
+
+	const unsigned int n_dof = 3, n_pt = 3;
+	Point p0 = Point(0.0,0.0,0.0);
+	Point p1 = Point(0.0,1.0,0.0);
+	Point p2 = Point(1.0,2.5,0.0);
+	Material m = TEST;
+	float area = 200, // in mm^2
+				fy2 = -1000; // in N, directed as gravity
+	
+	// build the global force vector, in format (fx0,fy0,fz0,...,fxN,fyN,fzN)
+	ForceVectorType f = ForceVectorType(n_dof*n_pt,arma::fill::zeros);
+	f(7) = fy2;
+	
+	// boundary conditions
+	BoundaryConditionsVectorType bc = BoundaryConditionsVectorType();
+	bc.push_back({0,0}); // at joint 0, Rx=0
+	bc.push_back({0,1}); // at joint 0, Ry=0
+
+	// Truss solver
+	TrussSolver solver = TrussSolver();
+
+	// empty displacement matrix
+	DisplacementVectorType disp = DisplacementVectorType();
+
+	// main object
+	SimpleCornerTruss ctruss = SimpleCornerTruss( &p0, &p1, &p2, area, m);
+	
+	// 1 - compute the displacements
+	solver.ComputeDisplacements( &disp,
+			ctruss.GetStiffnessMatrixInGlobalCoordPointer(),
+			&f,
+			&bc);
+	//std::cout << disp << std::endl;
+	// support: no displacement
+	CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find no displacement dx0",0,disp(0),1E-3); // dx1
+	CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find no displacement dy0",0,disp(2),1E-3); // dx1
+	CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect to find no displacement dz0",0,disp(0),1E-3); // dx1
+
+	// 2- find the support reactions in global coord
+	solver.ComputeSupportReaction(&disp,
+			ctruss.GetStiffnessMatrixInGlobalCoordPointer(),
+			&f,
+			&bc);
+	//std::cout << f << std::endl;
+
+	// 3 - find the diplacements in local coordinates
+	ctruss.SetDisplacementInGlobalCoordinates( disp );
+	
+	// 4 - find the internal forces
+}

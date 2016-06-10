@@ -23,6 +23,7 @@
 #include <cppunit/extensions/HelperMacros.h>
 
 #include "SimpleCornerTruss.h"
+#include "TrussSolver.h"
 
 using namespace CppUnit;
 using namespace std;
@@ -34,7 +35,7 @@ class SimpleCornerTrussTest : public CPPUNIT_NS::TestFixture{
         CPPUNIT_TEST(getters_tests);
         CPPUNIT_TEST(length_tests);
         CPPUNIT_TEST(stiffness_tests);
-        //CPPUNIT_TEST(nodal_forces_tests);
+        CPPUNIT_TEST(nodal_forces_tests);
 
     CPPUNIT_TEST_SUITE_END();
 

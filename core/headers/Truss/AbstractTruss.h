@@ -63,6 +63,9 @@ public:
 	// we don't want to give access to the transformation matrix since
 	// the Truss can be corner etc. The transformation matrix is local to 
 	// InternalTrussObject
+	// TODO: Is really usefull to give access to nodal forces in local coord.?
+	// Due to local coord system, the length of the force vector is equal
+	// to #InernalTruss*2*3 (2pts per InternalTruss and 3 dof).
 	
 protected:
   double m_A, m_E, m_L;
