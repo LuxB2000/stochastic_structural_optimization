@@ -63,6 +63,7 @@ void PointManagerTest::add_point_test(){
 }
 
 void PointManagerTest::connexion_test(){
+		// create a connexion between two points
 		float x1=0.0, y1=0.0, z1=0.0;
 		float x2=1.0, y2=1.0, z2=1.0;
 
@@ -70,11 +71,29 @@ void PointManagerTest::connexion_test(){
 		Point* p2 = PointManager::GetInstance().GetPoint(x2,y2,z2);
 
 		PointManager::GetInstance().SetConnexion(p1,p2);
+		// retreive the connexions from the point
 		PointManager::PointVectorType neigh_1 = PointManager::GetInstance().GetConnexions(p1);
 		PointManager::PointVectorType neigh_2 = PointManager::GetInstance().GetConnexions(p2);
 		CPPUNIT_ASSERT_MESSAGE("Expect to find the same point in neighborhood of 1",neigh_1.size()==1 && 
 				neigh_1[0]->x == p2->x && neigh_1[0]->y == p2->y && neigh_1[0]->z == p2->z);
 		CPPUNIT_ASSERT_MESSAGE("Expect to find the same point in neighborhood of 2",neigh_2.size()==1 && 
 				neigh_2[0]->x == p1->x && neigh_2[0]->y == p1->y && neigh_2[0]->z == p1->z);
+
+		// add a second connexion to p1
+		float x3=1.0, y3=0.0, z3=1.0;
+		Point* p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
+		PointManager::GetInstance().SetConnexion(p1,p3);
+		neigh_1 = PointManager::GetInstance().GetConnexions(p1);
+		CPPUNIT_ASSERT_MESSAGE("Expect to find the two points in neighborhood of 1",neigh_1.size()==2 && 
+				neigh_1[1]->x == p3->x && neigh_1[1]->y == p3->y && neigh_1[1]->z == p3->z);
+
+		// remove a connexion
+		PointManager::GetInstance().RemoveConnexion(p1,p3);
+		neigh_1 = PointManager::GetInstance().GetConnexions(p1);
+		CPPUNIT_ASSERT_MESSAGE("Expect to find one point in neighborhood of 1",neigh_1.size()==1 && 
+				neigh_1[0]->x == p2->x && neigh_1[0]->y == p2->y && neigh_1[0]->z == p2->z);
+		PointManager::PointVectorType neigh_3 = PointManager::GetInstance().GetConnexions(p3);
+		CPPUNIT_ASSERT_MESSAGE("Expect to find no point in neighborhood of 3",neigh_3.size()==0 );// && 
+
 }
 

@@ -78,3 +78,25 @@ const PointManager::PointVectorType PointManager::GetConnexions(Point* a){
 	}
 	return v;
 }
+
+void PointManager::RemoveConnexion(Point* a, Point* b){
+	// TODO: manager the error if the index is not present
+	ConnexionMapType::iterator pos_a,pos_b;
+	pos_a = m_connexions->find(a->index);
+	pos_b = m_connexions->find(b->index);
+	for (IndexVectorType::iterator it = m_connexions->at(a->index)->begin() ;
+				it != m_connexions->at(a->index)->end(); ++it){
+		if( *it == b->index ){
+			m_connexions->at(a->index)->erase(it);
+			break;
+		}
+	}
+
+	for (IndexVectorType::iterator it = m_connexions->at(b->index)->begin() ;
+				it != m_connexions->at(b->index)->end(); ++it){
+		if( *it == a->index ){
+			m_connexions->at(b->index)->erase(it);
+			break;
+		}
+	}
+}
