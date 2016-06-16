@@ -69,6 +69,12 @@ void PointManagerTest::connexion_test(){
 		Point* p1 = PointManager::GetInstance().GetPoint(x1,y1,z1);
 		Point* p2 = PointManager::GetInstance().GetPoint(x2,y2,z2);
 
-		//TODO
+		PointManager::GetInstance().SetConnexion(p1,p2);
+		PointManager::PointVectorType neigh_1 = PointManager::GetInstance().GetConnexions(p1);
+		PointManager::PointVectorType neigh_2 = PointManager::GetInstance().GetConnexions(p2);
+		CPPUNIT_ASSERT_MESSAGE("Expect to find the same point in neighborhood of 1",neigh_1.size()==1 && 
+				neigh_1[0]->x == p2->x && neigh_1[0]->y == p2->y && neigh_1[0]->z == p2->z);
+		CPPUNIT_ASSERT_MESSAGE("Expect to find the same point in neighborhood of 2",neigh_2.size()==1 && 
+				neigh_2[0]->x == p1->x && neigh_2[0]->y == p1->y && neigh_2[0]->z == p1->z);
 }
 
