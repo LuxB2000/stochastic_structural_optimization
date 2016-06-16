@@ -24,7 +24,7 @@ void PointTest::tearDown() {
 
 void PointTest::basic_tests() {
     float x=1.0, y=2.0, z=3.5;
-		unsigned long id = 1;
+		Point::IndexType id = 1;
 
 		// test constructor with index
     Point a1 = Point(x,y,z,id);

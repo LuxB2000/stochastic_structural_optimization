@@ -41,10 +41,28 @@ void PointManagerTest::add_point_test(){
 		float x2=1.0, y2=2.0, z2=3.0;
 		Point* p2 = PointManager::GetInstance().GetPoint(x2,y2,z2);
 		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p2->x==x2 && p2->y==y2 & p2->z==z2);
+
+		float x3=2.1, y3=2.0, z3=3.0;
+		Point* p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
+		std::cout << "Test: " << p3->x << ", " << p3->y << ", " << p3->z <<std::endl;
+		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p3->x==x3 && p3->y==y3 & p3->z==z3);
+
+		// expected coordinates: between [0,10[ with 1E-3 precision
+		x3=4.105; // WARNING: will not be available for MESHES !!
+		y3=0.061;
+		z3=8.082;
+		p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
+		std::cout << "Test: " << p3->x << ", " << p3->y << ", " << p3->z <<std::endl;
+		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p3->x==x3 && p3->y==y3 & p3->z==z3);
+		x3=4.106; // WARNING: will not be available for MESHES !!
+		y3=0.062;
+		z3=8.083;
+		p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
+		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p3->x==x3 && p3->y==y3 & p3->z==z3);
+
 }
 
-
-void PointManagerTest::add_connextion_test(){
+void PointManagerTest::connexion_test(){
 		float x1=0.0, y1=0.0, z1=0.0;
 		float x2=1.0, y2=1.0, z2=1.0;
 

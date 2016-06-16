@@ -17,8 +17,10 @@ public:
 		bool operator==(const Point &p) const;
 		bool operator!=(const Point &p) const;
 
+		typedef long double IndexType;
+
     float x, y, z;
-		unsigned long index;
+		IndexType index;
 };
 
 #endif //SSO_POINT_H

@@ -9,7 +9,7 @@ PointManager::PointManager(){
 }
 
 PointManager::~PointManager(){
-	std::clog << ">> [PointManager] clean the Point data base." << std::endl;
+	std::clog << ">> [PointManager] clean the Point data base (containing " << m_points->size() <<" elements)." << std::endl;
 
 	if( m_points ){
 		for(PointMapType::iterator it=m_points->begin(); it!=m_points->end(); ++it){
@@ -22,7 +22,9 @@ PointManager::~PointManager(){
 }
 
 PointManager::IndexType PointManager::m_fromCoordToIndex( float x, float y, float z){
-	return x + y * MAXDIMSPACE + z*MAXDIMSPACE*MAXDIMSPACE;
+		IndexType id =  x + y * MAXDIMSPACE + z*MAXDIMSPACE*MAXDIMSPACE;
+	// std::cout << ">> coord:["<<x<<","<<y<<","<<z<<"] index: " << id << std::endl;
+	return id;
 }
 
 Point* PointManager::GetPoint(float x, float y, float z){

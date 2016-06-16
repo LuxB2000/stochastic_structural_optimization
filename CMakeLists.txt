@@ -94,12 +94,12 @@ include_directories(${UTESTS_ST_DIR})
 					${UTESTS_HT_DIR}/InternalTrussObjectTest.h ${UTESTS_ST_DIR}/InternalTrussObjectTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
-					${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
+				${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
 
 
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp
 				tests/headers/StructureTest.h tests/src/StructureTest.cpp
-        tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
+				tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
         )
 
 #Add all unit tests in addition to all source files.

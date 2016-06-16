@@ -25,7 +25,8 @@
 #include "Point.h"
 
 //TODO: move some where else
-const int MAXDIMSPACE=100000; // in millimeters
+// expected coord [0,10[ with 1E-3 precision => 1E4 max points in one direction, lets MAXDIMSPACE=10*max points
+const Point::IndexType MAXDIMSPACE=100000.000;
 
 class PointManager{
 
@@ -55,7 +56,7 @@ private:
 	PointManager();
 	~PointManager();
 
-	typedef unsigned long IndexType;
+	typedef Point::IndexType IndexType;
 
 	IndexType m_fromCoordToIndex(float x, float y, float z);
 
