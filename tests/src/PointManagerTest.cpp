@@ -44,7 +44,6 @@ void PointManagerTest::add_point_test(){
 
 		float x3=2.1, y3=2.0, z3=3.0;
 		Point* p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
-		std::cout << "Test: " << p3->x << ", " << p3->y << ", " << p3->z <<std::endl;
 		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p3->x==x3 && p3->y==y3 & p3->z==z3);
 
 		// expected coordinates: between [0,10[ with 1E-3 precision
@@ -52,7 +51,6 @@ void PointManagerTest::add_point_test(){
 		y3=0.061;
 		z3=8.082;
 		p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
-		std::cout << "Test: " << p3->x << ", " << p3->y << ", " << p3->z <<std::endl;
 		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p3->x==x3 && p3->y==y3 & p3->z==z3);
 		x3=4.106; // WARNING: will not be available for MESHES !!
 		y3=0.062;

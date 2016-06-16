@@ -10,7 +10,13 @@ InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_
     // init the InternalTrussObject
     m_start_p = s_pt;
     m_end_p = e_pt;
-    m_L = sqrt(pow(m_start_p->x-m_end_p->x,2) + pow(m_start_p->y-m_end_p->y,2) + pow(m_start_p->z-m_end_p->z,2));
+		
+		//
+		// create a connexion in PointManager
+		PointManager::GetInstance().SetConnexion(m_start_p,m_end_p);
+    
+		// compute the length
+		m_L = sqrt(pow(m_start_p->x-m_end_p->x,2) + pow(m_start_p->y-m_end_p->y,2) + pow(m_start_p->z-m_end_p->z,2));
     m_material = mat;
     m_A = cross_sect;
 
@@ -101,6 +107,9 @@ InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_
 }
 
 InternalTrussObject::~InternalTrussObject() {
+		// remove the connexion
+		PointManager::GetInstance().RemoveConnexion(m_start_p,m_end_p);
+
     if(m_k) delete m_k;
     if(m_c) delete m_c;
     if(m_disp_local_coord) delete m_disp_local_coord;

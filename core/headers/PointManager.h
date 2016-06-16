@@ -49,12 +49,9 @@ public:
 	Point* GetPoint(float x, float y, float z);
 
 
-	// TODO:
 	void SetConnexion(Point* a, Point* b);
 	void RemoveConnexion(Point* a, Point* b);
 	const PointVectorType GetConnexions(Point* a);
-	// ConnexionVectorType* GetPointConnexion(Point a);
-	// ConnexionVectorType* GetAllConnexion();
 
 private:
 	PointManager();
