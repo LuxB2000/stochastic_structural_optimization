@@ -8,6 +8,7 @@
 #include "armadillo"
 #include <vector>
 #include "Types.h"
+#include "Point.h"
 
 class StiffnessMatrixBuilder {
 public:
@@ -27,7 +28,8 @@ public:
      *          ! joindId1 < joindId2
      *          ! (0<=joinId<nbr_dof)
      */
-    void Build(StiffnessMatrixType* kl, TransformationMatrixType* cl, unsigned int jointId1, unsigned int jointId2);
+    //void Build(StiffnessMatrixType* kl, TransformationMatrixType* cl, unsigned int jointId1, unsigned int jointId2);
+    void Build(StiffnessMatrixType* kl, TransformationMatrixType* cl, Point::IndexType jointId1, Point::IndexType jointId2);
 
     // getter
     const StiffnessMatrixType GetStiffnessMatrix();

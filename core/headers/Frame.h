@@ -33,12 +33,14 @@ public:
 		return m_truss_params;
 	}
 
+	const StiffnessMatrixType GetStiffnessMatrix();
+
 protected:
 	Point* m_origin;
 	FrameParametersVectorType* m_truss_params;
 	double m_cross_section;
 	Material m_material_type;
-	StiffnessMatrixType* m_stifness; // in global coordinates
+	StiffnessMatrixType m_stiffness; // in global coordinates
 
 };
 

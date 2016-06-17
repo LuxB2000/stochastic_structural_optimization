@@ -30,6 +30,10 @@ Frame::~Frame(){
 	if( m_truss_params ) delete m_truss_params;
 }
 
+const StiffnessMatrixType Frame::GetStiffnessMatrix(){
+    return StiffnessMatrixType(m_stiffness);
+}
+
 /*
  * TrussFrame
  * ==========
@@ -46,6 +50,7 @@ TrussFrame::~TrussFrame(){
 		}
 	}
 }
+
 
 /*
  * Simple3TrussFrame
@@ -74,6 +79,7 @@ Simple3TrussFrame::Simple3TrussFrame(Point* origin,
 	m_material_type = mat;
 	m_BuildFrame();
 }
+
 
 void Simple3TrussFrame::m_BuildFrame(){
 	// Create the set of Point
@@ -114,9 +120,13 @@ void Simple3TrussFrame::m_BuildFrame(){
 	m_trusses->push_back(t3);
 	
 	// Create the global stiffness matrix
-	//StiffnessMatrixBuilder k_builder = StiffnessMatrixBuilder(m_dof*m_nbrOfPoint);
-	//k_builder.Build(t0->GetStiffnessMatrixInGlobalCoord(),t0->GetLocalTransformationMatrixPointer(),0,1);
-}
+	StiffnessMatrixBuilder k_builder = StiffnessMatrixBuilder(m_dof*m_nbrOfPoint);
+	k_builder.Build(t0->GetStiffnessMatrixInGlobalCoordPointer(),t1->GetStiffnessMatrixInGlobalCoordPointer(),0,1);
+	k_builder.Build(t1->GetStiffnessMatrixInGlobalCoordPointer(),t2->GetStiffnessMatrixInGlobalCoordPointer(),1,2);
+	k_builder.Build(t2->GetStiffnessMatrixInGlobalCoordPointer(),t3->GetStiffnessMatrixInGlobalCoordPointer(),2,3);
+
+	m_stiffness = k_builder.GetStiffnessMatrix();
+}// end function Simple3TrussFrame::m_BuildFrame
 
 /*
  * Simple5TrussFrame

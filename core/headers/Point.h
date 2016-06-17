@@ -19,7 +19,8 @@ public:
 		bool operator==(const Point &p) const;
 		bool operator!=(const Point &p) const;
 
-		typedef long double IndexType;
+		//typedef long double IndexType;
+		typedef unsigned int IndexType;
 
     float x, y, z;
 		IndexType index;

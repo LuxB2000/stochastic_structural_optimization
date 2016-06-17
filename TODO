@@ -1,6 +1,7 @@
 - check with UT if the simpleCornerTruss could be used as a TopCornerTruss
 
 - Error and exception
+- logger
 
 - Truss
 
@@ -11,13 +12,13 @@
 	- continuous loads on the element
 		- load and weight
 
-
-- doc:
-	- Point has index of type long double. That limits the spacial precision of the world. 
-	- the index is computed as x+y*MAXDIM+z*MAXDIM*MAXDIM.
-	- real coordinates world should be express in a relative way and take values between [0,10[
-		with a precision 1E-3.
-
 	-> NEED to update the Truss.A and Truss.E to take into consideration the meter as unit
 	-> NEED to update TrussSolverTest
 	-> current solution will not work for mesh coordonates
+
+- doc:
+	- Point has index of type int. That limits the spacial precision of the world. 
+	- The Point's index is computed as x+y*MAXDIM+z*MAXDIM*MAXDIM.
+	- real coordinates world should be express in a relative way and take values between [0,10[
+		with a precision 1E-3.
+

@@ -26,8 +26,8 @@
 #include "Point.h"
 
 //TODO: move some where else
-// expected coord [0,10[ with 1E-3 precision => 1E4 max points in one direction, lets MAXDIMSPACE=10*max points
-const Point::IndexType MAXDIMSPACE=100000.000;
+// expected coord [0,10[ with 1E-3 precision => 1E3 max points in one direction, lets MAXDIMSPACE=10*max points
+const Point::IndexType MAXDIMSPACE=1000.000;
 
 class PointManager{
 

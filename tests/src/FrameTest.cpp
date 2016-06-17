@@ -70,11 +70,37 @@ void FrameTest::build_Simple5TrussFrame_tests(){
 }
 
 void FrameTest::build_Simple3TrussFrame_tests(void){
+	//
+	//      F
+	//      |
+	//      |
+	//     \/
+	//     p2
+	//     /\
+	//  2 /  \ 3
+	// p1/    \ p3
+	// 1 |    | 4
+	// p0|    | p4
+	/// ///  ///
+	//
+	// The structure is composed of 3 Truss: 2 SimpleTruss and 1 TopCornerTruss
+	// Two fixed support in p0 and p4.
+	// F={0,24kN}
+
 	// Parameters fit the example presented in "Introduction to Finite Element
 	// Analysis Using Matlab and Abaqus", A. Khennane, page 110, 2013.
 	// param = {dim_y_SimpleTruss, dim_x_TopCornerTruss, dim_y_TopCornerTruss}
 	FrameParametersVectorType params = {5.0, 6.0, 1.0};
-	double cross_sec = 5310; // in mm^2
+	double cross_sec = 5310*1E-6; // in m^2
 	Material mat_type = TEST;
 	Simple3TrussFrame f3 = Simple3TrussFrame(origin,params,cross_sec,mat_type);
+	StiffnessMatrixType expected = {
+		{0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0 }, // U0=0 since encastre
+		{0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0 }, // V0=0 since encastre
+		{0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0 }  // W0=0 since encastre
+	};
+	StiffnessMatrixType k_frame =f3.GetStiffnessMatrix();
+	std::cout << k_frame.n_cols << "x" << k_frame.n_rows << std::endl;
+	std::cout << f3.GetStiffnessMatrix() << std::endl;
 }
+

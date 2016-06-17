@@ -8,6 +8,8 @@ proof of concept illustrating the evolutionnary algorithm applied to structural 
 ## Build
 > mkdir build
 
+> cd build
+
 > cmake ..
 
 ## Run
