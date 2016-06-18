@@ -48,10 +48,11 @@ protected:
 
 /*
  * The structure of the SimpleTrussFrame
- * Truss 1 and 5 are SimpleTruss (1 param: length)
- * Truss 2 and 4 are SimpleCornerTruss (3 params: 2 lengths and 1 angle)
- * Truss 3 is a TopCornerTruss (2 params: 1 length and 1 angle)
- * Total params: 2*(1+3+2)
+ * similar truss are identical: 1 & 5, 2 & 4
+ * Truss 1 and 5 are SimpleTruss (1 param: length vertical)
+ * Truss 2 and 4 are SimpleCornerTruss (3 params: 2 vectical dimension and 1 horizontal length)
+ * Truss 3 is a TopCornerTruss  (2 params: vectical dimension and horizontal length)
+ * Total params: 1 + 3 + 2
  *    3/\
  *    o  o
  * 2 /    \ 4
@@ -64,12 +65,14 @@ protected:
 class Simple5TrussFrame : public TrussFrame{
 public:
 	Simple5TrussFrame();
-	Simple5TrussFrame(Point* origin, FrameParametersVectorType v);
-	Simple5TrussFrame(Point* origin, float l1, float l2, float a2, float l3, float a3 );
+	Simple5TrussFrame(Point* origin, FrameParametersVectorType v, Material m);
+	Simple5TrussFrame(Point* origin, float lv1, float lv21, float lv22, float lh22, float lv3, float lh3, float section, Material m );
 	~Simple5TrussFrame();
 private:
+	typedef std::vector<AbstractTruss*> TrussesVectorType;
 	void m_BuildFrame();
-	static const unsigned int m_numberOfInputsParams = 5;
+	Material m_material;
+	static const unsigned int m_numberOfInputsParams = 7;
 };
 
 #endif

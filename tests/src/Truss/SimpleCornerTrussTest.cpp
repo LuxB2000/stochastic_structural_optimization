@@ -193,3 +193,6 @@ void SimpleCornerTrussTest::nodal_forces_tests(){
 	}
 	// todo: check with the projections of the elements along each global coord system direction + add the external forces and applications
 }
+
+
+//TODO: check if the simpleCornerTruss could be used as a TopCornerTruss

@@ -44,6 +44,7 @@ public:
     void basic_tests(void);
 		void parameters_tests(void);
 		void build_tests(void);
+		void stiffness_test(void);
 };
 
 #endif
