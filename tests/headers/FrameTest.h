@@ -3,7 +3,7 @@
  *
  *       Filename:  FrameTest.h
  *
- *    Description:  
+ *    Description:  Unit tests for the Frame Class
  *
  *        Version:  1.0
  *        Created:  02/06/16 13:04:20
@@ -31,6 +31,7 @@ class FrameTest :
 
 			CPPUNIT_TEST(basic_tests);
 			CPPUNIT_TEST(parameters_tests);
+			CPPUNIT_TEST(build_Simple3TrussFrame_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -43,8 +44,13 @@ public:
 		// tests
     void basic_tests(void);
 		void parameters_tests(void);
-		void build_tests(void);
 		void stiffness_test(void);
+
+		void build_Simple5TrussFrame_tests(void);
+		void build_Simple3TrussFrame_tests(void);
+
+private:
+	Point* origin;
 };
 
 #endif

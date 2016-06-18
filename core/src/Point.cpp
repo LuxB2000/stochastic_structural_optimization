@@ -30,3 +30,7 @@ bool Point::operator!=(const Point &p) const {
 	return (this->x!=p.x || this->y!=p.y || this->z!=p.z);
 }
 
+std::ostream& operator<<(std::ostream &os, const Point &p){
+	os << "[" << p.x << ", " << p.y << ", " << p.z << "]";
+	return os;
+}
