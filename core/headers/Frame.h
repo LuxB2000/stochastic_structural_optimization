@@ -12,6 +12,8 @@
  *
  *         Author:  Jerome Plumat (JP)
  *
+ * TODO: return exception or error if the parameter vector does not contain
+ * the correct number of elements.
  * =====================================================================================
  */
 
@@ -34,6 +36,9 @@ public:
 protected:
 	Point* m_origin;
 	FrameParametersVectorType* m_truss_params;
+	double m_cross_section;
+	Material m_material_type;
+	StiffnessMatrixType* m_stifness; // in global coordinates
 
 };
 
@@ -44,18 +49,27 @@ public:
 protected:
 	typedef std::vector<AbstractTruss*> TrussVector;
 	TrussVector* m_trusses;
+	static const unsigned int m_dof = 3;
+	static const unsigned int m_nbrOfPoint = 5;
 };
 
 /*
  * A simple 3 trusses frame
  * Truss 1 and 3 are SimpleTruss (1 param: length)
  * Truss 2 is TopCornerTruss (2 params: x and y length)
- *
+ *    2/\
+ *   o   o
+ * 1 |   | 3
+ *   |   |
  */
 class Simple3TrussFrame : public TrussFrame{
 public: 
 	Simple3TrussFrame();
 	~Simple3TrussFrame();
+	Simple3TrussFrame(Point* origin, const FrameParametersVectorType v, double cross_sec, Material mat_type);
+private:
+	void m_BuildFrame();
+	static const unsigned int m_numberOfInputsParams = 3;
 };
 
 /*

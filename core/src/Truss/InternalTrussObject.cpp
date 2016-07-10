@@ -37,7 +37,7 @@ InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_
             break;
         default:
             m_E = 1.0;
-            std::cerr << "Material is not supported, default value is used." <<std::endl;
+            std::cerr << "Material " << m_material << " is not supported, default value is used." <<std::endl;
             break;
     }
 

@@ -29,28 +29,39 @@ void FrameTest::tearDown(){
 }
 
 void FrameTest::setUp(){
+	origin = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 }
 
 void FrameTest::basic_tests(){
 	Simple5TrussFrame f = Simple5TrussFrame();
 	CPPUNIT_ASSERT_MESSAGE("We expect the parameter vector beeing initiate",f.GetParameters());
-	CPPUNIT_ASSERT_MESSAGE("We expect 6 parameter",f.GetParameters()->size());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect 5 parameters",5,(int)f.GetParameters()->size());
+
+	Simple3TrussFrame f3 = Simple3TrussFrame();
+	CPPUNIT_ASSERT_MESSAGE("We expect the parameter vector beeing initiate",f3.GetParameters());
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect 3 parameters",3,(int)f3.GetParameters()->size());
+
 }
 
 void FrameTest::parameters_tests(void){
-	Point origin = Point(0.0,0.0,0.0);
 																	// l1    l2   a2    l3    a3
 	FrameParametersVectorType param =	{1.5, 0.75, 43.2, 0.35, 90};
 	Simple5TrussFrame f = Simple5TrussFrame(origin, param);
 	CPPUNIT_ASSERT_MESSAGE("We expect to find the same parameters than inputs", param==*f.GetParameters());
 }
 
-void FrameTest::build_tests(){
-	Point origin = Point(0.0,0.0,0.0);
+void FrameTest::build_Simple5TrussFrame_tests(){
 	FrameParametersVectorType param =	{1.5, 0.75, 43.2, 0.35, 90};
 	Simple5TrussFrame f = Simple5TrussFrame(origin, param);
 
 }
 
 void FrameTest::build_Simple3TrussFrame_tests(void){
+	// Parameters fit the example presented in "Introduction to Finite Element
+	// Analysis Using Matlab and Abaqus", A. Khennane, page 110, 2013.
+	// param = {dim_y_SimpleTruss, dim_x_TopCornerTruss, dim_y_TopCornerTruss}
+	FrameParametersVectorType params = {5.0, 6.0, 1.0};
+	double cross_sec = 5310; // in mm^2
+	Material mat_type = TEST;
+	Simple3TrussFrame f3 = Simple3TrussFrame(origin,params,cross_sec,mat_type);
 }
