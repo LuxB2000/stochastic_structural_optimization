@@ -20,6 +20,10 @@ set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 					core/headers/Point.h core/src/Point.cpp
 					core/headers/math_tools.h
 
+					# Point Manager
+					${CORE_H_DIR}/PointManager ${CORE_S_DIR}/PointManager.cpp
+
+
 					core/headers/StructuralElement.h core/src/StructuralElement.cpp
 					# simple truss objects
 					${CORE_HT_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
@@ -32,6 +36,7 @@ set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 
 					# complex truss object
 					${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
+
 
 					# complex structure
 					core/headers/Frame.h core/src/Frame.cpp
@@ -80,6 +85,8 @@ include_directories(${UTESTS_ST_DIR})
 					core/headers/Material.h
 					core/headers/math_tools.h
 
+					${UTESTS_H_DIR}/PointManagerTest.h ${UTESTS_S_DIR}/PointManagerTest.cpp
+
 					tests/headers/BasicTest.h tests/src/BasicTest.cpp
 					tests/headers/PointTest.h tests/src/PointTest.cpp
 					tests/headers/MathToolsTest.h tests/src/MathToolsTest.cpp
@@ -87,11 +94,12 @@ include_directories(${UTESTS_ST_DIR})
 					${UTESTS_HT_DIR}/InternalTrussObjectTest.h ${UTESTS_ST_DIR}/InternalTrussObjectTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
-					${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
+				${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
+
 
 				tests/headers/FrameTest.h tests/src/FrameTest.cpp
 				tests/headers/StructureTest.h tests/src/StructureTest.cpp
-        tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
+				tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
         )
 
 #Add all unit tests in addition to all source files.

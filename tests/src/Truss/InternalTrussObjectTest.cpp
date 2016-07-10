@@ -14,16 +14,14 @@ InternalTrussObjectTest::~InternalTrussObjectTest(){
 
 void InternalTrussObjectTest::setUp(){
     // here set up EACH unit test
-    a = new Point(0.0,0.0,0.0);
-    b = new Point(1.0,0.0,0.0);
+    a = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
+    b = PointManager::GetInstance().GetPoint(1.0,0.0,0.0);
     truss = new InternalTrussObject(a,b,1.0,BASIC);
 }
 
 void InternalTrussObjectTest::tearDown(){
     // here clean after EACH unit test
     if(truss) delete truss;
-    if(a) delete a;
-    if(b) delete b;
 }
 
 void InternalTrussObjectTest::basic_tests(){
@@ -49,13 +47,13 @@ void InternalTrussObjectTest::getters_tests(){
 
 void InternalTrussObjectTest::length_tests() {
     // test different lengths
-    Point a = Point(0.0,0.0,0.0);
-    Point b = Point(1.0,1.0,0.0);
-    InternalTrussObject t = InternalTrussObject(&a, &b, 1.0,BASIC);
+    Point* a = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
+    Point* b =  PointManager::GetInstance().GetPoint(1.0,1.0,0.0);
+    InternalTrussObject t = InternalTrussObject(a, b, 1.0,BASIC);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The default length must be sqrt(2)",sqrt(2),t.GetLength());
-    Point a2 = Point(0.0,0.0,0.0);
-    Point b2 = Point(1.0,1.0,1.0);
-    InternalTrussObject t2 = InternalTrussObject(&a2, &b2, 1.0,BASIC);
+    Point* a2 =  PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
+    Point* b2 =  PointManager::GetInstance().GetPoint(1.0,1.0,1.0);
+    InternalTrussObject t2 = InternalTrussObject(a2, b2, 1.0,BASIC);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("The default length must be sqrt(3)",sqrt(3),t2.GetLength());
 }
 
@@ -110,8 +108,8 @@ void InternalTrussObjectTest::transformation_tests() {
                                          0 // delta
     );//
 
-    Point b1 = Point(0.0,1.0,0.0);
-    InternalTrussObject truss1 = InternalTrussObject(a,&b1,1.0,BASIC);
+    Point* b1 =  PointManager::GetInstance().GetPoint(0.0,1.0,0.0);
+    InternalTrussObject truss1 = InternalTrussObject(a,b1,1.0,BASIC);
     TransformationMatrixType cl1 = truss1.GetLocalTransformationMatrix();
     expected = {
             {0.0, -1.0, 0.0, 0.0,  0.0, 0.0},
@@ -130,8 +128,8 @@ void InternalTrussObjectTest::transformation_tests() {
     );
 
     float px = 4.0, py = 6.0, pz = 0.0;
-    Point b2 = Point(px,py,pz);
-    InternalTrussObject truss2 = InternalTrussObject(a,&b2,1.0,BASIC);
+    Point* b2 =  PointManager::GetInstance().GetPoint(px,py,pz);
+    InternalTrussObject truss2 = InternalTrussObject(a,b2,1.0,BASIC);
     TransformationMatrixType cl2 = truss2.GetLocalTransformationMatrix();
     expected = {
             {cos(atan(py/px)),-sin(atan(py/px)) , 0.0, 0.0,  0.0, 0.0},
@@ -150,9 +148,9 @@ void InternalTrussObjectTest::transformation_tests() {
     );
 
     // a point position shouldn't have any influence on the result
-    Point a3= Point(1,1,1);
-    Point b3=Point(px+a3.x, py+a3.y, pz+a3.z);
-    InternalTrussObject truss3 = InternalTrussObject(&a3,&b3,1.0,BASIC);
+    Point* a3= PointManager::GetInstance().GetPoint(1,1,1);
+    Point* b3= PointManager::GetInstance().GetPoint(px+a3->x, py+a3->y, pz+a3->z);
+    InternalTrussObject truss3 = InternalTrussObject(a3,b3,1.0,BASIC);
     TransformationMatrixType cl3 = truss3.GetLocalTransformationMatrix();
     test = (expected == cl2); // all elements should be equal to 1, a point shouldn't have an influce, we expect the same matrix as previously
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("We expect the binary matrix to have the element 1 at each position",

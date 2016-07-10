@@ -40,9 +40,9 @@ void StructureTest::basic_tests(){
 void StructureTest::origin_tests(){
 	Structure structure = Structure();
 	CPPUNIT_ASSERT_MESSAGE("We expect the default origin", 
-			structure.GetOrigin()==Point(0,0,0));
+			structure.GetOrigin()->x == 0 && structure.GetOrigin()->y == 0 && structure.GetOrigin()->z == 0 );
 	
-	Point new_origin = Point(1.0,1.0,1.0);
+	Point* new_origin = PointManager::GetInstance().GetPoint(1.0,1.0,1.0);
 	structure.SetOrigin(new_origin);
 	CPPUNIT_ASSERT_MESSAGE("We expect the default origin", 
 			structure.GetOrigin()==new_origin);

@@ -56,12 +56,14 @@ void TrussSolverTest::compute_all_tests() {
     float x0=0.0, y0=0.0, z0=0.0, x1=4000.0, y1=0.0, z1=0.0, x2=4000.0, y2=6000.0, z2=0.0; // coord in millimeters
 
     // defining the points
-    Point p0 = Point(x0,y0,z0), p1 = Point(x1,y1,z1), p2 = Point(x2,y2,z2);
+    Point* p0 = PointManager::GetInstance().GetPoint(x0,y0,z0), 
+					*p1 = PointManager::GetInstance().GetPoint(x1,y1,z1),
+					*p2 = PointManager::GetInstance().GetPoint(x2,y2,z2);
 
     // build the trusses
-    InternalTrussObject t0 = InternalTrussObject(&p0,&p1,A,TEST);
-    InternalTrussObject t1 = InternalTrussObject(&p1,&p2,A,TEST);
-    InternalTrussObject t2 = InternalTrussObject(&p0,&p2,A,TEST);
+    InternalTrussObject t0 = InternalTrussObject(p0,p1,A,TEST);
+    InternalTrussObject t1 = InternalTrussObject(p1,p2,A,TEST);
+    InternalTrussObject t2 = InternalTrussObject(p0,p2,A,TEST);
 
     // build the stiffness matrix
     StiffnessMatrixBuilder stiffnessMatrixBuilder = StiffnessMatrixBuilder(n_dof*n_pt);

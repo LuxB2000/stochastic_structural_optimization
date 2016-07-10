@@ -9,7 +9,7 @@
 class Point{
 public:
     // coordinates are given in millimeters in the GLOBAL system.
-    Point(float x_coord, float y_coord, float z_coord);
+    Point(float x_coord, float y_coord, float z_coord, unsigned long id);
     Point(const Point& p);
     ~Point();
 
@@ -17,7 +17,10 @@ public:
 		bool operator==(const Point &p) const;
 		bool operator!=(const Point &p) const;
 
+		typedef long double IndexType;
+
     float x, y, z;
+		IndexType index;
 };
 
 #endif //SSO_POINT_H

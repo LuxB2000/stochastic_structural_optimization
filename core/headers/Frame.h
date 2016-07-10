@@ -76,8 +76,8 @@ public:
 class Simple5TrussFrame : public TrussFrame{
 public:
 	Simple5TrussFrame();
-	Simple5TrussFrame(Point oritin, FrameParametersVectorType v);
-	Simple5TrussFrame(Point origin, float l1, float l2, float a2, float l3, float a3 );
+	Simple5TrussFrame(Point* origin, FrameParametersVectorType v);
+	Simple5TrussFrame(Point* origin, float l1, float l2, float a2, float l3, float a3 );
 	~Simple5TrussFrame();
 private:
 	void m_BuildFrame();

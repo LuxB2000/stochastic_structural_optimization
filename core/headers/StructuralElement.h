@@ -11,7 +11,7 @@
 
 #include <armadillo>
 
-#include "Point.h"
+#include "PointManager.h"
 
 
 class StructuralElement {
@@ -21,6 +21,7 @@ public:
     virtual void Print();
 
 protected:
+		//TODO remove
     double m_length, m_width;
 };
 
