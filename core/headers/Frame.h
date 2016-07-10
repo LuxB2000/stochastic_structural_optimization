@@ -47,6 +47,18 @@ protected:
 };
 
 /*
+ * A simple 3 trusses frame
+ * Truss 1 and 3 are SimpleTruss (1 param: length)
+ * Truss 2 is TopCornerTruss (2 params: x and y length)
+ *
+ */
+class Simple3TrussFrame : public TrussFrame{
+public: 
+	Simple3TrussFrame();
+	~Simple3TrussFrame();
+};
+
+/*
  * The structure of the SimpleTrussFrame
  * Truss 1 and 5 are SimpleTruss (1 param: length)
  * Truss 2 and 4 are SimpleCornerTruss (3 params: 2 lengths and 1 angle)
