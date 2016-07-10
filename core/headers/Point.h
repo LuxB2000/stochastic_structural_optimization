@@ -6,6 +6,8 @@
 #ifndef SSO_POINT_H
 #define SSO_POINT_H
 
+#include <iostream>
+
 class Point{
 public:
     // coordinates are given in millimeters in the GLOBAL system.
@@ -21,6 +23,10 @@ public:
 
     float x, y, z;
 		IndexType index;
+
+		// print Point values in standard display
+		friend std::ostream& operator<<(std::ostream&, const Point &p);
 };
+
 
 #endif //SSO_POINT_H
