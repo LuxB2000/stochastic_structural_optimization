@@ -12,58 +12,63 @@ set(CORE_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Truss")
 set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 
 
-	include_directories(${CORE_H_DIR})
+## -- Source files --
+include_directories(${CORE_H_DIR})
+set(SOURCE_FILES
+			core/headers/Types.h
+			core/headers/Point.h core/src/Point.cpp
+			core/headers/math_tools.h
 
-# Source files
-	set(SOURCE_FILES
-					core/headers/Types.h
-					core/headers/Point.h core/src/Point.cpp
-					core/headers/math_tools.h
-
-					# Point Manager
-					${CORE_H_DIR}/PointManager ${CORE_S_DIR}/PointManager.cpp
-
-
-					core/headers/StructuralElement.h core/src/StructuralElement.cpp
-					# simple truss objects
-					${CORE_HT_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
-					${CORE_HT_DIR}/AbstractTruss.h ${CORE_ST_DIR}/AbstractTruss.cpp
-					${CORE_HT_DIR}/SimpleTruss.h ${CORE_ST_DIR}/SimpleTruss.cpp
-
-					core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
-					core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
-					core/headers/TrussSolver.h core/src/TrussSolver.cpp
-
-					# complex truss object
-					${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
+			# Point Manager
+			${CORE_H_DIR}/PointManager ${CORE_S_DIR}/PointManager.cpp
 
 
-					# complex structure
-					core/headers/Frame.h core/src/Frame.cpp
-					core/headers/Structure.h core/src/Structure.cpp
-					core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
-					)
+			core/headers/StructuralElement.h core/src/StructuralElement.cpp
+			# simple truss objects
+			${CORE_HT_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
+			${CORE_HT_DIR}/AbstractTruss.h ${CORE_ST_DIR}/AbstractTruss.cpp
+			${CORE_HT_DIR}/SimpleTruss.h ${CORE_ST_DIR}/SimpleTruss.cpp
 
-# Extrernal libraries
-	FIND_LIBRARY(ARMADILLO larmadillo
-					/usr/local/lib)
-	set(LIBS -larmadillo)
+			core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
+			core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
+			core/headers/TrussSolver.h core/src/TrussSolver.cpp
 
-## -- CppUnit config --
+			# complex truss object
+			${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
+
+			# complex structure
+			core/headers/Frame.h core/src/Frame.cpp
+			core/headers/Structure.h core/src/Structure.cpp
+			core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
+)# end Set SOURCE_FILES
+
+## -- Extrernal libraries --
+FIND_LIBRARY(ARMADILLO larmadillo
+				/usr/local/lib)
+set(LIBS -larmadillo)
+
+# Introduce the external libraries
+set(LIBS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/libs")
+# include the logger: easylogging++
+set(EASYLOGGINGPP_FOLDER ${LIBS_DIR}/easyloggingpp)
+set(EASYLOGGINGPP_H ${EASYLOGGINGPP_FOLDER}/easylogging++.h)
+include_directories(${EASYLOGGINGPP_FOLDER})
+
+
+# CppUnit config 
 # looking for the CppUnit library
-	FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h /usr/local/include /usr/include)
+FIND_PATH(CPPUNIT_INCLUDE_DIR cppunit/TestCase.h /usr/local/include /usr/include)
 
-	include_directories(${CPPUNIT_INCLUDE_DIR})
+include_directories(${CPPUNIT_INCLUDE_DIR})
 
-	FIND_LIBRARY(CPPUNIT_LIBRARY cppunit
-						 ${CPPUNIT_INCLUDE_DIR} /../lib
-						 /usr/local/lib
-						 /usr/lib)
-	FIND_LIBRARY(CPPUNIT_DEBUG_LIBRARY cppunit
-						 ${CPPUNIT_INCLUDE_DIR} /../lib
-						 /usr/local/lib
-						 /usr/lib)
-## --- end CppUnit config ---
+FIND_LIBRARY(CPPUNIT_LIBRARY cppunit
+					 ${CPPUNIT_INCLUDE_DIR} /../lib
+					 /usr/local/lib
+					 /usr/lib)
+FIND_LIBRARY(CPPUNIT_DEBUG_LIBRARY cppunit
+					 ${CPPUNIT_INCLUDE_DIR} /../lib
+					 /usr/local/lib
+					 /usr/lib)
 
 ## --- Unit testing config --
 	LIST(APPEND UnitTestLibs ${CPPUNIT_LIBRARY})
@@ -103,14 +108,15 @@ include_directories(${UTESTS_ST_DIR})
         )
 
 #Add all unit tests in addition to all source files.
-add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} )
+add_executable(UnitTester test_runner.cpp ${UTESTS_FILES} ${SOURCE_FILES} ${EASYLOGGINGPP_H} )
 target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 ## --- end Unit testing config --
 
 
 # Release
+include_directories(${LIBS_DIR})
 include_directories(${CORE_H_DIR})
 include_directories(${CORE_HT_DIR})
 include_directories(${CORE_DIR}/src)
-add_executable(sso main.cpp ${SOURCE_FILES})
+add_executable(sso main.cpp ${SOURCE_FILES} ${EASYLOGGINGPP_H})
 target_link_libraries(sso ${LIBS})
