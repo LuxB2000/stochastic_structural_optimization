@@ -23,7 +23,9 @@
 #include <iostream>
 #include <map>
 #include <vector>
+
 #include "Point.h"
+#include "easylogging++.h"
 
 //TODO: move some where else
 // expected coord [0,10[ with 1E-3 precision => 1E4 max points in one direction, lets MAXDIMSPACE=10*max points

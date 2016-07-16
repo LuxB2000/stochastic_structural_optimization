@@ -6,16 +6,18 @@ PointManager::PointManager(){
 	m_points = new PointMapType();
 	m_connexions = new ConnexionMapType();
 
-	std::clog << ">>[PointManager] Point data initialized with " << m_points->size() << " points, Connexions data inialized with " << m_connexions->size() << "." << std::endl;
+	LOG(INFO) << ">>[PointManager] Point data initialized with " << m_points->size() << " points, Connexions data inialized with " << m_connexions->size() << "." << std::endl;
 }
 
 PointManager::~PointManager(){
-	std::clog << ">> [PointManager] clean the Point data base (containing " << m_points->size() <<" elements) and the Connexions data base (containing " << m_connexions->size() << ")." << std::endl;
+
+	int nbrPts = 0, nbrConn = 0;
 
 	if( m_points ){
 		for(PointMapType::iterator it=m_points->begin(); it!=m_points->end(); ++it){
 			if(it->second){
 				delete it->second;
+				nbrPts ++;
 			}
 		}
 		delete m_points;
@@ -25,10 +27,13 @@ PointManager::~PointManager(){
 		for(ConnexionMapType::iterator it=m_connexions->begin(); it!=m_connexions->end(); ++it){
 			if(it->second){
 				delete it->second; // delete a vector of pointer
+				nbrConn ++;
 			}
 		}
 		delete m_connexions;
 	}
+
+	LOG(INFO) << ">> [PointManager] clean the Point data base (containing " << nbrPts <<" elements) and the Connexions data base (containing " << nbrConn  << ")." << std::endl;
 
 }
 
