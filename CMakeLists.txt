@@ -8,8 +8,10 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 set(CORE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core")
 set(CORE_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers")
 set(CORE_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src")
-set(CORE_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Truss")
+set(CORE_TH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Truss")
 set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
+set(CORE_EH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Exception")
+set(CORE_ES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Exception")
 
 
 ## -- Source files --
@@ -19,22 +21,25 @@ set(SOURCE_FILES
 			core/headers/Point.h core/src/Point.cpp
 			core/headers/math_tools.h
 
+			${CORE_ES_DIR}/AbstractException.cpp
+			${CORE_EH_DIR}/sso_exception.h
+
 			# Point Manager
 			${CORE_H_DIR}/PointManager ${CORE_S_DIR}/PointManager.cpp
 
 
 			core/headers/StructuralElement.h core/src/StructuralElement.cpp
 			# simple truss objects
-			${CORE_HT_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
-			${CORE_HT_DIR}/AbstractTruss.h ${CORE_ST_DIR}/AbstractTruss.cpp
-			${CORE_HT_DIR}/SimpleTruss.h ${CORE_ST_DIR}/SimpleTruss.cpp
+			${CORE_TH_DIR}/InternalTrussObject.h ${CORE_ST_DIR}/InternalTrussObject.cpp
+			${CORE_TH_DIR}/AbstractTruss.h ${CORE_ST_DIR}/AbstractTruss.cpp
+			${CORE_TH_DIR}/SimpleTruss.h ${CORE_ST_DIR}/SimpleTruss.cpp
 
 			core/headers/GramSchmidtProcess.h core/src/GramSchmidtProcess.cpp
 			core/headers/StiffnessMatrixBuilder.h core/src/StiffnessMatrixBuilder.cpp
 			core/headers/TrussSolver.h core/src/TrussSolver.cpp
 
 			# complex truss object
-			${CORE_HT_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
+			${CORE_TH_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
 
 			# complex structure
 			core/headers/Frame.h core/src/Frame.cpp
@@ -78,6 +83,8 @@ set(UTESTS_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers")
 set(UTESTS_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src")
 set(UTESTS_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Truss")
 set(UTESTS_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Truss")
+#set(UTESTS_ET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Exception")
+#set(UTESTS_ET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Exception")
 
 include_directories(${UTESTS_H_DIR})
 include_directories(${UTESTS_S_DIR})
@@ -89,6 +96,8 @@ include_directories(${UTESTS_ST_DIR})
 					core/headers/Types.h
 					core/headers/Material.h
 					core/headers/math_tools.h
+
+					core/
 
 					${UTESTS_H_DIR}/PointManagerTest.h ${UTESTS_S_DIR}/PointManagerTest.cpp
 
@@ -115,8 +124,9 @@ target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 
 # Release
 include_directories(${LIBS_DIR})
+include_directories(${CORE_EH_DIR})
 include_directories(${CORE_H_DIR})
-include_directories(${CORE_HT_DIR})
+include_directories(${CORE_TH_DIR})
 include_directories(${CORE_DIR}/src)
 add_executable(sso main.cpp ${SOURCE_FILES} ${EASYLOGGINGPP_H})
 target_link_libraries(sso ${LIBS})
