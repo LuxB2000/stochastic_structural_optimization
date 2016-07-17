@@ -19,10 +19,6 @@
 // Initialize the logger, !! use the script only one time.
 INITIALIZE_EASYLOGGINGPP
 
-// HERE add your unit test library
-#include "BasicTest.h"
-#include "PointTest.h"
-
 class ProgressListener : public CPPUNIT_NS::TestListener {
 public:
 
