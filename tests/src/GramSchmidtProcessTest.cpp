@@ -76,8 +76,6 @@ void GramSchmidtProcessTest::process_tests(void) {
     t1 = (e1==s1); t2 = (e2==s2); t3=(e3==s3);
     CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {1/sqrt(3),1/sqrt(3),1/sqrt(3)}", 3.0, (double)sum(t1));
     CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {-1/sqrt(2),1/sqrt(2),0}", 3.0, (double)sum(t2));
-		std::cout << s3 << std::endl;
-		std::cout << e3 << std::endl;
     //CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect {1,0,0}", 3.0, (double)sum(t3));
 
     v = {-1.0,1.0,0.0};
