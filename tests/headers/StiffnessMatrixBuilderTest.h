@@ -1,6 +1,6 @@
 //
 // Created by plumat on 20/04/16.
-//
+// need to test other Build()?
 
 #ifndef SSO_StiffnessMatrixBuilderTest_H
 #define SSO_StiffnessMatrixBuilderTest_H

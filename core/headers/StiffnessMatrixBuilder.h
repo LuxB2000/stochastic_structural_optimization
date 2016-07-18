@@ -29,7 +29,16 @@ public:
      *          ! (0<=joinId<nbr_dof)
      */
     //void Build(StiffnessMatrixType* kl, TransformationMatrixType* cl, unsigned int jointId1, unsigned int jointId2);
-    void Build(StiffnessMatrixType* kl, TransformationMatrixType* cl, Point::IndexType jointId1, Point::IndexType jointId2);
+    void Build(StiffnessMatrixType* kl, TransformationMatrixType* cl, unsigned int jointId1, unsigned int jointId2);
+
+    /*
+     * Build the GLOBAL stiffness matrix based on 
+     * - a truss element stiffness matrix in global coordinates kg 
+     * - the two joints ID delimiting the truss
+     *          ! joindId1 < joindId2
+     *          ! (0<=joinId<nbr_dof)
+     */
+    void Build(StiffnessMatrixType* kg, Point::IndexType jointId1, Point::IndexType jointId2);
 
     // getter
     const StiffnessMatrixType GetStiffnessMatrix();
@@ -39,6 +48,7 @@ private:
     typedef arma::fmat InternalTransformationMatrixType;
     int m_kg_truss_sz;
     StiffnessMatrixType* m_kg_truss;
+		void m_build(StiffnessMatrixType* kl, unsigned int id1, unsigned int id2);
 };
 
 #endif //SSO_STIFFNESSMATRIX_H
