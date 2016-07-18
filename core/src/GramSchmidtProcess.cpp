@@ -16,7 +16,13 @@ GramSchmidtProcess::~GramSchmidtProcess() {
 void GramSchmidtProcess::ComputeOrthonormalBasisFromVector(VectorType *v, VectorType *e1, VectorType *e2,
                                                            VectorType *e3) {
 
-    //TODO: check v!={0,0,0}
+    //check v!={0,0,0}, if so, return {0,0,0} in all vectors
+		if( (*v)(0)==0 && (*v)(1)==0 && (*v)(2)==0 ){
+			(*e1)(0)=0; (*e1)(1)=0; (*e1)(2)=0;
+			(*e2)(0)=0; (*e2)(1)=0; (*e2)(2)=0;
+			(*e3)(0)=0; (*e3)(1)=0; (*e3)(2)=0;
+			return;
+		}
 
     VectorType s1 = {0.0,0.0,0.0}, s2 = {0.0,0.0,0.0}; // will be a basis (with input v)
     VectorType p = {0,0,0}, p2 = {0,0,0}; // the projections

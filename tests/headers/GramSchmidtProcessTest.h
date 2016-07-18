@@ -19,6 +19,7 @@ CPPUNIT_TEST_SUITE(GramSchmidtProcessTest);
 
         CPPUNIT_TEST(projection_tests);
         CPPUNIT_TEST(process_tests);
+        CPPUNIT_TEST(error_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -30,6 +31,7 @@ public:
 
     void projection_tests(void);
     void process_tests(void);
+    void error_tests(void);
 
 private:
     GramSchmidtProcess* m_gsp;
