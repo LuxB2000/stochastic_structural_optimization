@@ -100,7 +100,9 @@ void FrameTest::build_Simple3TrussFrame_tests(void){
 		{0,0,0, 0,0,0, 0,0,0, 0,0,0, 0,0,0 }  // W0=0 since encastre
 	};
 	StiffnessMatrixType k_frame =f3.GetStiffnessMatrix();
-	std::cout << k_frame.n_cols << "x" << k_frame.n_rows << std::endl;
-	std::cout << f3.GetStiffnessMatrix() << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect 15 columns in the Simple3TrussStructure",15,(int)k_frame.n_cols);
+	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect 15 rows in the Simple3TrussStructure",15,(int)k_frame.n_rows);
+	//std::cout << k_frame.n_cols << "x" << k_frame.n_rows << std::endl;
+	//std::cout << f3.GetStiffnessMatrix() << std::endl;
 }
 

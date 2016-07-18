@@ -22,3 +22,4 @@
 	- real coordinates world should be express in a relative way and take values between [0,10[
 		with a precision 1E-3.
 
+		difference between point index (unic identificater) and point id that is used to represent a point on the truss/scheme or represtentation. The point id is usually used at the Frame or Structure design.

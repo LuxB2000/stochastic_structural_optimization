@@ -101,10 +101,10 @@ void Simple3TrussFrame::m_BuildFrame(){
 									p3->y - m_truss_params->at(0),
 									p3->z );
 
-	std::cout << " ============================= " << std::endl;
-	std::cout << "TEST p0:" << *p0 << " p1:" << *p1
-		<< " p2:" << *p2 << " p3:" << *p3 << " p4: " << *p4<< std::endl;
-	std::cout << " ============================= " << std::endl;
+	//std::cout << " ============================= " << std::endl;
+	//std::cout << "TEST p0:" << *p0 << " p1:" << *p1
+	//	<< " p2:" << *p2 << " p3:" << *p3 << " p4: " << *p4<< std::endl;
+	//std::cout << " ============================= " << std::endl;
 
 	// truss 1
 	SimpleTruss* t0 = new SimpleTruss(p0,p1,m_cross_section,m_material_type);
@@ -120,11 +120,14 @@ void Simple3TrussFrame::m_BuildFrame(){
 	m_trusses->push_back(t3);
 	
 	// Create the global stiffness matrix
+	// the builder takes in input a stiffness matrix in GLOBAL coordinate and two points ids
+	// the Frame object is responsible of the point id management to construct the global 
+	// Frame Stiffness matrix in global coordinates.
 	StiffnessMatrixBuilder k_builder = StiffnessMatrixBuilder(m_dof*m_nbrOfPoint);
-	k_builder.Build(t0->GetStiffnessMatrixInGlobalCoordPointer(),t1->GetStiffnessMatrixInGlobalCoordPointer(),0,1);
-	k_builder.Build(t1->GetStiffnessMatrixInGlobalCoordPointer(),t2->GetStiffnessMatrixInGlobalCoordPointer(),1,2);
-	k_builder.Build(t2->GetStiffnessMatrixInGlobalCoordPointer(),t3->GetStiffnessMatrixInGlobalCoordPointer(),2,3);
-
+	k_builder.Build(t0->GetStiffnessMatrixInGlobalCoordPointer(),0,1);
+	k_builder.Build(t1->GetStiffnessMatrixInGlobalCoordPointer(),1,2);
+	k_builder.Build(t2->GetStiffnessMatrixInGlobalCoordPointer(),2,3);
+	k_builder.Build(t3->GetStiffnessMatrixInGlobalCoordPointer(),3,4);
 	m_stiffness = k_builder.GetStiffnessMatrix();
 }// end function Simple3TrussFrame::m_BuildFrame
 
