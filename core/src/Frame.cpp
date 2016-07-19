@@ -114,6 +114,8 @@ void Simple3TrussFrame::m_BuildFrame(){
 	// truss 3
 	SimpleTruss* t3 = new SimpleTruss(p3,p4,m_cross_section,m_material_type);
 
+	//std::cout << t1->GetStiffnessMatrixInGlobalCoord() << std::endl;
+
 	m_trusses->push_back(t0);
 	m_trusses->push_back(t1);
 	m_trusses->push_back(t2);
