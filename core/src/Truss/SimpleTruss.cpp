@@ -46,8 +46,11 @@ SimpleTruss::SimpleTruss(
 
 
 		// populate the matrices
+		StiffnessMatrixBuilder stiffBuilder = StiffnessMatrixBuilder(
+			2*3);// 3 points * nbr of dof
+		stiffBuilder.Build( t->GetLocalStiffnessMatrixPointer(), t->GetLocalTransformationMatrixPointer(), 0, 1 );
+		m_k = new StiffnessMatrixType( stiffBuilder.GetStiffnessMatrix() );
     m_c = new TransformationMatrixType( t->GetLocalTransformationMatrix());
-    m_k = new StiffnessMatrixType( t->GetLocalStiffnessMatrix() );
 		m_PopulateForceDisplacementvectors();
 }
 

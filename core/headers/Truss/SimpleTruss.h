@@ -22,6 +22,7 @@
 
 #include "AbstractTruss.h"
 #include "InternalTrussObject.h"
+#include "StiffnessMatrixBuilder.h"
 
 class SimpleTruss : public AbstractTruss{
 public:
