@@ -1,56 +1,54 @@
 /*
  * =====================================================================================
  *
- *       Filename:  FrameTest.h
+ *       Filename:  Simple5TrussFrame.h
  *
- *    Description:  Unit tests for the Frame Class
+ *    Description:  Simple5TrussFrame unit tests
  *
  *        Version:  1.0
- *        Created:  02/06/16 13:04:20
+ *        Created:  20/07/16 16:09:16
  *       Revision:  none
  *       Compiler:  gcc
  *
- *         Author:  Jerome Plumat (JP)
+ *         Author:  Jerome Plumat (JP), j.plumat@auckland.ac.nz
+ *        Company:  UoA, Auckand, NZ
  *
  * =====================================================================================
  */
-
-#ifndef sso_FRAMETEST_H
-#define sso_FRAMETEST_H
+#ifndef sso_SIMPLE3TRUSSFRAMETEST_H
+#define sso_SIMPLE3TRUSSFRAMETEST_H
 
 #include <cppunit/TestCase.h>
 #include <cppunit/TestFixture.h>
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "Frame.h"
+#include "Simple5TrussFrame.h"
+#include "TrussSolver.h"
 
-class FrameTest :
+class Simple5TrussFrameTest :
 	public CPPUNIT_NS::TestFixture{
 
-    CPPUNIT_TEST_SUITE(FrameTest);
+    CPPUNIT_TEST_SUITE(Simple5TrussFrameTest);
 
 			CPPUNIT_TEST(basic_tests);
-			CPPUNIT_TEST(parameters_tests);
-			CPPUNIT_TEST(build_Simple3TrussFrame_tests);
+			CPPUNIT_TEST(build_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
 public:
-		FrameTest();
-		virtual ~FrameTest();
+		Simple5TrussFrameTest();
+		virtual ~Simple5TrussFrameTest();
 		void setUp();
 		void tearDown();
 
 		// tests
     void basic_tests(void);
-		void parameters_tests(void);
-		void stiffness_test(void);
-
-		void build_Simple5TrussFrame_tests(void);
-		void build_Simple3TrussFrame_tests(void);
+		void build_tests(void);
 
 private:
 	Point* origin;
 };
 
 #endif
+
+

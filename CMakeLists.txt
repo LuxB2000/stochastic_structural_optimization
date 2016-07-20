@@ -12,6 +12,8 @@ set(CORE_TH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Truss")
 set(CORE_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Truss")
 set(CORE_EH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Exception")
 set(CORE_ES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Exception")
+set(CORE_FH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Frame")
+set(CORE_FS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Frame")
 
 
 ## -- Source files --
@@ -42,7 +44,11 @@ set(SOURCE_FILES
 			${CORE_TH_DIR}/SimpleCornerTruss.h ${CORE_ST_DIR}/SimpleCornerTruss.cpp
 
 			# complex structure
-			core/headers/Frame.h core/src/Frame.cpp
+			${CORE_FS_DIR}/Frame.cpp
+			${CORE_FS_DIR}/TrussFrame.cpp
+			${CORE_FS_DIR}/Simple3TrussFrame.cpp
+			${CORE_FS_DIR}/Simple5TrussFrame.cpp
+
 			core/headers/Structure.h core/src/Structure.cpp
 			core/headers/TrussStructureBuilder.h core/src/TrussStructureBuilder.cpp
 )# end Set SOURCE_FILES
@@ -83,13 +89,14 @@ set(UTESTS_H_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers")
 set(UTESTS_S_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src")
 set(UTESTS_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Truss")
 set(UTESTS_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Truss")
-#set(UTESTS_ET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Exception")
-#set(UTESTS_ET_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Exception")
+set(UTESTS_FH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Frame")
+set(UTESTS_FS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Frame")
 
 include_directories(${UTESTS_H_DIR})
 include_directories(${UTESTS_S_DIR})
 include_directories(${UTESTS_HT_DIR})
 include_directories(${UTESTS_ST_DIR})
+include_directories(${UTESTS_FH_DIR})
 
 # set tests files
 	set(UTESTS_FILES
@@ -111,7 +118,11 @@ include_directories(${UTESTS_ST_DIR})
 				${UTESTS_HT_DIR}/SimpleCornerTrussTest.h ${UTESTS_ST_DIR}/SimpleCornerTrussTest.cpp
 
 
-				tests/headers/FrameTest.h tests/src/FrameTest.cpp
+				tests/headers/Frame/FrameTest.h tests/src/Frame/FrameTest.cpp
+				${UTESTS_FS_DIR}/Simple3TrussFrameTest.cpp
+				${UTESTS_FS_DIR}/Simple5TrussFrameTest.cpp
+
+
 				tests/headers/StructureTest.h tests/src/StructureTest.cpp
 				tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
         )
@@ -127,6 +138,7 @@ include_directories(${LIBS_DIR})
 include_directories(${CORE_EH_DIR})
 include_directories(${CORE_H_DIR})
 include_directories(${CORE_TH_DIR})
-include_directories(${CORE_DIR}/src)
+include_directories(${CORE_FH_DIR})
+#include_directories(${CORE_DIR}/src)
 add_executable(sso main.cpp ${SOURCE_FILES} ${EASYLOGGINGPP_H})
 target_link_libraries(sso ${LIBS})

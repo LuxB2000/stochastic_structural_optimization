@@ -1,76 +1,27 @@
-/*
- * =====================================================================================
- *
- *       Filename:  FrameTest.cpp
- *
- *    Description:  
- *
- *        Version:  1.0
- *        Created:  02/06/16 13:08:21
- *       Revision:  none
- *       Compiler:  gcc
- *
- *         Author:  Jerome Plumat (JP)
- *
- * =====================================================================================
- */
+#include "Simple3TrussFrameTest.h"
 
-#include "FrameTest.h"
-#include "TrussSolver.h"
+CPPUNIT_TEST_SUITE_REGISTRATION(Simple3TrussFrameTest);
 
-CPPUNIT_TEST_SUITE_REGISTRATION(FrameTest);
-
-FrameTest::FrameTest(){
+Simple3TrussFrameTest::Simple3TrussFrameTest(){
 }
 
-FrameTest::~FrameTest(){
+Simple3TrussFrameTest::~Simple3TrussFrameTest(){
 }
 
-void FrameTest::tearDown(){
-}
-
-void FrameTest::setUp(){
+void Simple3TrussFrameTest::setUp(){
 	origin = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 }
 
-void FrameTest::basic_tests(){
-	Simple5TrussFrame f = Simple5TrussFrame();
-	CPPUNIT_ASSERT_MESSAGE("We expect the parameter vector beeing initiate",f.GetParameters());
-	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect 7 parameter",7,(int)f.GetParameters()->size()); // the 10th is the material that is not stocked in that vector
+void Simple3TrussFrameTest::tearDown(){
+}
 
+void Simple3TrussFrameTest::basic_tests(void){
 	Simple3TrussFrame f3 = Simple3TrussFrame();
 	CPPUNIT_ASSERT_MESSAGE("We expect the parameter vector beeing initiate",f3.GetParameters());
 	CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect 3 parameters",3,(int)f3.GetParameters()->size());
 }
 
-void FrameTest::parameters_tests(void){
-	Material m = TEST;
-									// lv1 lv21 lv22 lh22 lv3  lh3 section, numbers in meter
-	FrameParametersVectorType param =	{1.75, 1.15, 0.6, 0.5, 0.30, 0.6, 0.08};
-	Simple5TrussFrame f = Simple5TrussFrame(origin, param, m);
-	CPPUNIT_ASSERT_MESSAGE("We expect to find the same parameters than inputs", param==*f.GetParameters());
-}
-
-void FrameTest::stiffness_test(){
-}
-
-/*
-void FrameTest::parameters_tests(void){
-																	// l1    l2   a2    l3    a3
-	FrameParametersVectorType param =	{1.5, 0.75, 43.2, 0.35, 90};
-	Simple5TrussFrame f = Simple5TrussFrame(origin, param);
-	CPPUNIT_ASSERT_MESSAGE("We expect to find the same parameters than inputs", param==*f.GetParameters());
-}
-*/
-
-void FrameTest::build_Simple5TrussFrame_tests(){
-	Material m = TEST;
-	FrameParametersVectorType param =	{1.75, 1.15, 0.6, 0.5, 0.30, 0.6, 0.08};
-	Simple5TrussFrame f = Simple5TrussFrame(origin, param, m);
-
-}
-
-void FrameTest::build_Simple3TrussFrame_tests(void){
+void Simple3TrussFrameTest::build_tests(void){
 	//
 	//      F
 	//      |
