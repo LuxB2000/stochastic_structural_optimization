@@ -33,7 +33,7 @@ InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_
             break;
         case TEST:
             // numbers coming from "Introduction to Finite Element Analysis Using Matlab and Abacus" Amar Khennane 2013
-            m_E = 2E5; // in MPa
+            m_E = 2E5*1E6; // in Pa
             break;
         default:
             m_E = 1.0;

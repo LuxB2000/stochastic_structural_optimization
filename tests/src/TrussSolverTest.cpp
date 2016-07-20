@@ -51,9 +51,9 @@ void TrussSolverTest::compute_all_tests() {
     // p3: no support -> no force -> 2 displacement possibles: dx,dy BUT one external force f3x=12kN
 
     // problem inputs
-    float A = 2300; // section in mm^2
+    float A = 2300E-6; // section in m^2
     float fx2 = 12000; //external force, in N
-    float x0=0.0, y0=0.0, z0=0.0, x1=4000.0, y1=0.0, z1=0.0, x2=4000.0, y2=6000.0, z2=0.0; // coord in millimeters
+    float x0=0.0, y0=0.0, z0=0.0, x1=4000.0E-3, y1=0.0, z1=0.0, x2=4000.0E-3, y2=6000.0E-3, z2=0.0; // coord in meters
 
     // defining the points
     Point* p0 = PointManager::GetInstance().GetPoint(x0,y0,z0), 
@@ -84,7 +84,7 @@ void TrussSolverTest::compute_all_tests() {
 
     //1 - find the displacements
     DisplacementVectorType disp = DisplacementVectorType(),
-        expected = {0,0,0, 0,0,0, 0.9635,(float)-0.2348,0};
+        expected = {0,0,0, 0,0,0, 0.9635E-3,(float)-0.2348E-3,0};
     TrussSolver solver = TrussSolver();
     solver.ComputeDisplacements( &disp,stiffnessMatrixBuilder.GetStiffnessMatrixPointer(),&f,&bc);
 
@@ -149,8 +149,8 @@ void TrussSolverTest::compute_all_tests() {
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",disp_local_coord(4),disp_local_coord2(1),1E-6);
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",disp_local_coord(5),disp_local_coord2(2),1E-6);
 
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.33913,disp_local_coord2(3),1E-4); // pt2
-    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)-0.9319,disp_local_coord2(4),1E-4);
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.33913E-3,disp_local_coord2(3),1E-6); // pt2
+    CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)-0.9319E-3,disp_local_coord2(4),1E-6);
     CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE("we expect to find the displacements in local coordinates",(float)0.0,disp_local_coord2(5),1E-6);
 
     //4 - find the internal forces

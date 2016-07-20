@@ -92,7 +92,7 @@ void FrameTest::build_Simple3TrussFrame_tests(void){
 	// Analysis Using Matlab and Abaqus", A. Khennane, page 110, 2013.
 	// param = {dim_y_SimpleTruss, dim_x_TopCornerTruss, dim_y_TopCornerTruss}
 	const unsigned int n_dof = 3, n_pt = 5;
-	double fy2 = -241E3;
+	double fy2 = -24E3; // express in Newtow
 
 	FrameParametersVectorType params = {5.0, 6.0, 1.0};
 	double cross_sec = 5310*1E-6; // in m^2
@@ -119,9 +119,9 @@ void FrameTest::build_Simple3TrussFrame_tests(void){
     bc.push_back({0,0}); // at joint 0, Rx=0
     bc.push_back({0,1}); // at joint 0, Ry=0
     bc.push_back({0,2}); // at joint 0, Rz=0
-    //bc.push_back({4,0}); // at joint 4, Rx=0
-    //bc.push_back({4,1}); // at joint 4, Ry=0
-    //bc.push_back({4,2}); // at joint 4, Rz=0
+    bc.push_back({4,0}); // at joint 4, Rx=0
+    bc.push_back({4,1}); // at joint 4, Ry=0
+    bc.push_back({4,2}); // at joint 4, Rz=0
 
     //1 - find the displacements
     DisplacementVectorType disp = DisplacementVectorType(),

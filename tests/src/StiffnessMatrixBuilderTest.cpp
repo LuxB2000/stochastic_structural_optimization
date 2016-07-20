@@ -46,11 +46,11 @@ void StiffnessMatrixBuilderTest::building_tests(){
     int N = 3;
     // each point has 3 degrees of freedom - since SimpleTruss only
     int dof = 3;
-    float A = 2300; // in mm^2
+    float A = 2300E-6; // in m^2
     StiffnessMatrixBuilder k_builder = StiffnessMatrixBuilder(N*dof);
-    // first truss: from joint 0 and joint 1
+    // first truss: from joint 0 and joint 1, coordintes in meters
     Point* a = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
-    Point* b =  PointManager::GetInstance().GetPoint(4000.0,0.0,0.0);
+    Point* b =  PointManager::GetInstance().GetPoint(4.0,0.0,0.0);
     InternalTrussObject truss = InternalTrussObject(a,b,A,TEST);
     float coef = (float) ( truss.GetCrossSection()*truss.GetYoungModulus()/truss.GetLength() );
     StiffnessMatrixType expected = {
@@ -72,7 +72,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
     CPPUNIT_ASSERT_EQUAL_MESSAGE("We expect to find a binary matrix with only 1 values",81,static_cast<int>(sum(sum(test,1))));
 
     // add an other truss between joint 1 and 2
-    Point* b1 =  PointManager::GetInstance().GetPoint(4000.0,6000.0,0.0);
+    Point* b1 =  PointManager::GetInstance().GetPoint(4.0,6.0,0.0);
     InternalTrussObject truss1 = InternalTrussObject(b,b1,A,TEST);
     float coef1 = (float) ( truss1.GetCrossSection()*truss1.GetYoungModulus()/truss1.GetLength() );
     StiffnessMatrixType expected1 = {

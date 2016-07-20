@@ -85,7 +85,7 @@ void SimpleCornerTrussTest::stiffness_tests(){
 	Point* p0 = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 	Point* p1 = PointManager::GetInstance().GetPoint(0.5,1.0,0.0);
 	Point* p2 = PointManager::GetInstance().GetPoint(2.0,2.3,0.0);
-	float area = 0.00002; // in mm^2
+	float area = 0.00002E-6; // in m^2
 	float c0 = 0.0, s0 = 0.0, c1 =0.0, s1 = 0.0,
 				 coef0 = 0.0, coef1 = 0.0;
 	Material m = TEST;
@@ -134,7 +134,7 @@ void SimpleCornerTrussTest::nodal_forces_tests(){
 	Point* p1 = PointManager::GetInstance().GetPoint(0.0,1.0,0.0);
 	Point* p2 = PointManager::GetInstance().GetPoint(1.0,2.5,0.0);
 	Material m = TEST;
-	float area = 200, // in mm^2
+	float area = 200E-6, // in m^2
 				fy2 = -1000; // in N, directed as gravity
 	
 	// build the global force vector, in format (fx0,fy0,fz0,...,fxN,fyN,fzN)

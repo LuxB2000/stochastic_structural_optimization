@@ -60,7 +60,7 @@ Simple3TrussFrame::Simple3TrussFrame(){
 	m_trusses = new TrussVector();
 	m_truss_params = new FrameParametersVectorType(m_numberOfInputsParams,0);
 	m_origin = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
-	m_cross_section = 1000; // in mm^2
+	m_cross_section = 1E-3; // in m^2
 	m_material_type = BASIC;
 	m_BuildFrame();
 }
