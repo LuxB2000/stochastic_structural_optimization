@@ -22,6 +22,7 @@ set(SOURCE_FILES
 			core/headers/Types.h
 			core/headers/Point.h core/src/Point.cpp
 			core/headers/math_tools.h
+			core/headers/sso_tools.h
 
 			${CORE_ES_DIR}/AbstractException.cpp
 			${CORE_EH_DIR}/sso_exception.h

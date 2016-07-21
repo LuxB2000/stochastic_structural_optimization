@@ -26,6 +26,7 @@
 #define sso_SIMPLE3TRUSSFRAME_H
 
 #include "TrussFrame.h"
+#include "sso_exception.h"
 
 class Simple3TrussFrame : public TrussFrame{
 public: 

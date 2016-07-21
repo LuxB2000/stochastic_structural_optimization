@@ -31,5 +31,11 @@ class FatalException : public Exception{
 public:
 	FatalException(const char* message) : Exception(message){}
 };
+
+class WrongNumberOfParametersException : public Exception{
+	public:
+		WrongNumberOfParametersException(const char* msg) : Exception( msg ){
+		}
+};
 #endif
 

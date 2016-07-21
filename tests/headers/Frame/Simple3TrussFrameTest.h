@@ -32,6 +32,7 @@ class Simple3TrussFrameTest :
 
 			CPPUNIT_TEST(basic_tests);
 			CPPUNIT_TEST(build_tests);
+			CPPUNIT_TEST(exception_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -44,6 +45,7 @@ public:
 		// tests
     void basic_tests(void);
 		void build_tests(void);
+		void exception_tests(void);
 
 private:
 	Point* origin;

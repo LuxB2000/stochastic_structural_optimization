@@ -7,6 +7,7 @@
 #define SSO_POINT_H
 
 #include <iostream>
+#include "sso_tools.h"
 
 class Point{
 public:

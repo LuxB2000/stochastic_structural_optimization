@@ -12,8 +12,6 @@
  *
  *         Author:  Jerome Plumat (JP)
  *
- * TODO: return exception or error if the parameter vector does not contain
- * the correct number of elements.
  * =====================================================================================
  */
 

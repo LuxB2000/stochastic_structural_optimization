@@ -6,7 +6,7 @@
  */
 Simple3TrussFrame::Simple3TrussFrame(){
 	m_trusses = new TrussVector();
-	m_truss_params = new FrameParametersVectorType(m_numberOfInputsParams,0);
+	m_truss_params = new FrameParametersVectorType(m_numberOfInputsParams,1.0);
 	m_origin = PointManager::GetInstance().GetPoint(0.0,0.0,0.0);
 	m_cross_section = 1E-3; // in m^2
 	m_material_type = BASIC;
@@ -18,6 +18,10 @@ Simple3TrussFrame::~Simple3TrussFrame(){
 
 Simple3TrussFrame::Simple3TrussFrame(Point* origin,
 	const FrameParametersVectorType v, double cross_sec, Material mat){
+
+	if( v.size() != m_numberOfInputsParams ){
+		throw WrongNumberOfParametersException( "[Simple3TrussFrame] Wrong number of inputs parameters." );
+	}
 
 	m_trusses = new TrussVector();
 

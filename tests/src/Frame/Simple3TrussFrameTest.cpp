@@ -88,5 +88,18 @@ void Simple3TrussFrameTest::build_tests(void){
 //		std::cout << f << std::endl;
 }
 
+void Simple3TrussFrameTest::exception_tests(){
+	FrameParametersVectorType params_wrong_number_of_params = {1.0, 5.0, 6.0, 1.0};
+	double cross_sec = 5310*1E-6; // in m^2
+	Material mat_type = TEST;
+	bool exc_catched = false;
 
+	// catch an expection
+	try{
+		Simple3TrussFrame f3 = Simple3TrussFrame(origin,params_wrong_number_of_params,cross_sec,mat_type);
+	}catch(WrongNumberOfParametersException &exc){
+		exc_catched = true;
+	}
+	CPPUNIT_ASSERT_MESSAGE( "We assume to get an exception due to wrong number of input parameters", exc_catched );
+}
 
