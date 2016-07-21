@@ -31,6 +31,7 @@ class StructureTest :
 
 			CPPUNIT_TEST(basic_tests);
 			CPPUNIT_TEST(origin_tests);
+			CPPUNIT_TEST(build_tests);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -43,6 +44,7 @@ public:
 		// tests
     void basic_tests(void);
 		void origin_tests(void);
+		void build_tests(void);
 };
 
 
