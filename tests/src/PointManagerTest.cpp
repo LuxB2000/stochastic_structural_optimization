@@ -58,6 +58,18 @@ void PointManagerTest::add_point_test(){
 		p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
 		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p3->x==x3 && p3->y==y3 & p3->z==z3);
 
+		x3=0.121; y3=1.0; z3=2.0;
+		x2=0.122; y2=1.0; z2=2.0;
+		x=0.123; y=1.0; z=2.0;
+		p = PointManager::GetInstance().GetPoint(x,y,z);
+		p2 = PointManager::GetInstance().GetPoint(x2,y2,z2);
+		p3 = PointManager::GetInstance().GetPoint(x3,y3,z3);
+		std::cout << *p3 << std::endl;
+		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p3->x==x3 && p3->y==y3 & p3->z==z3);
+		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p2->x==x2 && p2->y==y2 & p3->z==z2);
+		CPPUNIT_ASSERT_MESSAGE("Expect the manager to find the same point",p->x==x && p->y==y & p->z==z);
+
+
 }
 
 void PointManagerTest::connexion_test(){

@@ -38,7 +38,9 @@ PointManager::~PointManager(){
 }
 
 PointManager::IndexType PointManager::m_fromCoordToIndex( float x, float y, float z){
-		IndexType id =  x + y * MAXDIMSPACE + z*MAXDIMSPACE*MAXDIMSPACE;
+		IndexType id = (IndexType)( x*(float)MAXDIMSPACE ) +
+									 (IndexType)( y * (float)( MAXDIMSPACE*MAXDIMSPACE ))+
+									 (IndexType)( z* (float)(MAXDIMSPACE*MAXDIMSPACE*MAXDIMSPACE));
 	// std::cout << ">> coord:["<<x<<","<<y<<","<<z<<"] index: " << id << std::endl;
 	return id;
 }
