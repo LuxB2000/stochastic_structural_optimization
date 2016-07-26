@@ -38,7 +38,7 @@ void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kl, TransformationMatrix
 
 }
 
-void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kg, Point::IndexType jointId1, Point::IndexType jointId2){
+void StiffnessMatrixBuilder::Build(StiffnessMatrixType* kg, JointIdType jointId1, JointIdType jointId2){
 		m_build(kg,jointId1,jointId2);
 }
 
@@ -74,5 +74,30 @@ void StiffnessMatrixBuilder::m_build(StiffnessMatrixType* kg,
 
 }
 
+void StiffnessMatrixBuilder::Build(
+		StiffnessMatrixType* kg, 
+		StiffnessMatrixBuilder::JointIdVectorType jointIdList){
 
+	// be sure we the ids are ordered
+	std::sort( jointIdList.begin(), jointIdList.end() );
 
+	// construct the new stiffness matrix
+	unsigned int c=0, r=0, nbrDOF=3,
+							 nc1=kg->n_cols, nr1=kg->n_rows;
+	int cc = -1, cr = -1, mc = 0, mr = 0;
+	bool found = true;
+
+	for( r=0; r<nr1; r++ ){
+		mr = (r % nbrDOF);
+		if( mr == 0 ) cr ++;
+		cc = -1;
+		for( c=0; c<nc1; c++ ){
+			mc = (c % nbrDOF);
+			if( mc == 0 ) cc ++;
+			(*m_kg_truss)(jointIdList[cr]*nbrDOF+mr, jointIdList[cc]*nbrDOF+mc) =
+				(*m_kg_truss)(jointIdList[cr]*nbrDOF+mr, jointIdList[cc]*nbrDOF+mc)+
+				(*kg)(r,c);
+		}
+	}
+
+}//end Build function

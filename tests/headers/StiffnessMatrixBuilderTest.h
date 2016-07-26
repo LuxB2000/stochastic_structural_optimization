@@ -18,6 +18,7 @@ class StiffnessMatrixBuilderTest  : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE(StiffnessMatrixBuilderTest);
         CPPUNIT_TEST(basic_tests);
         CPPUNIT_TEST(building_tests);
+        CPPUNIT_TEST(matrix_building_tests);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -27,7 +28,11 @@ public:
     void tearDown();
 
     void basic_tests(void);
+		// test the construction of the stiffness matrices in simple scenario
     void building_tests(void);
+		// test the combinasion of two stiffness matrices with set of points
+		// this method 
+    void matrix_building_tests(void);
 };
 
 

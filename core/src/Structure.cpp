@@ -67,6 +67,7 @@ void Structure::Build(){
 	int f=0;
 	//TODO compute the frames' origins
 	for(f=0; f<m_inputNbrOfFrames; f++){
+		// TODO: discover the type of Truss based on the number of parameters?
 		Simple3TrussFrame* f3 = new Simple3TrussFrame(m_origin,*m_frame_params,m_crossSection, m_material_type);
 		m_frames->push_back(f3);
 	}
