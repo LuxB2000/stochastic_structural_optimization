@@ -78,10 +78,10 @@ void Simple3TrussFrame::m_BuildFrame(){
 	// the Frame object is responsible of the point id management to construct the global 
 	// Frame Stiffness matrix in global coordinates.
 	StiffnessMatrixBuilder k_builder = StiffnessMatrixBuilder(m_dof*m_nbrOfPoint);
-	k_builder.Build(t0->GetStiffnessMatrixInGlobalCoordPointer(),0,1);
-	k_builder.Build(t1->GetStiffnessMatrixInGlobalCoordPointer(),1,2);
-	k_builder.Build(t2->GetStiffnessMatrixInGlobalCoordPointer(),2,3);
-	k_builder.Build(t3->GetStiffnessMatrixInGlobalCoordPointer(),3,4);
+	k_builder.Build(t0->GetStiffnessMatrixInGlobalCoordPointer(),{0,1});
+	k_builder.Build(t1->GetStiffnessMatrixInGlobalCoordPointer(),{1,2});
+	k_builder.Build(t2->GetStiffnessMatrixInGlobalCoordPointer(),{2,3});
+	k_builder.Build(t3->GetStiffnessMatrixInGlobalCoordPointer(),{3,4});
 	m_stiffness = k_builder.GetStiffnessMatrix();
 }// end function Simple3TrussFrame::m_BuildFrame
 

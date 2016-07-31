@@ -27,6 +27,7 @@ InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_
     m_f = new ForceVectorType(3,arma::fill::zeros);
 
     // specified the Young's modulus based on the material type
+		// TODO: move values into a const structure in Material.h
     switch (m_material){
         case BASIC:
             m_E = 1.0;
@@ -44,7 +45,7 @@ InternalTrussObject::InternalTrussObject(Point* s_pt, Point *e_pt, double cross_
     // local stiffness matrix
     m_k = new StiffnessMatrixType(6,6,arma::fill::zeros); // 6x6 matrix with 0 values
     /*
-     * x, y and z axis correspond to the coordinate system
+     * x, y and z axis correspond to the LOCAL coordinate system
      * nodal forces    stiffness matrix    displacements
      * | qxl_1 |     | 1  0  0 -1  0  0 |    | u_1 |
      * | qyl_1 |     | 0  0  0  0  0  0 |    | v_1 |
