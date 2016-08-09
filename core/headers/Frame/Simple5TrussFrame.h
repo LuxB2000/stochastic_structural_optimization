@@ -40,6 +40,7 @@ public:
 	Simple5TrussFrame(Point* origin, FrameParametersVectorType v, Material m);
 	Simple5TrussFrame(Point* origin, float lv1, float lv21, float lv22, float lh22, float lv3, float lh3, float section, Material m );
 	~Simple5TrussFrame();
+	void SetElementForcesInGlobalCoordinates(ForceVectorType fext);
 private:
 	typedef std::vector<AbstractTruss*> TrussesVectorType;
 	void m_BuildFrame();

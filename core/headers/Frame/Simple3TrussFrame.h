@@ -33,6 +33,7 @@ public:
 	Simple3TrussFrame();
 	~Simple3TrussFrame();
 	Simple3TrussFrame(Point* origin, const FrameParametersVectorType v, double cross_sec, Material mat_type);
+	void SetElementForcesInGlobalCoordinates(ForceVectorType fext);
 private:
 	void m_BuildFrame();
 	static const unsigned int m_numberOfInputsParams = 3;

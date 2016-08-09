@@ -13,6 +13,13 @@ proof of concept illustrating the evolutionnary algorithm applied to structural 
 
 > cmake ..
 
-## Run
+## Run Unit tests
 Run the unit tests with:
 > ./UnitTester
+
+## Run EASEA optimization
+- cd easea/v0.1
+- easea optimizer.ez
+- make
+- ./optimizer
+

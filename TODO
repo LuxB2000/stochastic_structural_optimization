@@ -1,7 +1,7 @@
 - check with UT if the simpleCornerTruss could be used as a TopCornerTruss
 
-- Error and exception
-- logger
+- ForceElement is equal to Inf in structure ...
+- Be sure that the ElementForce vector is coherent along the code (It is not the case right now, check structure, GetMaximalElementlForce)
 
 - Truss
 
@@ -23,3 +23,42 @@
 		with a precision 1E-3.
 
 		difference between point index (unic identificater) and point id that is used to represent a point on the truss/scheme or represtentation. The point id is usually used at the Frame or Structure design.
+
+## OLD DOC
+This project aims to play with the EASE platform (see http://easea.unistra.fr/easea/index.php/EASEA_platform )
+and house building.
+
+
+#EASEA
+Manual: http://easea.unistra.fr/easea/index.php/EASEA_command_line
+
+$ cd easea/v0.1
+
+To Compile EASEA file:
+  $ easea main.ez
+  $ make
+or the CUDA version:
+  $ easea -cuda main.ez
+  $ make
+
+To test it:
+  $ ./main
+
+To clean easea related file:
+ $ make easeaclean
+
+!! WARNING: you need to reference the EASEA_house library when you compile the
+EASEA file. To do so, you need to specify the path where it is compile in the
+*.ez file in section `User Makefile options` using the standard CPPFLAGS and
+LDFLAGS variables.
+exemple (on MacOs, v...TODO):
+(!!!! This could be really different in your system, future versions will profide
+pre-compiled libraries)
+LDFLAGS += -g /home/plumat/workspace/EASEA_house/bin/Release/libEASEA_house.so
+
+// version
+v0.1.a: single beam, goal: find beam rotate to 90 degrees along X0 + min translation
+v0.1.b: multi beam, same goal
+v0.1.c: incoporate the object gestion
+v0.1.d: 2 beams must be linked
+

@@ -25,6 +25,7 @@ public:
      */
     void ComputeDisplacements(DisplacementVectorType* disp, StiffnessMatrixType* K, ForceVectorType* f, BoundaryConditionsVectorType* bcv);
 
+		//TODO: CHANGE-> NOT support reaction but ElementStress (?, to confirm)
     void ComputeSupportReaction(DisplacementVectorType* disp, StiffnessMatrixType* K, ForceVectorType* f, BoundaryConditionsVectorType* bcv);
 
 };

@@ -35,6 +35,7 @@ public:
 	// setters
 	// =======
 	void SetNodalDisplacementInGlobalCoordinates(DisplacementVectorType disp);
+	void SetElementForceInGlobalCoordinates(ForceVectorType f);
 
 	// getters
 	// =======

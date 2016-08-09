@@ -78,3 +78,5 @@ void Simple5TrussFrame::m_BuildFrame(){
 
 }
 
+void Simple5TrussFrame::SetElementForcesInGlobalCoordinates(ForceVectorType fext){
+}

@@ -33,3 +33,7 @@ Frame::~Frame(){
 const StiffnessMatrixType Frame::GetStiffnessMatrix(){
     return StiffnessMatrixType(m_stiffness);
 }
+
+StiffnessMatrixType* Frame::GetStiffnessMatrixPointer(){
+	return &m_stiffness;
+}

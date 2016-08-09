@@ -22,13 +22,18 @@
 
 class TrussFrame : public Frame{
 public:
+	typedef std::vector<ElementForceVectorType*> ForceVectorVectorType;
 	TrussFrame();
 	~TrussFrame();
+	virtual void SetElementForcesInGlobalCoordinates(ForceVectorType fext) = 0;
+	ForceVectorVectorType* GetElementForcesInLocalCoordinates(){ return m_elementForceLC; }
 protected:
 	typedef std::vector<AbstractTruss*> TrussVector;
 	TrussVector* m_trusses;
 	static const unsigned int m_dof = 3;
 	static const unsigned int m_nbrOfPoint = 5;
+	// element forces in local coordinates
+	ForceVectorVectorType* m_elementForceLC;
 };
 
 

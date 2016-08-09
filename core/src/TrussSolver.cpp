@@ -29,6 +29,7 @@ void TrussSolver::ComputeDisplacements(DisplacementVectorType *disp, StiffnessMa
         }
     }
 
+		// solve the system using armadillo
     solve(*disp,K_reduced,*f,arma::solve_opts::fast);
 }
 void TrussSolver::ComputeSupportReaction(DisplacementVectorType *disp, StiffnessMatrixType *K, ForceVectorType *f,

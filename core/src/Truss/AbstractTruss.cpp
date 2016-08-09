@@ -89,3 +89,18 @@ void AbstractTruss::m_PopulateForceDisplacementvectors(){
 	}
 }
 
+
+void AbstractTruss::SetElementForceInGlobalCoordinates(ForceVectorType f){
+	unsigned int i=0, l=0, j=0;
+	const unsigned int ndof = 3;
+	ForceVectorType fTruss = ForceVectorType(ndof*2); // *2 since two point per InternalTruss
+
+	m_elementForces = new ElementForceVectorType();
+
+	l = m_internalTrussVector->size();
+	for( i=0; i<l; i++ ){
+		for( j=0; j<ndof*2; j++ ) fTruss(j) = f(i*ndof+j);
+		m_internalTrussVector->at(i)->SetNodalDisplacementInGlobalCoordinates(fTruss);
+		m_elementForces->push_back( m_internalTrussVector->at(i)->GetInternalForcesPointer() );
+	}
+}

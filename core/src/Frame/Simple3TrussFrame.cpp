@@ -34,6 +34,7 @@ Simple3TrussFrame::Simple3TrussFrame(Point* origin,
 
 
 void Simple3TrussFrame::m_BuildFrame(){
+	m_elementForceLC = new ForceVectorVectorType();
 	// Create the set of Point
 	Point* p0 = m_origin;
 	Point* p1 = PointManager::GetInstance().GetPoint(
@@ -86,3 +87,17 @@ void Simple3TrussFrame::m_BuildFrame(){
 }// end function Simple3TrussFrame::m_BuildFrame
 
 
+void Simple3TrussFrame::SetElementForcesInGlobalCoordinates(ForceVectorType fint){
+	unsigned int ndof = 3;
+	unsigned int i=0, j=0, l=m_trusses->size();
+	ForceVectorType f = ForceVectorType(ndof*2);
+
+
+	for( i=0; i<l; i++){
+		for( j=0; j<2*ndof; j++ ){
+			f(j) = fint(i*ndof+j);
+		}
+		m_trusses->at(i)->SetElementForceInGlobalCoordinates(f);
+		m_elementForceLC->push_back(m_trusses->at(i)->GetElementForces());
+	}
+}

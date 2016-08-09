@@ -32,6 +32,7 @@ public:
 	}
 
 	const StiffnessMatrixType GetStiffnessMatrix();
+	StiffnessMatrixType* GetStiffnessMatrixPointer();
 
 protected:
 	Point* m_origin;
