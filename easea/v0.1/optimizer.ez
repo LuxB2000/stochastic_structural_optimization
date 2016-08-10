@@ -1,9 +1,23 @@
 /*_____________________________________________________________
 
-Template for an EASEA evolutionary algorithm for easea v1.0.3
+This is a simple version of the building structure design with 
+genetic algorithm.
 _______________________________________________________________*/
 
+// =================== FUNCTIONS AND CONSTANTS =================== 
+
 \User declarations : // This section is copied on top of the output file
+#define SIGMA 1.0 // mutation parameter
+#define GENOME_SIZE 3 // 3 parameters are required to define the v0.1 structure
+// first parameter height of the vertical truss
+#define X1_MIN 1.5 // minimal value of the first parameter in meter
+#define X1_MAX 4.0 // maximal value of the first parameter in meter
+// second parameter height of the top corner
+#define X2_MIN 0.5
+#define X2_MAX 2.0
+// third parameter, half of width
+#define X3_MIN 4.0
+#define X3_MAX 8.0
 \end
 
 \User functions:
@@ -11,13 +25,6 @@ _______________________________________________________________*/
 
 \User CUDA:
 //Transfert some variables to GPU here (cudaMalloc, MemCpy)
-\end
-
-\User classes :
-GenomeClass { 
-  // need to declare the genome here
-  int i;
-}
 \end
 
 \Before everything else function:
@@ -40,11 +47,22 @@ GenomeClass {
 //cout << "At each generation before replacement function called" << endl;
 \end
 
+// =================== GENOME DEFINITION =================== 
+\User classes :
+GenomeClass { 
+  // need to declare the genome here
+	float x[GENOME_SIZE];
+}
+\end
+
 \GenomeClass::display:
 \end
 
 \GenomeClass::initialiser : // "initializer" is also accepted
   // the genome to initialise is known as "Genome"
+	Genome.x[0] = (float)random(X1_MIN,X1_MAX);
+	Genome.x[1] = (float)random(X2_MIN,X2_MAX);
+	Genome.x[2] = (float)random(X3_MIN,X3_MAX);
 \end
 
 \GenomeClass::crossover : 
@@ -61,8 +79,12 @@ GenomeClass {
   return 0.0;
 \end
 
+// =================== MAKEFILE =================== 
+
 \User Makefile options: 
 \end
+
+// =================== PARAMETERS =================== 
 
 \Default run parameters :        // Please let the parameters appear in this order
   Number of generations : 100    // NB_GEN
