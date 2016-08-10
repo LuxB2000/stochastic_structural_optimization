@@ -127,12 +127,15 @@ void StructureTest::build_tests(){
 		double max_disp = 0, max_f = 0;
 
 		structure.GetMaximalNodalDisplacement(max_loc,&max_disp);
+		//std::cout << "TEST disp: " << max_disp << std::endl;
 		CPPUNIT_ASSERT_MESSAGE("We expect a maximal displacement different from 0",max_disp!=0);
+		CPPUNIT_ASSERT_MESSAGE("We expect a maximal displacement different from inf",!std::isinf(max_disp));
 
 //		std::cout << disp << std::endl;
 
     //2- find the support reactions in local coordinates
 		structure.GetMaximalElementlForce(max_loc,&max_f);
-		std::cout << "TEST: " << max_f << std::endl;
+		//std::cout << "TEST force: " << max_f << std::endl;
 		CPPUNIT_ASSERT_MESSAGE("We expect a maximal element force different from 0",max_f!=0);
+		CPPUNIT_ASSERT_MESSAGE("We expect a maximal element force different from inf",!std::isinf(max_f));
 }

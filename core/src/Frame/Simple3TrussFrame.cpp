@@ -91,8 +91,6 @@ void Simple3TrussFrame::SetElementForcesInGlobalCoordinates(ForceVectorType fint
 	unsigned int ndof = 3;
 	unsigned int i=0, j=0, l=m_trusses->size();
 	ForceVectorType f = ForceVectorType(ndof*2);
-
-
 	for( i=0; i<l; i++){
 		for( j=0; j<2*ndof; j++ ){
 			f(j) = fint(i*ndof+j);
