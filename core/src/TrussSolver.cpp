@@ -30,7 +30,13 @@ void TrussSolver::ComputeDisplacements(DisplacementVectorType *disp, StiffnessMa
     }
 
 		// solve the system using armadillo
-    solve(*disp,K_reduced,*f,arma::solve_opts::fast);
+		// check if the matrix is singular (det==0)
+		if( det(K_reduced) == 0 ){
+			// matrix is singular, used the Moore-Penrose pseudoinverse
+			*disp = pinv(K_reduced)*(*f);
+		}else{
+	    solve(*disp,K_reduced,*f,arma::solve_opts::fast);
+		}
 }
 void TrussSolver::ComputeSupportReaction(DisplacementVectorType *disp, StiffnessMatrixType *K, ForceVectorType *f,
                                          BoundaryConditionsVectorType *bcv) {
