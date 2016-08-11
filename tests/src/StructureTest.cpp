@@ -65,7 +65,6 @@ void StructureTest::build_tests(){
 	// p0|    | p4
 	/// ///  ///
 	//
-	//TODO: move in Structure
 	//
 	// The structure is composed of 3 Truss: 2 SimpleTruss and 1 TopCornerTruss
 	// Two fixed support in p0 and p4.
@@ -134,7 +133,7 @@ void StructureTest::build_tests(){
 //		std::cout << disp << std::endl;
 
     //2- find the support reactions in local coordinates
-		structure.GetMaximalElementlForce(max_loc,&max_f);
+		structure.GetMaximalElementForce(max_loc,&max_f);
 		//std::cout << "TEST force: " << max_f << std::endl;
 		CPPUNIT_ASSERT_MESSAGE("We expect a maximal element force different from 0",max_f!=0);
 		CPPUNIT_ASSERT_MESSAGE("We expect a maximal element force different from inf",!std::isinf(max_f));

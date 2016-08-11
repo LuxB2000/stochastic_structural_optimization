@@ -18,9 +18,45 @@ _______________________________________________________________*/
 // third parameter, half of width
 #define X3_MIN 4.0
 #define X3_MAX 8.0
+// useful function
+#define MAX(x,y) ((x)>(y)?(x):(y))
+#define MIN(x,y) ((x)<(y)?(x):(y))
+// probability of mutation per gene
+float probaMutPerGene=0.1;
 \end
 
 \User functions:
+
+#include <math.h>
+#include "prob_def.h"
+
+float gauss()
+/* Generates a normally distributed random value with variance 1 and 0 mean.
+    Algorithm based on "gasdev" from Numerical recipes' pg. 203. */
+{
+  static int iset = 0;
+  float gset = 0.0;
+  float v1 = 0.0, v2 = 0.0, r = 0.0;
+  float factor = 0.0;
+
+  if (iset) {
+        iset = 0;
+        return gset;
+      	}
+  else {    
+        do {
+            v1 = (float)random(0.,1.) * 2.0 - 1.0;
+            v2 = (float)random(0.,1.) * 2.0 - 1.0;
+            r = v1 * v1 + v2 * v2;
+	                }
+        while (r > 1.0);
+        factor = sqrt (-2.0 * log (r) / r);
+        gset = v1 * factor;
+        iset = 1;
+        return (v2 * factor);
+    	}
+}
+
 \end
 
 \User CUDA:
@@ -52,6 +88,8 @@ _______________________________________________________________*/
 GenomeClass { 
   // need to declare the genome here
 	float x[GENOME_SIZE];
+	// auto-adaptive mutation parameter
+	float sigma[GENOME_SIZE];
 }
 \end
 
@@ -59,29 +97,68 @@ GenomeClass {
 \end
 
 \GenomeClass::initialiser : // "initializer" is also accepted
-  // the genome to initialise is known as "Genome"
+	unsigned int i=0;
 	Genome.x[0] = (float)random(X1_MIN,X1_MAX);
 	Genome.x[1] = (float)random(X2_MIN,X2_MAX);
 	Genome.x[2] = (float)random(X3_MIN,X3_MAX);
+	for( i=0; i<GENOME_SIZE; i++ ){
+		Genome.sigma[i] = (float)random(0.0,0.5);
+	}
 \end
 
 \GenomeClass::crossover : 
   // must create "child" out of "parent1" and "parent2"
+	// basic barycentric crossover
+	float alpha = 0.0;
+	for( unsigned int i=0; i<GENOME_SIZE; i++ ){
+		alpha = (float)random(0.,1.);
+		child.x[i] = alpha*parent1.x[i] + (1-alpha)*parent2.x[i];
+	}
 \end
 
 \GenomeClass::mutator : // Must return the number of mutations
-  // must mutate "Genome"
-  return 0;
+	unsigned int nbrMut = 0, i=0;
+	float pond = 1.0/sqrt((float)GENOME_SIZE);
+
+	for( i=0; i<GENOME_SIZE; i++ ){
+		if(tossCoin(probaMutPerGene)){
+			nbrMut++;
+			Genome.sigma[i] = Genome.sigma[i] * exp( SIGMA*pond*(float)gauss() );
+			Genome.sigma[i] = MIN(0.5,Genome.sigma[i]);
+			Genome.sigma[i] = MAX(0.0,Genome.sigma[i]);
+			Genome.x[i] += Genome.sigma[i] * (float)gauss();
+			if( i==0 ){
+				Genome.x[i] = MIN(X1_MIN,Genome.x[i]);
+				Genome.x[i] = MAX(X1_MAX,Genome.x[i]);
+			}else if( i==1 ){
+				Genome.x[i] = MIN(X2_MIN,Genome.x[i]);
+				Genome.x[i] = MAX(X2_MAX,Genome.x[i]);
+			}else{
+				Genome.x[i] = MIN(X3_MIN,Genome.x[i]);
+				Genome.x[i] = MAX(X3_MAX,Genome.x[i]);
+			}
+		}
+	}
+
+  return nbrMut;
 \end
 
 \GenomeClass::evaluator : // Returns the score as a real value
   // uses Genome to evaluate the quality of the individual
-  return 0.0;
+	float max_f = 0.0, width = 0.0, height = 0.0, score = 0.0;
+	BuildStructure(Genome.x[0], Genome.x[1], Genome.x[2],&max_f,&width,&height);
+
+	// simple version: no actual dimension so return the max_f
+	score = max_f;
+	return score;
 \end
 
 // =================== MAKEFILE =================== 
 
 \User Makefile options: 
+	CPPFLAGS += -std=c++11 -l./../../build/libsso.so -I./../../core/headers/Frame/  -I./../../core/headers/Truss/ -I./../../core/headers/ -I./../../core/headers/Exception -I./../../libs/easyloggingpp/
+	
+	LDFLAGS += -g ./../../build/libsso.so -larmadillo -std=c++11 -L./../../build -Wl,-rpath=./../../build
 \end
 
 // =================== PARAMETERS =================== 

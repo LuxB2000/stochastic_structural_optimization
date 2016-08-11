@@ -68,7 +68,7 @@ void Structure::GetMaximalNodalDisplacement(Point* loc, double* maxDisp ){
 	loc = PointManager::GetInstance().GetPoint(0,0,0);
 }
 
-void Structure::GetMaximalElementlForce(Point* loc, double* maxElF ){
+void Structure::GetMaximalElementForce(Point* loc, double* maxElF ){
 	unsigned int i=0, l=0, j=0, k=0;
 	l = m_frames->size();
 	double m = 0, mm = 0;
@@ -80,7 +80,7 @@ void Structure::GetMaximalElementlForce(Point* loc, double* maxElF ){
 			for (k=0; k<m_frames->at(i)->GetElementForcesInLocalCoordinates()->at(j)->size(); k++ ){
 				// for each internal truss in Truss_j
 				ForceVectorType fv = *m_frames->at(i)->GetElementForcesInLocalCoordinates()->at(j)->at(k) ;
-				std::cout << "Test lc : " << fv << std::endl;
+				//std::cout << "Test lc : " << fv << std::endl;
 				mm = max( fv );
 				if(mm>m){
 					m = mm;
@@ -124,7 +124,7 @@ void Structure::Build(){
 
 	// 4 - find the element forces in global coordinate system
 	solver.ComputeSupportReaction(&m_displacements,m_stiffnessMatrix,&m_internalForcesGC,m_bc);
-	std::cout << "Test force in GC: " << m_internalForcesGC << std::endl;
+	//std::cout << "Test force in GC: " << m_internalForcesGC << std::endl;
 
 	// 5 - find the element forces in the local coordinate system
 	// TODO: parse all the frame and find the corresponding internalForces

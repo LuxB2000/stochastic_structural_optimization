@@ -55,7 +55,7 @@ public:
 	// Get the information regards the built structure
 	// Get the maximal displacement and the location
 	void GetMaximalNodalDisplacement(Point* loc, double* maxDisp);
-	void GetMaximalElementlForce(Point* loc, double* maxElf);
+	void GetMaximalElementForce(Point* loc, double* maxElf);
 	// double GetMaximalElementStress(); //TODO find the Truss in question
 	// TODO
 	// StiffnessMatrixType GetStiffnessMatrix();
