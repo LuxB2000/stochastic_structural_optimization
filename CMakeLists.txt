@@ -14,10 +14,10 @@ set(CORE_EH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Exception")
 set(CORE_ES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Exception")
 set(CORE_FH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Frame")
 set(CORE_FS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Frame")
+set(CORE_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Types")
 
 
 ## -- Source files --
-include_directories(${CORE_H_DIR})
 set(SOURCE_FILES
 			core/headers/Types.h
 			core/headers/Point.h core/src/Point.cpp
@@ -28,8 +28,12 @@ set(SOURCE_FILES
 			${CORE_EH_DIR}/sso_exception.h
 
 			# Point Manager
-			${CORE_H_DIR}/PointManager ${CORE_S_DIR}/PointManager.cpp
+			${CORE_H_DIR}/PointManager.h ${CORE_S_DIR}/PointManager.cpp
 
+			#${CORE_TH_DIR}/TrussType.h
+
+			# Internal Structural Element Object
+			${CORE_S_DIR}/InternalStructuralElementObject.cpp
 
 			core/headers/StructuralElement.h core/src/StructuralElement.cpp
 			# simple truss objects
@@ -98,6 +102,7 @@ include_directories(${UTESTS_S_DIR})
 include_directories(${UTESTS_HT_DIR})
 include_directories(${UTESTS_ST_DIR})
 include_directories(${UTESTS_FH_DIR})
+include_directories(${UTESTS_ST_DIR})
 
 # set tests files
 	set(UTESTS_FILES
@@ -105,9 +110,10 @@ include_directories(${UTESTS_FH_DIR})
 					core/headers/Material.h
 					core/headers/math_tools.h
 
-					core/
 
 					${UTESTS_H_DIR}/PointManagerTest.h ${UTESTS_S_DIR}/PointManagerTest.cpp
+
+					${UTESTS_S_DIR}/InternalStructuralElementObjectTests.cpp
 
 					tests/headers/BasicTest.h tests/src/BasicTest.cpp
 					tests/headers/PointTest.h tests/src/PointTest.cpp
@@ -140,6 +146,7 @@ include_directories(${CORE_EH_DIR})
 include_directories(${CORE_H_DIR})
 include_directories(${CORE_TH_DIR})
 include_directories(${CORE_FH_DIR})
+include_directories(${CORE_HT_DIR})
 #include_directories(${CORE_DIR}/src)
 #add_executable(sso main.cpp ${SOURCE_FILES} ${EASYLOGGINGPP_H})
 #target_link_libraries(sso ${LIBS})
