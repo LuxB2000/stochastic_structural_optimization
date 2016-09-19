@@ -17,7 +17,16 @@ using namespace std;
 class InternalStructuralElementObjectTest : public CPPUNIT_NS::TestFixture{
 	CPPUNIT_TEST_SUITE(InternalStructuralElementObjectTest);
 
-	CPPUNIT_TEST(basic_test);
+		CPPUNIT_TEST(types_test);
+		CPPUNIT_TEST(basic_test);
+		CPPUNIT_TEST(getter_test);
+		CPPUNIT_TEST(length_test);
+
+		CPPUNIT_TEST(truss_transformation_test);
+		CPPUNIT_TEST(truss_stiffness_test);
+
+		CPPUNIT_TEST(beam_transformation_test);
+		CPPUNIT_TEST(beam_stiffness_test);
 
 	 CPPUNIT_TEST_SUITE_END();
 
@@ -29,8 +38,14 @@ public:
 	void tearDown();
 
 	void types_test(void);
+	void getter_test(void);
 	void basic_test(void);
-	void constructor_test(void);
+	void length_test(void);
+	void truss_transformation_test(void);
+	void truss_stiffness_test(void);
+	void beam_transformation_test(void);
+	void beam_stiffness_test(void);
+
 private:
 	typedef InternalStructuralElementObject<TrussType> InternalTrussElement;
 	typedef InternalStructuralElementObject<BeamType>  InternalBeamElement;

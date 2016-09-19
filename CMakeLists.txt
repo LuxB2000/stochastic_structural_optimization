@@ -114,7 +114,7 @@ include_directories(${UTESTS_ST_DIR})
 
 					${UTESTS_H_DIR}/PointManagerTest.h ${UTESTS_S_DIR}/PointManagerTest.cpp
 
-					# ${CORE_S_DIR}/InternalStructuralElementObject.cpp
+					#${CORE_S_DIR}/InternalStructuralElementObject.h
 					${UTESTS_S_DIR}/InternalStructuralElementObjectTests.cpp
 
 					tests/headers/BasicTest.h tests/src/BasicTest.cpp
