@@ -15,7 +15,9 @@ set(CORE_ES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Exception")
 set(CORE_FH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Frame")
 set(CORE_FS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/src/Frame")
 set(CORE_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Types")
+
 set(CORE_ISEO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/InternalStructuralElementObject")
+set(CORE_SB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/StiffnessBuilder")
 
 
 ## -- Source files --
@@ -35,6 +37,7 @@ set(SOURCE_FILES
 
 			# Internal Structural Element Object
 			${CORE_ISEO_DIR}/InternalStructuralElementObject.h
+			${CORE_SB_DIR}/StiffnessBuilder.h
 
 			core/headers/StructuralElement.h core/src/StructuralElement.cpp
 			# simple truss objects
@@ -114,13 +117,15 @@ include_directories(${UTESTS_ST_DIR})
 
 					${UTESTS_H_DIR}/PointManagerTest.h ${UTESTS_S_DIR}/PointManagerTest.cpp
 
-					#${CORE_S_DIR}/InternalStructuralElementObject.h
-					${UTESTS_S_DIR}/InternalStructuralElementObjectTests.cpp
 
 					tests/headers/BasicTest.h tests/src/BasicTest.cpp
 					tests/headers/PointTest.h tests/src/PointTest.cpp
 					tests/headers/MathToolsTest.h tests/src/MathToolsTest.cpp
 					tests/headers/GramSchmidtProcessTest.h tests/src/GramSchmidtProcessTest.cpp
+
+					${UTESTS_S_DIR}/InternalStructuralElementObjectTests.cpp
+					${UTESTS_S_DIR}/StiffnessBuilderTest.cpp
+
 					${UTESTS_HT_DIR}/InternalTrussObjectTest.h ${UTESTS_ST_DIR}/InternalTrussObjectTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
@@ -150,6 +155,7 @@ include_directories(${CORE_TH_DIR})
 include_directories(${CORE_FH_DIR})
 include_directories(${CORE_HT_DIR})
 include_directories(${CORE_ISEO_DIR})
+include_directories(${CORE_SB_DIR})
 #include_directories(${CORE_DIR}/src)
 #add_executable(sso main.cpp ${SOURCE_FILES} ${EASYLOGGINGPP_H})
 #target_link_libraries(sso ${LIBS})

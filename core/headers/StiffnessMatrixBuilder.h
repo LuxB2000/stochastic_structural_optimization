@@ -12,7 +12,6 @@
 
 class StiffnessMatrixBuilder {
 public:
-	typedef unsigned int JointIdType;
 	typedef std::vector<JointIdType> JointIdVectorType;
 
     /*

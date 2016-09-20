@@ -76,6 +76,7 @@ void StiffnessMatrixBuilderTest::building_tests(){
     Point* b1 =  PointManager::GetInstance().GetPoint(4.0,6.0,0.0);
     InternalTrussObject truss1 = InternalTrussObject(b,b1,A,TEST);
     float coef1 = (float) ( truss1.GetCrossSection()*truss1.GetYoungModulus()/truss1.GetLength() );
+		//std::cout << "TEST: " << truss1.GetLocalTransformationMatrix() << std::endl;
     StiffnessMatrixType expected1 = {
          //  U0   V0   W0   U1   V1   W1   U2   V2   W2
             {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0},      // U0

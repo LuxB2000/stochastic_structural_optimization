@@ -24,4 +24,6 @@ typedef std::vector<DisplacementVectorType*> NodeDisplacementVectorType;
 // Frame types
 typedef std::vector<float> FrameParametersVectorType;
 
+// Joint types
+typedef unsigned int JointIdType;
 #endif //SSO_TYPES_H

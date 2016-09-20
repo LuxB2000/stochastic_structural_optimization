@@ -15,7 +15,7 @@ class InternalStructuralElementObject{
 public:
 
 	// constructor
-	InternalStructuralElementObject(Point* starting_pt, Point* ending_pt, double cross_section, Material type_material);
+	InternalStructuralElementObject(Point* starting_pt, Point* ending_pt, double cross_section, Material type_material, double alpha = 0.0 );
 
 	// destructors
 	~InternalStructuralElementObject();

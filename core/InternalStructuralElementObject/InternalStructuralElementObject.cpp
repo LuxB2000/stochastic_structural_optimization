@@ -14,16 +14,14 @@ InternalStructuralElementObject(
 		Point* starting_pt,
 		Point* ending_pt, 
 		double cross_section, 
-		Material type_material)
+		Material type_material,
+		double alpha)
 {
 		m_start = starting_pt;
 		m_end = ending_pt;
     m_material = type_material;
-		// HERE the real alpha angle between the local X and the global X
-		// Since we consider our BEAM as purely symetric we don't take it into
-		// consideration right now
-		// TODO: SetAlpha() angle as a public function
-		m_alpha = 0.0;
+		m_A = cross_section;
+		m_alpha = alpha;
 		this->m_init();
 }
 
@@ -45,6 +43,7 @@ void
 InternalStructuralElementObject<StructuralElementType>::
 m_init()
 {
+	double EPS = 1E-8; // use to force 0 values with <EPS
 	float theta = 0.0, c = 0.0, s = 0.0;
 	// create a connexion in PointManager
 	PointManager::GetInstance().SetConnexion(m_start,m_end);
@@ -79,8 +78,10 @@ m_init()
 
 	// initialate the stiffness matrix
 	theta= atan(sqrt(pow(m_start->y-m_end->y,2.0))/sqrt(pow(m_start->x-m_end->x,2)));
-	c = cos( theta );
-	s = sin( theta );
+	// we are dealing with hight number, if cos or sin < EPS than we
+	// set the value to 0
+	c = cos( theta )<EPS ? 0 : cos(theta);
+	s = sin( theta )<EPS ? 0 : sin(theta);
 	if( StructuralElementType::NDOF == 3 ){
 		// TRUSSTYPE element
 		// stiffness matrix
@@ -181,6 +182,7 @@ m_init()
 		//std::cout << "R00:" << R(0,0) << " R01:" << R(0,1) << " R02:" << R(0,2) << "\n"
 		//				 << "R10:" << R(1,0) <<  " R11:" << R(1,1) << " R12:" << R(1,2) << "\n"
 		//				 << std::endl;
+		//we are dealing with hight numbers, so everything <1E-6 will be set as 0
 		m_c(0,0) = m_c(3,3) = m_c(6,6) = m_c(9,9) = R(0,0);
 		m_c(1,0) = m_c(4,3) = m_c(7,6) = m_c(10,9) = R(1,0);
 		m_c(1,1) = m_c(4,4) = m_c(7,7) = m_c(10,10) = R(1,1);
@@ -191,5 +193,4 @@ m_init()
 	} //end if
 
 }// end of m_init
-
 
