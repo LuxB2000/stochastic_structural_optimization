@@ -42,6 +42,8 @@ public:
 		return m_k; 
 	}
 
+	virtual unsigned int GetNumberOfNodes(){ return 0; }
+	unsigned int GetNumberOfElements(){ return this->GetNumberOfNodes() - 1; }
 
 protected:
   double m_A, m_E, m_L, m_alpha;

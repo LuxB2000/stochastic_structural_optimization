@@ -19,7 +19,7 @@ BarElement(
 	this->m_internalElementVector->push_back(el);
 
 	// create the stiffness matrix in global coordinate
-	this->m_k = StiffnessMatrixType(NBROFNODES*StructuralElementType::NDOF,NBROFNODES*StructuralElementType::NDOF,arma::fill::zeros);
+	this->m_k = StiffnessMatrixType(this->GetNumberOfNodes()*StructuralElementType::NDOF,this->GetNumberOfNodes()*StructuralElementType::NDOF,arma::fill::zeros);
 
 	this->m_ComputeLength();
 }

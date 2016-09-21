@@ -28,8 +28,7 @@ public:
 	~BarElement();
 
 	// constants
-	static const unsigned int NBROFELEMENTS = 1;
-	static const unsigned int NBROFNODES    = 2;
+	unsigned int GetNumberOfNodes(){ return 2;}
 
 	// getters
 
