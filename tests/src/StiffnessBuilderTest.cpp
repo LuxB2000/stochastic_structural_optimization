@@ -155,3 +155,5 @@ StiffnessBuilderTest::truss_building_tests(){
 }
 
 
+void StiffnessBuilderTest::simple_truss_structure_building_tests(void){
+}

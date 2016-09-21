@@ -19,6 +19,10 @@ set(CORE_HT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/headers/Types")
 set(CORE_ISEO_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/InternalStructuralElementObject")
 set(CORE_SB_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/StiffnessBuilder")
 
+set(CORE_ELEMENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/Element")
+set(CORE_ELAB_DIR "${CORE_ELEMENT_DIR}/AbstractElement")
+set(CORE_ELBAR_DIR "${CORE_ELEMENT_DIR}/BarElement")
+
 
 ## -- Source files --
 set(SOURCE_FILES
@@ -38,6 +42,8 @@ set(SOURCE_FILES
 			# Internal Structural Element Object
 			${CORE_ISEO_DIR}/InternalStructuralElementObject.h
 			${CORE_SB_DIR}/StiffnessBuilder.h
+			${CORE_ELAB_DIR}/AbstractElement.h
+			${CORE_ELBAR_DIR}/BarElement.h
 
 			core/headers/StructuralElement.h core/src/StructuralElement.cpp
 			# simple truss objects
@@ -101,12 +107,16 @@ set(UTESTS_ST_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Truss")
 set(UTESTS_FH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Frame")
 set(UTESTS_FS_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Frame")
 
+set(UTESTS_EH_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/headers/Element")
+set(UTESTS_ES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/tests/src/Element")
+
 include_directories(${UTESTS_H_DIR})
 include_directories(${UTESTS_S_DIR})
 include_directories(${UTESTS_HT_DIR})
 include_directories(${UTESTS_ST_DIR})
 include_directories(${UTESTS_FH_DIR})
 include_directories(${UTESTS_ST_DIR})
+include_directories(${UTESTS_EH_DIR})
 
 # set tests files
 	set(UTESTS_FILES
@@ -125,6 +135,7 @@ include_directories(${UTESTS_ST_DIR})
 
 					${UTESTS_S_DIR}/InternalStructuralElementObjectTests.cpp
 					${UTESTS_S_DIR}/StiffnessBuilderTest.cpp
+					${UTESTS_S_DIR}/Element/BarElementTest.cpp
 
 					${UTESTS_HT_DIR}/InternalTrussObjectTest.h ${UTESTS_ST_DIR}/InternalTrussObjectTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
@@ -141,11 +152,10 @@ include_directories(${UTESTS_ST_DIR})
 				tests/headers/TrussStructureBuilderTest.h tests/src/TrussStructureBuilderTest.cpp
         )
 
-#Add all unit tests in addition to all source files.
-add_executable(UnitTester test_runner.cpp ${SOURCE_FILES} ${UTESTS_FILES} ${EASYLOGGINGPP_H} )
-target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
 ## --- end Unit testing config --
 
+
+# TODO? include recursively folder in core
 
 # Release
 include_directories(${LIBS_DIR})
@@ -156,8 +166,16 @@ include_directories(${CORE_FH_DIR})
 include_directories(${CORE_HT_DIR})
 include_directories(${CORE_ISEO_DIR})
 include_directories(${CORE_SB_DIR})
+include_directories(${CORE_ELAB_DIR})
+include_directories(${CORE_ELBAR_DIR})
+
 #include_directories(${CORE_DIR}/src)
 #add_executable(sso main.cpp ${SOURCE_FILES} ${EASYLOGGINGPP_H})
 #target_link_libraries(sso ${LIBS})
+
+#Add all unit tests in addition to all source files.
+add_executable(UnitTester test_runner.cpp ${SOURCE_FILES} ${UTESTS_FILES} ${EASYLOGGINGPP_H} )
+target_link_libraries (UnitTester ${UnitTestLibs} ${LIBS})
+
 # Create a library that could be use for EASEA
 add_library( sso SHARED ${SOURCE_FILES} ${EASYLOGGINGPP_H})

@@ -28,7 +28,7 @@ Build(
 		unsigned int j1,
 		unsigned int j2
 ){
-	StiffnessMatrixType kg = tm * kl * tm.t();
+	//StiffnessMatrixType kg = tm * kl * tm.t();
 	//std::cout << tm << "\n" << std::endl;
 	//std::cout << kg << "\n" << std::endl;
 	m_build( tm * kl * tm.t(), j1, j2 );
