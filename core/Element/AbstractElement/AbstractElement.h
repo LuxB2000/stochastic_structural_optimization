@@ -24,20 +24,40 @@
 template<class StructuralElementType>
 class AbstractElement{
 public:
+	// constructor
 	AbstractElement();
 	~AbstractElement();
+	
+	// getters
+	double GetLength(){
+		return m_L;
+	}
+	double GetCrossSection(){
+		return m_A;
+	}
+	double GetYoungModulus(){
+		return m_E;
+	}
+  StiffnessMatrixType GetStiffnessMatrix(){
+		return m_k; 
+	}
 
-private:
-  double m_A, m_E, m_L;
-	unsigned int m_numberOfInternalTruss, m_numberOfNodes, m_numberOfDOF;
+
+protected:
+  double m_A, m_E, m_L, m_alpha;
+	Material m_material;
+	unsigned int m_numberOfInternalElement, m_numberOfNodes;
 
 	// will contains the internal truss objects
-	typedef std::vector<InternalTrussObject*> InternalTrussVectorType;
-	InternalTrussVectorType* m_internalTrussVector;
+	typedef InternalStructuralElementObject<StructuralElementType> InternalElementType;
+	typedef std::vector<InternalElementType*> InternalElementVectorType;
+
+	// internal Element vector
+	InternalElementVectorType* m_internalElementVector;
 
 	// arma object, pure matrices
-	StiffnessMatrixType* m_k;
-	TransformationMatrixType* m_c;
+	StiffnessMatrixType m_k;
+	TransformationMatrixType m_c;
 
 	ElementForceVectorType* m_elementForces;
 	NodeDisplacementVectorType* m_nodeDisplacements;
@@ -46,7 +66,7 @@ private:
 	void m_PopulateForceDisplacementvectors();
 
 	// compute the length
-	virtual void m_ComputeLength();
+	void m_ComputeLength();
 
 };
 
