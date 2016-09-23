@@ -9,6 +9,8 @@
 #include "PointManager.h"
 #include "TrussType.h"
 #include "BeamType.h"
+#include "GramSchmidtProcessTest.h"
+
 
 template<class StructuralElementType>
 class InternalStructuralElementObject{

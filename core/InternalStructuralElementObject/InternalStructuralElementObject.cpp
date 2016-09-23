@@ -78,6 +78,18 @@ m_init()
 
 	// initialate the stiffness matrix
 	theta= atan(sqrt(pow(m_start->y-m_end->y,2.0))/sqrt(pow(m_start->x-m_end->x,2)));
+	typedef GramSchmidtProcess::VectorType VectorType;
+	float cxx = 0.0, cxy = 0.0, cxz = 0.0,
+				cyx = 0.0, cyy = 0.0, cyz = 0.0,
+				czx = 0.0, czy = 0.0, czz = 0.0;
+	arma::vec x={1,0,0}, y={0,1,0}, z={0,0,1};
+	VectorType e1 = VectorType(3,arma::fill::zeros),
+					e2 = VectorType(3,arma::fill::zeros),
+					e3 = VectorType(3,arma::fill::zeros),
+					V ={m_end->x-m_start->x,m_end->y-m_start->y,m_end->z-m_start->z};
+	V = V/m_L;
+	GramSchmidtProcess p = GramSchmidtProcess();
+	p.ComputeOrthonormalBasisFromVector(&V,&e1,&e2,&e3);
 	// we are dealing with hight number, if cos or sin < EPS than we
 	// set the value to 0
 	c = cos( theta )<EPS ? 0 : cos(theta);
@@ -101,13 +113,16 @@ m_init()
 		m_k(3,0) = coef * -1;
 		m_k(3,3) = coef * 1;
 		// local transformation matrix
+		cxx = dot(e1,x); cxy = dot(e2,x); cxz = dot(e3,x);
+		cyx = dot(e1,y); cyy = dot(e2,y); cyz = dot(e3,y);
+		czx = dot(e1,z); czy = dot(e2,z); czz = dot(e3,z);
 		m_c = {
-				{c  ,  -s , 0.0, 0.0,  0.0, 0.0},
-				{s  ,   c , 0.0, 0.0,  0.0, 0.0},
-				{0.0,  0.0, 1.0, 0.0,  0.0, 0.0},
-				{0.0,  0.0, 0.0, c  , -s  , 0.0},
-				{0.0,  0.0, 0.0, s  ,  c  , 0.0},
-				{0.0,  0.0, 0.0, 0.0,  0.0, 1.0}
+				{cxx, cxy, cxz, 0.0, 0.0, 0.0},
+				{cyx, cyy, cyz, 0.0, 0.0, 0.0},
+				{czx, czy, czz, 0.0, 0.0, 0.0},
+				{0.0, 0.0, 0.0, cxx, cxy, cxz},
+				{0.0, 0.0, 0.0, cyx, cyy, cyz},
+				{0.0, 0.0, 0.0, czx, czy, czz}
 		};
 	}else if( StructuralElementType::NDOF == 6 ){
 		// BEAMTYPE element

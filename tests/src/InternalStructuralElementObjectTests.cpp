@@ -106,6 +106,7 @@ void InternalStructuralElementObjectTest::truss_transformation_test(){
 					{0.0, 0.0, 0.0, 0.0, 0.0, 1.0}
 	};
 	test = obj_t.GetTransformationMatrix() == expected;
+	//std::cout << obj_t.GetTransformationMatrix() << std::endl;
 	CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE(
 			"We expect the binary matrix to have the element 1 at each position",
 			36.0,
@@ -124,6 +125,7 @@ void InternalStructuralElementObjectTest::truss_transformation_test(){
 					{0.0,  0.0, 0.0, 1.0,  0.0, 0.0},
 					{0.0,  0.0, 0.0, 0.0,  0.0, 1.0}
 	};
+	//std::cout << obj_t2.GetTransformationMatrix() << std::endl;
 	test = arma::abs(obj_t2.GetTransformationMatrix() - expected)<1E-6;
 	CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE(
 			"We expect the binary matrix to have the element 1 at each position",
@@ -162,6 +164,28 @@ void InternalStructuralElementObjectTest::truss_transformation_test(){
 			sum(sum(test,1)),
 			0
 	);
+
+	// test with z != 0
+	pz = 2.0;
+	end =  PointManager::GetInstance().GetPoint(px,py,pz);
+	InternalTrussElement obj_t5 = InternalTrussElement(start,end,cross_sec,BASIC);
+	expected = {
+		{0.5071, -0.8575, -0.087, 0.0, 0.0, 0.0},
+		{0.8452,  0.5145, -0.145, 0.0, 0.0, 0.0},
+		{0.1690,  0,       0.986, 0.0, 0.0, 0.0},
+		{0.0, 0.0, 0.0, 0.5071, -0.8575, -0.087},
+		{0.0, 0.0, 0.0, 0.8452,  0.5145, -0.145},
+		{0.0, 0.0, 0.0, 0.1690,  0,       0.986},
+	};
+	std::cout << obj_t5.GetTransformationMatrix() << std::endl;
+	test = arma::abs(obj_t5.GetTransformationMatrix() - expected)<1E-3;
+	CPPUNIT_ASSERT_DOUBLES_EQUAL_MESSAGE(
+			"We expect the correct transformation matrix with z coord != 0",
+			36.0,
+			sum(sum(test,1)),
+			0
+	);
+
 }
 
 /*
