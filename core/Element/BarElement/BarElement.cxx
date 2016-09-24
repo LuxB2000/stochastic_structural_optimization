@@ -20,7 +20,12 @@ BarElement(
 
 	// create the stiffness matrix in global coordinate
 	this->m_k = StiffnessMatrixType(this->GetNumberOfNodes()*StructuralElementType::NDOF,this->GetNumberOfNodes()*StructuralElementType::NDOF,arma::fill::zeros);
+	// populate the stiffness matrix: TODO
 
+	// Young's modulus
+	this->m_E = el->GetYoungModulus();
+
+	// compute the length
 	this->m_ComputeLength();
 }
 

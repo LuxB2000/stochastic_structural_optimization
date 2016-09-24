@@ -86,6 +86,9 @@ BarElementTest::getter_tests(){
 
 }// end getter_tests
 
+/*
+ * truss_stiffness_tests
+ */
 void
 BarElementTest::truss_stiffness_tests(){
 	float x1 = 0.0, y1 = 0.0, z1 = 0.0,
@@ -108,11 +111,64 @@ BarElementTest::truss_stiffness_tests(){
 			{0.0,0.0,0.0,  0.0,0.0,0.0},      // V1
 			{0.0,0.0,0.0,  0.0,0.0,0.0},      // W1
 	};
+	std::cout << bar_t.GetStiffnessMatrix() << std::endl;
+	std::cout << "************************" << std::endl;
+	std::cout << expected << std::endl;
 	test = arma::abs(bar_t.GetStiffnessMatrix() - expected ) < 1E0 ;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
-		"We expect the stiffness matrixx",
+		"We expect the 2D stiffness truss matrix",
 		36,
 		(int)sum(sum(test,1))
 	);
 
 }// end truss_stiffness_tests
+
+/*
+ * beam_stiffness_tests
+ */
+void
+BarElementTest::beam_stiffness_tests(){
+	float x1 = 0.0, y1 = 0.0, z1 = 0.0,
+				x2 = 1.0, y2 = 0.0, z2 = 0.0;
+	double cross_sect = 24E-4; // in m^2
+	Material m = TEST;
+	arma::umat test;
+	Point *start = PointManager::GetInstance().GetPoint(x1,y1,z1),
+				*end   = PointManager::GetInstance().GetPoint(x2,y2,z2);
+	BeamBarElement bar_b = BeamBarElement(start,end,cross_sect,m);
+	float A = bar_b.GetCrossSection(),
+			  E = bar_b.GetYoungModulus(),
+				L = bar_b.GetLength(),
+				G = 0.0,
+				J = 0.0;
+	std::cout << "TEST: " << A << " - " << E << " - " << L << std::endl;
+	StiffnessMatrixType expected = {
+		{A*E/L,0.0,0.0, 0.0,0.0,0.0, -A*E/L,0.0,0.0, 0.0,0.0,0.0},
+		{0.0,12*E/pow(L,(float)3.0),0.0, 0.0,0.0,6*E/pow(L,(float)2.0), 0.0,-12*E/pow(L,(float)3.0),0.0, 0.0,0.0,6*E/pow(L,(float)2)},
+		{0.0,0.0,12*E/pow(L,(float)3), 0.0,-6*E/pow(L,(float)2),0.0, 0.0,0.0,-12*E/pow(L,(float)3), 0.0,-6*E/pow(L,(float)2),0.0},
+
+		{0.0,0.0,0.0, G*J/L,0.0,0.0, 0.0,0.0,0.0, -G*J/L,0.0,0.0},
+		{0.0,0.0,-6*E/pow(L,(float)2), 0.0,4*E/L,0.0, 0.0,0.0,6*E/pow(L,(float)2), 0.0,2*E/L,0.0},
+		{0.0,6*E/pow(L,(float)2),0.0, 0.0,0.0,4*E/L, 0.0,-6*E/pow(L,(float)2),0.0, 0.0,0.0,2*E/L},
+
+		{-A*E/L,0.0,0.0, 0.0,0.0,0.0, A*E/L,0.0,0.0, 0.0,0.0,0.0},
+		{0.0,-12*E/pow(L,(float)3),0.0, 0.0,0.0,-6*E/pow(L,(float)2), 0.0,12*E/pow(L,(float)3),0.0, 0.0,0.0,-6*E/pow(L,(float)2)},
+		{0.0,0.0,-12*E/pow(L,(float)3), 0.0,6*E/pow(L,(float)2),0.0, 0.0,0.0,12*E/pow(L,(float)3), 0.0,6*E/pow(L,(float)2),0.0},
+
+		{0.0,0.0,0.0, -G*J/L,0.0,0.0, 0.0,0.0,0.0, G*J/L,0.0,0.0},
+		{0.0,0.0,-6*E/pow(L,(float)2), 0.0,2*E/L,0.0, 0.0,0.0,6*E/pow(L,(float)2), 0.0,4*E/L,0.0},
+		{0.0,6*E/pow(L,(float)2),0.0, 0.0,0.0,2*E/L, 0.0,-6*E/pow(L,(float)2),0.0, 0.0,0.0,4*E/L},
+	};
+
+	test = ( expected - bar_b.GetStiffnessMatrix() )<1E-6;
+	std::cout << bar_b.GetStiffnessMatrix() << std::endl;
+	std::cout << "************************" << std::endl;
+	std::cout << expected << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+		"We expect the 3D beam stiffness matrix",
+		144,
+		(int)sum(sum(test,1))
+	);
+
+}// end beam_stiffness_tests
+

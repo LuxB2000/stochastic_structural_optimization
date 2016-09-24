@@ -33,6 +33,7 @@ class BarElementTest : public CPPUNIT_NS::TestFixture{
         CPPUNIT_TEST(basic_tests);
         CPPUNIT_TEST(getter_tests);
         CPPUNIT_TEST(truss_stiffness_tests);
+        CPPUNIT_TEST(beam_stiffness_tests);
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -44,6 +45,7 @@ public:
     void basic_tests(void);
 		void getter_tests(void);
 		void truss_stiffness_tests(void);
+		void beam_stiffness_tests(void);
 
 private:
 	typedef BarElement<TrussType> TrussBarElement;

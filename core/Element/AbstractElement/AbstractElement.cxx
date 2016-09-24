@@ -6,6 +6,7 @@ AbstractElement()
 	m_L = 0.0;
 	m_A = 0.0;
 	m_alpha = 0.0;
+	m_E = 0.0;
 
 	m_internalElementVector = NULL;
 
