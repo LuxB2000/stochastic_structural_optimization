@@ -74,6 +74,6 @@ private:
 
 };
 
-#include "InternalStructuralElementObject.cpp"
+#include "InternalStructuralElementObject.cxx"
 
 #endif

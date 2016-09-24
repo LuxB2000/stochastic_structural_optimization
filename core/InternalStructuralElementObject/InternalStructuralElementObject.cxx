@@ -181,6 +181,26 @@ m_init()
 		m_k(11,11) = coef * 4;
 
 		// local transformation matrix
+		/*
+		 * TODO: cite source
+		 * T=
+		 *  | R 0 0 0 |
+		 *  | 0 R 0 0 |
+		 *  | 0 0 R 0 |
+		 *  | 0 0 0 R |
+		 * with R a 3x3 matrix:
+		 * R=
+		 *  |       Cx           ,  Cy  ,       Cz            |
+		 *  | (-Cx*Cy*s-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*+Cx*s)/Cxz} |
+		 *  | (Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cx*Cz*s+Cx*c)/Cxz} |
+		 * and
+		 *  C_i = (end->i - start->i )/ L
+		 *  Cxz = sqrt(pow(Cx,2) + pow(Cz,2));
+		 *  s = sin( angle of rotation along X^global axis )
+		 *  c = cos( angle of rotation along X^global axis )
+		 *  // last two are useful if the bema is not isotropic along the X axis. !! NOT TESTED so far, default value 0.0 ONLY have been tested
+		 *
+		 */
 		float Cx = 0.0, Cy = 0.0, Cz = 0.0, Cxz = 0.0;
 
 		Cx = (m_end->x - m_start->x)/m_L;
@@ -188,7 +208,7 @@ m_init()
 		Cz = (m_end->z - m_start->z)/m_L;
 		s = sin(m_alpha);
 		c = cos(m_alpha);
-		Cxz = sqrt(pow(Cx,2) + pow(Cz,2));
+		Cxz = sqrt(pow(Cx,2) + pow(Cz,2)) + 1E-8; // to prevent division by 0
 		TransformationMatrixType R = {
 			{Cx, Cy, Cz},
 			{(-Cx*Cy*s-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*+Cx*s)/Cxz},
@@ -198,11 +218,14 @@ m_init()
 		//				 << "R10:" << R(1,0) <<  " R11:" << R(1,1) << " R12:" << R(1,2) << "\n"
 		//				 << std::endl;
 		//we are dealing with hight numbers, so everything <1E-6 will be set as 0
-		m_c(0,0) = m_c(3,3) = m_c(6,6) = m_c(9,9) = R(0,0);
-		m_c(1,0) = m_c(4,3) = m_c(7,6) = m_c(10,9) = R(1,0);
+//std::cout << "TEST:: " << R(0,0) << std::endl;
+		m_c(0,0) = m_c(3,3) = m_c(6,6) = m_c(9,9)   = R(0,0);
+		m_c(0,1) = m_c(3,4) = m_c(6,7) = m_c(9,10)  = R(0,1);
+		m_c(0,2) = m_c(3,5) = m_c(6,8) = m_c(9,11)  = R(0,2);
+		m_c(1,0) = m_c(4,3) = m_c(7,6) = m_c(10,9)  = R(1,0);
 		m_c(1,1) = m_c(4,4) = m_c(7,7) = m_c(10,10) = R(1,1);
 		m_c(1,2) = m_c(4,5) = m_c(7,8) = m_c(10,11) = R(1,2);
-		m_c(2,0) = m_c(5,3) = m_c(8,6) = m_c(11,9) = R(2,0);
+		m_c(2,0) = m_c(5,3) = m_c(8,6) = m_c(11,9)  = R(2,0);
 		m_c(2,1) = m_c(5,4) = m_c(8,7) = m_c(11,10) = R(2,1);
 		m_c(2,2) = m_c(5,5) = m_c(8,8) = m_c(11,11) = R(2,2);
 	} //end if
