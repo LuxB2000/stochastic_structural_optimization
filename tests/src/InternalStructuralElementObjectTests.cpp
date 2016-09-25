@@ -310,7 +310,7 @@ void InternalStructuralElementObjectTest::beam_transformation_test(){
 	float Cxz = sqrt(pow(Cx,2) + pow(Cz,2)) + 1E-8; // to prevent division by 0
 	expected_R = {
 			{Cx, Cy, Cz},
-			{(-Cx*Cy*s-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*+Cx*s)/Cxz},
+			{(-Cx*Cy*c-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*c+Cx*s)/Cxz},
 			{(Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cx*Cz*s+Cx*c)/Cxz}
 		};
 	copy_R_in_T(expected_R,&expected);
