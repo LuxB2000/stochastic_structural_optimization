@@ -36,6 +36,7 @@ class StiffnessBuilderTest  : public CPPUNIT_NS::TestFixture{
         CPPUNIT_TEST(basic_tests);
         CPPUNIT_TEST(getter_tests);
         CPPUNIT_TEST(truss_building_tests);
+        CPPUNIT_TEST(beam_building_tests);
         CPPUNIT_TEST(simple_truss_structure_building_tests);
     CPPUNIT_TEST_SUITE_END();
 
@@ -49,6 +50,7 @@ public:
     void getter_tests(void);
 		// test the construction of the stiffness matrices in simple scenario
     void truss_building_tests(void);
+    void beam_building_tests(void);
     void simple_truss_structure_building_tests(void);
 
 private:
