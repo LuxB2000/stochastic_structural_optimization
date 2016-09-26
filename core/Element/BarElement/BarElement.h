@@ -20,6 +20,7 @@
 #define SSO_BARELEMENT_H
 
 #include "AbstractElement.h"
+#include "StiffnessBuilder.h"
 
 template<class StructuralElementType>
 class BarElement: public AbstractElement<StructuralElementType>{

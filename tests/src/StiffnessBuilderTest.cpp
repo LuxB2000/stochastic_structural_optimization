@@ -217,10 +217,10 @@ BarElementTest::truss_stiffness_tests
 
 	test = arma::abs(expected - builder_b.GetStiffnessMatrix()) < 1E1;
 
-	std::cout << builder_b.GetStiffnessMatrix() << std::endl;
-	std::cout << "============================" << std::endl;
-	std::cout << test << std::endl;
-	std::cout << "============================" << std::endl;
+	//std::cout << builder_b.GetStiffnessMatrix() << std::endl;
+	//std::cout << "============================" << std::endl;
+	//std::cout << test << std::endl;
+	//std::cout << "============================" << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect the stiffness matrix of two horizontal beams." ,
 			18*18,

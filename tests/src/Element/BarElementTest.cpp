@@ -92,7 +92,7 @@ BarElementTest::getter_tests(){
 void
 BarElementTest::truss_stiffness_tests(){
 	float x1 = 0.0, y1 = 0.0, z1 = 0.0,
-				x2 = 2.0, y2 = 4.0, z2 = 0.0;
+				x2 = 1.0, y2 = 0.0, z2 = 0.0;
 	Point *start = PointManager::GetInstance().GetPoint(x1,y1,z1),
 				*end   = PointManager::GetInstance().GetPoint(x2,y2,z2);
 	double cross_sect = 24E-4; // in m^2
@@ -107,19 +107,22 @@ BarElementTest::truss_stiffness_tests(){
 			{c*coef*c,s*coef*c,0.0, -c*coef*c,-s*coef*c,0.0},      // U0
 			{c*coef*s,s*coef*s,0.0, -s*coef*c,-s*coef*s,0.0},      // V0
 			{0.0,0.0,0.0,  0.0,0.0,0.0},      // W0
-			{0.0,0.0,0.0,  0.0,0.0,0.0},      // U1
-			{0.0,0.0,0.0,  0.0,0.0,0.0},      // V1
+			{-c*coef*c,-s*coef*c,0.0, c*coef*c,s*coef*c,0.0},      // U0
+			{-c*coef*s,-s*coef*s,0.0, s*coef*c,s*coef*s,0.0},      // V0
 			{0.0,0.0,0.0,  0.0,0.0,0.0},      // W1
 	};
-	std::cout << bar_t.GetStiffnessMatrix() << std::endl;
-	std::cout << "************************" << std::endl;
-	std::cout << expected << std::endl;
+	//std::cout << bar_t.GetStiffnessMatrix() << std::endl;
+	//std::cout << "************************" << std::endl;
+	//std::cout << expected << std::endl;
 	test = arma::abs(bar_t.GetStiffnessMatrix() - expected ) < 1E0 ;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 		"We expect the 2D stiffness truss matrix",
 		36,
 		(int)sum(sum(test,1))
 	);
+
+
+	// TODO: test with z coordinates
 
 }// end truss_stiffness_tests
 
@@ -161,9 +164,9 @@ BarElementTest::beam_stiffness_tests(){
 	};
 
 	test = ( expected - bar_b.GetStiffnessMatrix() )<1E-6;
-	std::cout << bar_b.GetStiffnessMatrix() << std::endl;
-	std::cout << "************************" << std::endl;
-	std::cout << expected << std::endl;
+	//std::cout << bar_b.GetStiffnessMatrix() << std::endl;
+	//std::cout << "************************" << std::endl;
+	//std::cout << expected << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 		"We expect the 3D beam stiffness matrix",
 		144,
