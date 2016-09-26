@@ -144,7 +144,7 @@ BarElementTest::beam_stiffness_tests(){
 				L = bar_b.GetLength(),
 				G = 0.0,
 				J = 0.0;
-	std::cout << "TEST: " << A << " - " << E << " - " << L << std::endl;
+	//std::cout << "TEST: " << A << " - " << E << " - " << L << std::endl;
 	StiffnessMatrixType expected = {
 		{A*E/L,0.0,0.0, 0.0,0.0,0.0, -A*E/L,0.0,0.0, 0.0,0.0,0.0},
 		{0.0,12*E/pow(L,(float)3.0),0.0, 0.0,0.0,6*E/pow(L,(float)2.0), 0.0,-12*E/pow(L,(float)3.0),0.0, 0.0,0.0,6*E/pow(L,(float)2)},
