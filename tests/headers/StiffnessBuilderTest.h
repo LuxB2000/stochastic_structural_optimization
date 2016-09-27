@@ -26,6 +26,7 @@
 #include "StiffnessBuilder.h"
 #include "InternalStructuralElementObject.h"
 #include "Types.h"
+#include "BarElement.h"
 
 using namespace CppUnit;
 using namespace std;
@@ -56,6 +57,9 @@ public:
 private:
 	typedef InternalStructuralElementObject<TrussType> InternalTrussElement;
 	typedef InternalStructuralElementObject<BeamType>  InternalBeamElement;
+
+	typedef BarElement<TrussType> TrussBarElement;
+	typedef BarElement<BeamType>  BeamBarElement;
 
 	typedef StiffnessBuilder<TrussType> TrussStiffnessBuilder;
 	typedef StiffnessBuilder<BeamType>  BeamStiffnessBuilder;

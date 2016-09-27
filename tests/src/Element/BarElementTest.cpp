@@ -17,6 +17,19 @@ void
 BarElementTest::setUp(){
 }
 
+void BarElementTest::copy_R_in_T(TransformationMatrixType R, TransformationMatrixType* T) {
+
+	(*T)(0,0) = (*T)(3,3) = (*T)(6,6) = (*T)(9,9) = R(0,0);
+	(*T)(0,1) = (*T)(3,4) = (*T)(6,7) = (*T)(9,10) = R(0,1);
+	(*T)(0,2) = (*T)(3,5) = (*T)(6,8) = (*T)(9,11) = R(0,2);
+	(*T)(1,0) = (*T)(4,3) = (*T)(7,6) = (*T)(10,9) = R(1,0);
+	(*T)(1,1) = (*T)(4,4) = (*T)(7,7) = (*T)(10,10) = R(1,1);
+	(*T)(1,2) = (*T)(4,5) = (*T)(7,8) = (*T)(10,11) = R(1,2);
+	(*T)(2,0) = (*T)(5,3) = (*T)(8,6) = (*T)(11,9) = R(2,0);
+	(*T)(2,1) = (*T)(5,4) = (*T)(8,7) = (*T)(11,10) = R(2,1);
+	(*T)(2,2) = (*T)(5,5) = (*T)(8,8) = (*T)(11,11) = R(2,2);
+}
+
 void
 BarElementTest::basic_tests(){
 	Point *start = PointManager::GetInstance().GetPoint(0.0,0.0,0.0),
@@ -169,6 +182,61 @@ BarElementTest::beam_stiffness_tests(){
 	//std::cout << expected << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 		"We expect the 3D beam stiffness matrix",
+		144,
+		(int)sum(sum(test,1))
+	);
+
+
+	float alpha = 0.0;
+	x1 = 0.0, y1 = 0.0, z1 = 0.0,
+	x2 = 2.0, y2 = 4.5, z2 = 3.2;
+	start = PointManager::GetInstance().GetPoint(x1,y1,z1);
+	end  = PointManager::GetInstance().GetPoint(x2,y2,z2);
+	BeamBarElement bar_b2 = BeamBarElement(start, end, cross_sect, m);
+	L = bar_b2.GetLength();
+	expected = {
+		{A*E/L,0.0,0.0, 0.0,0.0,0.0, -A*E/L,0.0,0.0, 0.0,0.0,0.0},
+		{0.0,12*E/pow(L,(float)3.0),0.0, 0.0,0.0,6*E/pow(L,(float)2.0), 0.0,-12*E/pow(L,(float)3.0),0.0, 0.0,0.0,6*E/pow(L,(float)2)},
+		{0.0,0.0,12*E/pow(L,(float)3), 0.0,-6*E/pow(L,(float)2),0.0, 0.0,0.0,-12*E/pow(L,(float)3), 0.0,-6*E/pow(L,(float)2),0.0},
+
+		{0.0,0.0,0.0, G*J/L,0.0,0.0, 0.0,0.0,0.0, -G*J/L,0.0,0.0},
+		{0.0,0.0,-6*E/pow(L,(float)2), 0.0,4*E/L,0.0, 0.0,0.0,6*E/pow(L,(float)2), 0.0,2*E/L,0.0},
+		{0.0,6*E/pow(L,(float)2),0.0, 0.0,0.0,4*E/L, 0.0,-6*E/pow(L,(float)2),0.0, 0.0,0.0,2*E/L},
+
+		{-A*E/L,0.0,0.0, 0.0,0.0,0.0, A*E/L,0.0,0.0, 0.0,0.0,0.0},
+		{0.0,-12*E/pow(L,(float)3),0.0, 0.0,0.0,-6*E/pow(L,(float)2), 0.0,12*E/pow(L,(float)3),0.0, 0.0,0.0,-6*E/pow(L,(float)2)},
+		{0.0,0.0,-12*E/pow(L,(float)3), 0.0,6*E/pow(L,(float)2),0.0, 0.0,0.0,12*E/pow(L,(float)3), 0.0,6*E/pow(L,(float)2),0.0},
+
+		{0.0,0.0,0.0, -G*J/L,0.0,0.0, 0.0,0.0,0.0, G*J/L,0.0,0.0},
+		{0.0,0.0,-6*E/pow(L,(float)2), 0.0,2*E/L,0.0, 0.0,0.0,6*E/pow(L,(float)2), 0.0,4*E/L,0.0},
+		{0.0,6*E/pow(L,(float)2),0.0, 0.0,0.0,2*E/L, 0.0,-6*E/pow(L,(float)2),0.0, 0.0,0.0,4*E/L},
+	};
+	float Cx = (end->x - start->x)/L;
+	float Cy = (end->y - start->y)/L;
+	float Cz = (end->z - start->z)/L;
+	float s = sin(alpha); s<1E-8 ? 0 : s;
+	float c = cos(alpha); c<1E-8 ? 0 : c;
+	float Cxz = sqrt(pow(Cx,2) + pow(Cz,2)) + 1E-8; // to prevent division by 0
+	TransformationMatrixType expected_T = TransformationMatrixType(12,12,arma::fill::zeros),
+													 expected_R = {
+			{Cx, Cy, Cz},
+			{(-Cx*Cy*c-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*c+Cx*s)/Cxz},
+			{(Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cx*Cz*s+Cx*c)/Cxz}
+		};
+	copy_R_in_T(expected_R,&expected_T);
+	StiffnessMatrixType transformed_stiffness = expected_T*expected*expected_T.t();
+	// WARNING: HUGE (?) difference, elements in matrix are 1E10
+	test = arma::abs(transformed_stiffness - bar_b2.GetStiffnessMatrix())<1E4;
+	//std::cout << "************************" << std::endl;
+	//std::cout << expected_T << std::endl;
+	//std::cout << "************************" << std::endl;
+	//std::cout << bar_b2.GetStiffnessMatrix() << std::endl;
+	//std::cout << "************************" << std::endl;
+	//std::cout <<  transformed_stiffness << std::endl;
+	//std::cout << "************************" << std::endl;
+	//std::cout << transformed_stiffness - bar_b2.GetStiffnessMatrix() << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+		"We expect the 3D beam stiffness matrix transformed by T",
 		144,
 		(int)sum(sum(test,1))
 	);

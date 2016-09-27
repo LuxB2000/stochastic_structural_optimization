@@ -298,7 +298,7 @@ void InternalStructuralElementObjectTest::beam_transformation_test(){
 	);
 
 	// general formulation
-	end = PointManager::GetInstance().GetPoint(1.0,1.0,1.0);
+	end = PointManager::GetInstance().GetPoint(3.0,4.0,1.0);
 	float alpha = 10.0;
 	InternalBeamElement obj_b3 = InternalBeamElement(start,end,A,BASIC, alpha);
 	float L = sqrt( pow(end->x-start->x,2)+ pow(end->y-start->y,2)+ pow(end->z-start->z,2) );
