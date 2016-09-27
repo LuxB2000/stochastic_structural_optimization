@@ -42,12 +42,21 @@ public:
 	// builder
 	/*
 	 * @public
-	 * default function to construct simple elements with
-	 * InternalStructuralElementObject and Points*
+	 * default function to construct simple elements for
+	 * InternalStructuralElementObject based on Stiffness 
+	 * matrixType in local coordinate, Transformation Matrix and JointId
 	 * Warning: we assume joinId1<jointId2
 	 */
     void Build(StiffnessMatrixType kl, TransformationMatrixType cl,
 				JointIdType jointId1, JointIdType jointId2);
+
+	/*
+	 * @public
+	 * Build the Stiffness matrix with a Stiffness matrix in 
+	 * global coordinates only
+	 * Warning: we assume joinId1<jointId2
+	 */
+    void Build(StiffnessMatrixType kl, JointIdType jointId1, JointIdType jointId2);
 
 private:
 	StiffnessMatrixType m_stiffnessM;

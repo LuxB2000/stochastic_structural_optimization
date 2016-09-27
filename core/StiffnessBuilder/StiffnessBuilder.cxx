@@ -31,8 +31,23 @@ Build(
 	//StiffnessMatrixType kg = tm * kl * tm.t();
 	//std::cout << tm << "\n" << std::endl;
 	//std::cout << kg << "\n" << std::endl;
-	m_build( tm * kl * tm.t(), j1, j2 );
+	if( StructuralElementType::NDOF == 3 ){
+		m_build( tm * kl * tm.t(), j1, j2 );
+	}else if( StructuralElementType::NDOF == 6 ){
+		m_build( tm.t() * kl * tm, j1, j2 );
+	}
 }// end Build
+
+/**
+ * @public
+ * Build with a Stiffness matrix in global coordinate
+ */
+template<class StructuralElementType>
+void
+StiffnessBuilder<StructuralElementType>::
+Build( StiffnessMatrixType kg, JointIdType j1, JointIdType j2){
+	m_build( kg, j1, j2 );
+}//end Build
 
 template<class StructuralElementType>
 void
