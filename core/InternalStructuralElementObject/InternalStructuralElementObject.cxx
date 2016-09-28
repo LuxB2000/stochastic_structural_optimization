@@ -208,11 +208,11 @@ m_init()
 		Cz = (m_end->z - m_start->z)/m_L;
 		s = sin(m_alpha);
 		c = cos(m_alpha);
-		Cxz = sqrt(pow(Cx,2) + pow(Cz,2)) + 1E-8; // to prevent division by 0
+		Cxz = sqrt(pow(Cx,2.0) + pow(Cz,2.0)) + 1E-8; // to prevent division by 0
 		TransformationMatrixType R = {
 			{Cx, Cy, Cz},
-			{(-Cx*Cy*c-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*c+Cx*s)/Cxz},
-			{(Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cy*Cz*s+Cx*c)/Cxz}
+			{(-Cx*Cy*c-Cz*s)/Cxz,  Cxz*c, (-Cy*Cz*c+Cx*s)/Cxz},
+			{( Cx*Cy*s-Cz*c)/Cxz, -Cxz*s, ( Cy*Cz*s+Cx*c)/Cxz}
 		};
 		//std::cout << "R00:" << R(0,0) << " R01:" << R(0,1) << " R02:" << R(0,2) << "\n"
 		//				 << "R10:" << R(1,0) <<  " R11:" << R(1,1) << " R12:" << R(1,2) << "\n"

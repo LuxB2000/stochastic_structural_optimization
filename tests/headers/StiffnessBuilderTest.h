@@ -39,6 +39,8 @@ class StiffnessBuilderTest  : public CPPUNIT_NS::TestFixture{
         CPPUNIT_TEST(truss_building_tests);
         CPPUNIT_TEST(beam_building_tests);
         CPPUNIT_TEST(simple_truss_structure_building_tests);
+				CPPUNIT_TEST(triangle_beam_structure_building_tests);
+				// CPPUNIT_TEST(frame_beam_structre_building_tests); //TODO
     CPPUNIT_TEST_SUITE_END();
 
 public:
@@ -53,6 +55,8 @@ public:
     void truss_building_tests(void);
     void beam_building_tests(void);
     void simple_truss_structure_building_tests(void);
+		void triangle_beam_structure_building_tests();
+		void frame_beam_structre_building_tests(void);
 
 private:
 	typedef InternalStructuralElementObject<TrussType> InternalTrussElement;
