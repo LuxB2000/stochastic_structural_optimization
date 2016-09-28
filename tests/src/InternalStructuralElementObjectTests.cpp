@@ -311,7 +311,7 @@ void InternalStructuralElementObjectTest::beam_transformation_test(){
 	expected_R = {
 			{Cx, Cy, Cz},
 			{(-Cx*Cy*c-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*c+Cx*s)/Cxz},
-			{(Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cx*Cz*s+Cx*c)/Cxz}
+			{(Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cy*Cz*s+Cx*c)/Cxz}
 		};
 	copy_R_in_T(expected_R,&expected);
 	test = arma::abs(expected - obj_b3.GetTransformationMatrix())<1E-6;

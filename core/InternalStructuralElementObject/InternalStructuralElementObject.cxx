@@ -131,54 +131,54 @@ m_init()
 		m_k(0,0) = coef * m_A;
 		m_k(0,6) = coef * -m_A;
 
-		m_k(1,1) = coef * 12/pow(m_L,2);
-		m_k(1,5) = coef * 6/m_L;
-		m_k(1,7) = coef * -12/pow(m_L,2);
-		m_k(1,11) = coef * 6/m_L;
+		m_k(1,1) = coef * 12.0/pow(m_L,2);
+		m_k(1,5) = coef * 6.0/m_L;
+		m_k(1,7) = coef * -12.0/pow(m_L,2);
+		m_k(1,11) = coef * 6.0/m_L;
 
-		m_k(2,2) = coef * 12/pow(m_L,2);
-		m_k(2,4) = coef * -6/m_L;
-		m_k(2,8) = coef * -12/pow(m_L,2);
-		m_k(2,10) = coef * -6/m_L;
+		m_k(2,2) = coef * 12.0/pow(m_L,2);
+		m_k(2,4) = coef * -6.0/m_L;
+		m_k(2,8) = coef * -12.0/pow(m_L,2);
+		m_k(2,10) = coef * -6.0/m_L;
 
 		m_k(3,3) = G*J/m_L;
 		m_k(3,9) = -G*J/m_L;
 
-		m_k(4,2) = coef * -6/m_L;
-		m_k(4,4) = coef * 4;
-		m_k(4,8) = coef * 6/m_L;
+		m_k(4,2) = coef * -6.0/m_L;
+		m_k(4,4) = coef * 4.0;
+		m_k(4,8) = coef * 6.0/m_L;
 		m_k(4,10) = coef * 2;
 
-		m_k(5,1) = coef * 6/m_L;
-		m_k(5,5) = coef * 4;
-		m_k(5,7) = coef * -6/m_L;
-		m_k(5,11) = coef * 2;
+		m_k(5,1) = coef * 6.0/m_L;
+		m_k(5,5) = coef * 4.0;
+		m_k(5,7) = coef * -6.0/m_L;
+		m_k(5,11) = coef * 2.0;
 
 		m_k(6,0) = coef * -m_A;
 		m_k(6,6) = coef * m_A;
 
-		m_k(7,1) = coef * -12/pow(m_L,2);
-		m_k(7,5) = coef * -6/m_L;
-		m_k(7,7) = coef * 12/pow(m_L,2);
-		m_k(7,11) = coef * -6/m_L;
+		m_k(7,1) = coef * -12.0/pow(m_L,2);
+		m_k(7,5) = coef * -6.0/m_L;
+		m_k(7,7) = coef * 12.0/pow(m_L,2);
+		m_k(7,11) = coef * -6.0/m_L;
 
-		m_k(8,2) = coef * -12/pow(m_L,2);
-		m_k(8,4) = coef * 6/m_L;
-		m_k(8,8) = coef * 12/pow(m_L,2);
-		m_k(8,10) = coef * 6/m_L;
+		m_k(8,2) = coef * -12.0/pow(m_L,2);
+		m_k(8,4) = coef * 6.0/m_L;
+		m_k(8,8) = coef * 12.0/pow(m_L,2);
+		m_k(8,10) = coef * 6.0/m_L;
 
 		m_k(9,3) = -G*J/m_L;
 		m_k(9,9) = G*J/m_L;
 
-		m_k(10,2) = coef * -6/m_L;
-		m_k(10,4) = coef * 2;
-		m_k(10,8) = coef * 6/m_L;
+		m_k(10,2) = coef * -6.0/m_L;
+		m_k(10,4) = coef * 2.0;
+		m_k(10,8) = coef * 6.0/m_L;
 		m_k(10,10) = coef * 4;
 
-		m_k(11,1) = coef * 6/m_L;
-		m_k(11,5) = coef * 2;
-		m_k(11,7) = coef * -6/m_L;
-		m_k(11,11) = coef * 4;
+		m_k(11,1) = coef * 6.0/m_L;
+		m_k(11,5) = coef * 2.0;
+		m_k(11,7) = coef * -6.0/m_L;
+		m_k(11,11) = coef * 4.0;
 
 		// local transformation matrix
 		/*
@@ -212,7 +212,7 @@ m_init()
 		TransformationMatrixType R = {
 			{Cx, Cy, Cz},
 			{(-Cx*Cy*c-Cz*s)/Cxz, Cxz*c, (-Cy*Cz*c+Cx*s)/Cxz},
-			{(Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cx*Cz*s+Cx*c)/Cxz}
+			{(Cx*Cy*s -Cz*c)/Cxz, -Cxz*s,(Cy*Cz*s+Cx*c)/Cxz}
 		};
 		//std::cout << "R00:" << R(0,0) << " R01:" << R(0,1) << " R02:" << R(0,2) << "\n"
 		//				 << "R10:" << R(1,0) <<  " R11:" << R(1,1) << " R12:" << R(1,2) << "\n"
