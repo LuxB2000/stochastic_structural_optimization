@@ -23,6 +23,8 @@ set(CORE_ELEMENT_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/Element")
 set(CORE_ELAB_DIR "${CORE_ELEMENT_DIR}/AbstractElement")
 set(CORE_ELBAR_DIR "${CORE_ELEMENT_DIR}/BarElement")
 
+set(CORE_SOLV_DIR "${CMAKE_CURRENT_SOURCE_DIR}/core/Solver")
+
 
 ## -- Source files --
 set(SOURCE_FILES
@@ -42,8 +44,13 @@ set(SOURCE_FILES
 			# Internal Structural Element Object
 			${CORE_ISEO_DIR}/InternalStructuralElementObject.h
 			${CORE_SB_DIR}/StiffnessBuilder.h
+
+			# elements
 			${CORE_ELAB_DIR}/AbstractElement.h
 			${CORE_ELBAR_DIR}/BarElement.h
+
+			# Solver
+			${CORE_SOLV_DIR}/Solver.h
 
 			core/headers/StructuralElement.h core/src/StructuralElement.cpp
 			# simple truss objects
@@ -137,6 +144,8 @@ include_directories(${UTESTS_EH_DIR})
 					${UTESTS_S_DIR}/StiffnessBuilderTest.cpp
 					${UTESTS_S_DIR}/Element/BarElementTest.cpp
 
+					${UTESTS_S_DIR}/SolverTest.cpp
+
 					${UTESTS_HT_DIR}/InternalTrussObjectTest.h ${UTESTS_ST_DIR}/InternalTrussObjectTest.cpp
 					tests/headers/StiffnessMatrixBuilderTest.h tests/src/StiffnessMatrixBuilderTest.cpp
         tests/headers/TrussSolverTest.h tests/src/TrussSolverTest.cpp
@@ -168,6 +177,7 @@ include_directories(${CORE_ISEO_DIR})
 include_directories(${CORE_SB_DIR})
 include_directories(${CORE_ELAB_DIR})
 include_directories(${CORE_ELBAR_DIR})
+include_directories(${CORE_SOLV_DIR})
 
 #include_directories(${CORE_DIR}/src)
 #add_executable(sso main.cpp ${SOURCE_FILES} ${EASYLOGGINGPP_H})
