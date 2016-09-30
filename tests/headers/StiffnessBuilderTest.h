@@ -40,7 +40,7 @@ class StiffnessBuilderTest  : public CPPUNIT_NS::TestFixture{
         CPPUNIT_TEST(beam_building_tests);
         CPPUNIT_TEST(simple_truss_structure_building_tests);
 				CPPUNIT_TEST(triangle_beam_structure_building_tests);
-				// CPPUNIT_TEST(frame_beam_structre_building_tests); //TODO
+				CPPUNIT_TEST(frame_beam_structre_building_tests);
     CPPUNIT_TEST_SUITE_END();
 
 public:
