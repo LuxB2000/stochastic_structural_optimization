@@ -29,6 +29,7 @@ class InternalStructuralElementObjectTest : public CPPUNIT_NS::TestFixture{
 
 		CPPUNIT_TEST(beam_transformation_test);
 		CPPUNIT_TEST(beam_stiffness_test);
+		CPPUNIT_TEST(beam_stiffness_file_test);
 
 	 CPPUNIT_TEST_SUITE_END();
 
@@ -48,6 +49,7 @@ public:
 	void truss_stiffness_test(void);
 	void beam_transformation_test(void);
 	void beam_stiffness_test(void);
+	void beam_stiffness_file_test(void);
 
 private:
 	typedef InternalStructuralElementObject<TrussType> InternalTrussElement;

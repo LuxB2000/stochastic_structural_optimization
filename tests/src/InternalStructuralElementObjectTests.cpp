@@ -371,3 +371,29 @@ void InternalStructuralElementObjectTest::beam_stiffness_test(){
 			0
 	);
 }
+
+void InternalStructuralElementObjectTest::beam_stiffness_file_test(void){
+	float x1 = 1.0, y1 = 2.0, z1 = 3.0,
+				x2 = 2.0, y2 = 1.0, z2 = 5.0;
+	float cross_sect = 23E-4; // in m^2
+	Material m = BASIC;
+	arma::umat test;
+	Point *start = PointManager::GetInstance().GetPoint(x1,y1,z1),
+				*end   = PointManager::GetInstance().GetPoint(x2,y2,z2);
+	InternalBeamElement obj_b = InternalBeamElement(start,end,cross_sect,BASIC);
+	TransformationMatrixType expected_C;
+	bool check = expected_C.load("../tests/data/C_transformed_beam.mat",arma::raw_ascii);//TODO: better path
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"File C_transformed_beam.mat can't be read.",
+			true,
+			check
+	);
+
+	test = arma::abs(expected_C - obj_b.GetTransformationMatrix())<1E-3;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+		"We expect the stiffness matrix for a randomly oriented BeamBarElement",
+		144,
+		(int)sum(sum(test,1))
+	);
+
+}

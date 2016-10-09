@@ -1,7 +1,11 @@
 # ignoring compiled files
 *.o
 *.so
+# ignoring temporary files
+*~
 # ignoring all the files in the building documents
 build/*
 # ignoring the vim temporary files
-*.swp 
+*.swp
+# ignoring the data folder
+tests/data/*

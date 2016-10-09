@@ -329,3 +329,37 @@ BarElementTest::beam_stiffness_tests(){
 }// end beam_stiffness_tests
 
 
+/*
+ * compare the matrix created by Matlab and the C++ code
+ */
+void
+BarElementTest::truss_stiffness_files_tests(void){
+	float x1 = 1.0, y1 = 2.0, z1 = 3.0,
+				x2 = 2.0, y2 = 1.0, z2 = 5.0;
+	float cross_sect = 23E-4; // in m^2
+	Material m = BASIC;
+	arma::umat test;
+	Point *start = PointManager::GetInstance().GetPoint(x1,y1,z1),
+				*end   = PointManager::GetInstance().GetPoint(x2,y2,z2);
+	BeamBarElement bar_b = BeamBarElement(start,end,cross_sect,m);
+	StiffnessMatrixType expected_K;
+	bool check = expected_K.load("../tests/data/Kg_transformed_beam.mat",arma::raw_ascii);//TODO: better path
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"File Kg_transformed_beam.mat can't be read.",
+			true,
+			check
+	);
+
+	test = arma::abs(expected_K - bar_b.GetStiffnessMatrix())<1E-3;
+	//std::cout << bar_b.GetStiffnessMatrix() << std::endl;
+	//std::cout << "************************" << std::endl;
+	//std::cout <<  expected << std::endl;
+	//std::cout << "************************" << std::endl;
+	//std::cout << expected - bar_b4.GetStiffnessMatrix() << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+		"We expect the stiffness matrix for a randomly oriented BeamBarElement",
+		144,
+		(int)sum(sum(test,1))
+	);
+
+}// end truss_stiffness_files_tests
