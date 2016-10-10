@@ -30,6 +30,16 @@ public:
 	~Solver();
 
 
+	/*
+	 * Basic Solver functions
+	 * Find the nodal displacements and the element forces based on
+	 * ForceVectorType with size equals to K.n_col
+	 * BoundaryConditionsVectorType contains a certain number of Boundary.
+	 * Each boundary will restrict the stiffness matrix and the force vector
+	 *	bcv.at(i) := std::vector with size=1
+	 *	bcv.at(i).at(o) = node_id
+	 *	bcv.at(i).at(1) = dof
+	 */
 	void ComputeNodeDisplacements( 
 			DisplacementVectorType* disp, 
 			StiffnessMatrixType K,

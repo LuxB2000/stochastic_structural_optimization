@@ -20,10 +20,10 @@ p3 = [4,0,0];
 % structural properties of the beams
 E = 1;
 A = 2300E-6; % in m^2
-Iy = 1.2;  % TODO: need to find real values
-Iz = 1.3;  % TODO: need to find real values
-Iyz = 1.4; % TODO: need to find real values
-GJ = 1.5;    % TODO: need to find real values
+Iy = 1;  % TODO: need to find real values
+Iz = 1;  % TODO: need to find real values
+Iyz = 0; % TODO: need to find real values
+GJ = 0;    % TODO: need to find real values
 alpha = 0; % in degrees
 
 % topology of the 
@@ -46,7 +46,11 @@ beams = init_data(beam_start_pt, beam_end_pt, E, A, Iy, Iz, Iyz, GJ, alpha);
 [delem,felem,fsup,K] = solve_structure(beams,fext,sup,cyclic,verbose);
 
 %% save the resultes
-save(strcat(path,'\Kg_two_horizontal_beams.mat'), 'K', '-ascii')
+if( ispc() == 1 )
+	save(strcat(path,'\Kg_two_horizontal_beams.mat'), 'K', '-ascii');
+else
+	save(strcat(path,'/Kg_two_horizontal_beams.mat'), 'K', '-ascii');
+end
 
 
 %% display the results
