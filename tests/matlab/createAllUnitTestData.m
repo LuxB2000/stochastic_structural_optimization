@@ -9,7 +9,11 @@ close all;
 
 % constants
 script_path = cd();
-k = strfind(script_path,'\');
+if( ispc() == 1 )
+	k = strfind(script_path,'\');
+elseif( isunix()== 1 )
+	k = strfind(script_path,'/');
+end
 data_path = strcat(script_path(1:k(end)),'data');
 verbose = 0;
 

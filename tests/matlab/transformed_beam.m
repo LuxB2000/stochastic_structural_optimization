@@ -46,8 +46,13 @@ a = sqrt( sum( (beams.end_pt(i,:)-beams.start_pt(i,:)).^2 ) );
 
 
 %% save the resultes
-save(strcat(path,'\Kg_transformed_beam.mat'), 'ko', '-ascii');
-save(strcat(path,'\C_transformed_beam.mat'), 'Co', '-ascii');
+if( ispc() == 1 )
+	save(strcat(path,'\Kg_transformed_beam.mat'), 'ko', '-ascii');
+	save(strcat(path,'\C_transformed_beam.mat'), 'Co', '-ascii');
+else
+	save(strcat(path,'/Kg_transformed_beam.mat'), 'ko', '-ascii');
+	save(strcat(path,'/C_transformed_beam.mat'), 'Co', '-ascii');
+end
 
 
 end
