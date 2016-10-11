@@ -60,7 +60,8 @@ private:
 	Point *m_start, *m_end;
 	const unsigned int m_nbrOfPoints = 2;
 	double m_L /*length*/, m_A /*cross section*/, m_E /*Young's modulus*/,
-				 m_alpha /*the angle between the local X and global X*/;
+				 m_alpha /*the angle between the local X and global X*/,
+				 m_GJ /**/, m_Iy /**/, m_Iz/**/, m_Iyz/**/ ;
 	Material m_material;
 
 	// structural vectors and matrices

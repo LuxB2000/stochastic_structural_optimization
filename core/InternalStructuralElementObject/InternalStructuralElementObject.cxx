@@ -62,9 +62,21 @@ m_init()
 
 	// specified the Young's modulus based on the material type
 	// TODO: move values into a const structure in Material.h
+	m_GJ  = 0.0;
+	m_Iy  = 1.0;
+	m_Iz  = 1.0;
+	m_Iyz = 0.0;
 	switch (m_material){
 			case BASIC:
 					m_E = 1.0;
+					m_Iy  = 1.0;
+					m_Iz  = 1.0;
+					break;
+			case BASIC_C:
+					m_E  = 1.1;
+					m_Iy = 1.2;
+					m_Iz = 1.3;
+					m_GJ = 1.4;
 					break;
 			case TEST:
 					// numbers coming from "Introduction to Finite Element Analysis Using Matlab and Abacus" Amar Khennane 2013
@@ -127,58 +139,58 @@ m_init()
 	}else if( StructuralElementType::NDOF == 6 ){
 		// BEAMTYPE element
 		// stiffness matrix
-		float coef = m_E/m_L, c = 0.0, s = 0.0, J = 0.0, G = 0.0; //TODO: determine values for J and G
+		float coef = m_E/m_L, c = 0.0, s = 0.0; //TODO: determine values for J and G
 		m_k(0,0) = coef * m_A;
 		m_k(0,6) = coef * -m_A;
 
-		m_k(1,1) = coef * 12.0/pow(m_L,2);
-		m_k(1,5) = coef * 6.0/m_L;
-		m_k(1,7) = coef * -12.0/pow(m_L,2);
-		m_k(1,11) = coef * 6.0/m_L;
+		m_k(1,1) = coef * 12.0/pow(m_L,2) * m_Iz;
+		m_k(1,5) = coef * 6.0/m_L * m_Iz;
+		m_k(1,7) = coef * -12.0/pow(m_L,2) * m_Iz;
+		m_k(1,11) = coef * 6.0/m_L * m_Iz;
 
-		m_k(2,2) = coef * 12.0/pow(m_L,2);
-		m_k(2,4) = coef * -6.0/m_L;
-		m_k(2,8) = coef * -12.0/pow(m_L,2);
-		m_k(2,10) = coef * -6.0/m_L;
+		m_k(2,2) = coef * 12.0/pow(m_L,2) * m_Iy;
+		m_k(2,4) = coef * -6.0/m_L * m_Iy;
+		m_k(2,8) = coef * -12.0/pow(m_L,2) * m_Iy;
+		m_k(2,10) = coef * -6.0/m_L * m_Iy;
 
-		m_k(3,3) = G*J/m_L;
-		m_k(3,9) = -G*J/m_L;
+		m_k(3,3) = m_GJ/m_L;
+		m_k(3,9) = -m_GJ/m_L;
 
-		m_k(4,2) = coef * -6.0/m_L;
-		m_k(4,4) = coef * 4.0;
-		m_k(4,8) = coef * 6.0/m_L;
-		m_k(4,10) = coef * 2;
+		m_k(4,2) = coef * -6.0/m_L * m_Iy;
+		m_k(4,4) = coef * 4.0 * m_Iy;
+		m_k(4,8) = coef * 6.0/m_L * m_Iy;
+		m_k(4,10) = coef * 2 * m_Iy;
 
-		m_k(5,1) = coef * 6.0/m_L;
-		m_k(5,5) = coef * 4.0;
-		m_k(5,7) = coef * -6.0/m_L;
-		m_k(5,11) = coef * 2.0;
+		m_k(5,1) = coef * 6.0/m_L * m_Iz;
+		m_k(5,5) = coef * 4.0 * m_Iz;
+		m_k(5,7) = coef * -6.0/m_L * m_Iz;
+		m_k(5,11) = coef * 2.0 * m_Iz;
 
 		m_k(6,0) = coef * -m_A;
 		m_k(6,6) = coef * m_A;
 
-		m_k(7,1) = coef * -12.0/pow(m_L,2);
-		m_k(7,5) = coef * -6.0/m_L;
-		m_k(7,7) = coef * 12.0/pow(m_L,2);
-		m_k(7,11) = coef * -6.0/m_L;
+		m_k(7,1) = coef * -12.0/pow(m_L,2) * m_Iz;
+		m_k(7,5) = coef * -6.0/m_L * m_Iz;
+		m_k(7,7) = coef * 12.0/pow(m_L,2) * m_Iz;
+		m_k(7,11) = coef * -6.0/m_L * m_Iz;
 
-		m_k(8,2) = coef * -12.0/pow(m_L,2);
-		m_k(8,4) = coef * 6.0/m_L;
-		m_k(8,8) = coef * 12.0/pow(m_L,2);
-		m_k(8,10) = coef * 6.0/m_L;
+		m_k(8,2) = coef * -12.0/pow(m_L,2) * m_Iy;
+		m_k(8,4) = coef * 6.0/m_L * m_Iy;
+		m_k(8,8) = coef * 12.0/pow(m_L,2) * m_Iy;
+		m_k(8,10) = coef * 6.0/m_L * m_Iy;
 
-		m_k(9,3) = -G*J/m_L;
-		m_k(9,9) = G*J/m_L;
+		m_k(9,3) = -m_GJ/m_L;
+		m_k(9,9) = m_GJ/m_L;
 
-		m_k(10,2) = coef * -6.0/m_L;
-		m_k(10,4) = coef * 2.0;
-		m_k(10,8) = coef * 6.0/m_L;
-		m_k(10,10) = coef * 4;
+		m_k(10,2) = coef * -6.0/m_L * m_Iy;
+		m_k(10,4) = coef * 2.0 * m_Iy;
+		m_k(10,8) = coef * 6.0/m_L * m_Iy;
+		m_k(10,10) = coef * 4 * m_Iy;
 
-		m_k(11,1) = coef * 6.0/m_L;
-		m_k(11,5) = coef * 2.0;
-		m_k(11,7) = coef * -6.0/m_L;
-		m_k(11,11) = coef * 4.0;
+		m_k(11,1) = coef * 6.0/m_L * m_Iz;
+		m_k(11,5) = coef * 2.0 * m_Iz;
+		m_k(11,7) = coef * -6.0/m_L * m_Iz;
+		m_k(11,11) = coef * 4.0 * m_Iz;
 
 		// local transformation matrix
 		/*

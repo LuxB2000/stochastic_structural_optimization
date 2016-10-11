@@ -58,6 +58,14 @@ public:
 	 */
     void Build(StiffnessMatrixType kl, JointIdType jointId1, JointIdType jointId2);
 
+		/*
+		 * @public
+		 * Build a stiffness matrix with a Element Stiffness matrix in
+		 * global coordinates. These Stiffness matrix can involve any
+		 * number of nodes.
+		 */
+		void Build(StiffnessMatrixType kg1, JointIdVectorType jointIdList1);
+
 private:
 	StiffnessMatrixType m_stiffnessM;
 	unsigned int m_nbrOfPts;

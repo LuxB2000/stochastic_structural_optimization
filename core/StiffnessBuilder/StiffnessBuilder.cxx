@@ -77,3 +77,29 @@ m_build(StiffnessMatrixType k, JointIdType j1, JointIdType j2){
 }// end m_build
 
 
+template<class StructuralElementType>
+void
+StiffnessBuilder<StructuralElementType>::
+Build(StiffnessMatrixType kg, JointIdVectorType jointIdList){
+		// be sure we the ids are ordered
+	std::sort( jointIdList.begin(), jointIdList.end() );
+
+	// construct the new stiffness matrix
+	unsigned int c=0, r=0, nbrDOF=StructuralElementType::NDOF,
+							 nc1=kg.n_cols, nr1=kg.n_rows;
+	int cc = -1, cr = -1, mc = 0, mr = 0;
+	bool found = true;
+
+	for( r=0; r<nr1; r++ ){
+		mr = (r % nbrDOF);
+		if( mr == 0 ) cr ++;
+		cc = -1;
+		for( c=0; c<nc1; c++ ){
+			mc = (c % nbrDOF);
+			if( mc == 0 ) cc ++;
+			(m_stiffnessM)(jointIdList[cr]*nbrDOF+mr, jointIdList[cc]*nbrDOF+mc) =
+				(m_stiffnessM)(jointIdList[cr]*nbrDOF+mr, jointIdList[cc]*nbrDOF+mc) + (kg)(r,c);
+		}
+	}
+
+}

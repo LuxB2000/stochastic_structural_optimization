@@ -32,6 +32,9 @@ using namespace std;
 class SolverTest : public CPPUNIT_NS::TestFixture{
     CPPUNIT_TEST_SUITE(SolverTest);
         CPPUNIT_TEST(basic_tests);
+
+				CPPUNIT_TEST(horizontal_beam_test);
+
         CPPUNIT_TEST(truss_triangle_tests);
         CPPUNIT_TEST(beam_triangle_tests);
 				CPPUNIT_TEST(truss_frame_tests);
@@ -46,6 +49,8 @@ public:
 
     void basic_tests(void);
 
+		void horizontal_beam_test(void);
+
 		void truss_triangle_tests(void);
 		void beam_triangle_tests(void);
 
@@ -53,11 +58,18 @@ public:
 		void beam_frame_tests(void);
 
 private:
+
 	typedef BarElement<TrussType> TrussBarElement;
 	typedef BarElement<BeamType>  BeamBarElement;
 
+	typedef StiffnessBuilder<TrussType> TrussStiffnessBuilder;
+	typedef StiffnessBuilder<BeamType>  BeamStiffnessBuilder;
+
 	typedef Solver<TrussType> TrussSolverType;
 	typedef Solver<BeamType>   BeamSolverType;
+
+	// path designating the folder containing the data to test
+	string m_data_path;
 };
 
 #endif

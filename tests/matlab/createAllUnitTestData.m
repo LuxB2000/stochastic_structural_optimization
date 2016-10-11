@@ -25,7 +25,11 @@ if( t == 0 ) % the folder doesn't exist, create it
 end
 
 %% Build, evaluate and write the matrix for different scructures
+% Basic tests using only BASIC Material
 transformed_beam(data_path,verbose);
 two_horizontal_beams(data_path,verbose);
 triangle_beams(data_path,verbose);
 frame_beams(data_path,verbose);
+
+% Basic tests using only BASIC_C Material
+Ctwo_horizontal_beams(data_path,verbose);

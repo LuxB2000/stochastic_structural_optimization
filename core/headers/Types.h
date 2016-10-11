@@ -26,4 +26,5 @@ typedef std::vector<float> FrameParametersVectorType;
 
 // Joint types
 typedef unsigned int JointIdType;
+typedef std::vector<JointIdType> JointIdVectorType;
 #endif //SSO_TYPES_H

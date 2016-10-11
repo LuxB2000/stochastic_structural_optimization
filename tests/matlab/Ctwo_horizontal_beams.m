@@ -1,6 +1,9 @@
-function [ output_args ] = two_horizontal_beams( path, verbose )
+function [] = Ctwo_horizontal_beams(data_path,verbose)
 % Create a simple scenario with 2 horizontal beams and 3 nodes:
 %
+%           |
+%           | 5kN
+%           \/
 %  p1       p2       p3
 %  ___________________
 %  |                 |       
@@ -15,13 +18,13 @@ p2 = [2,0,0];
 p3 = [4,0,0];
 
 % structural properties of the beams
-% value are defined to match the BASIC in Material.h
-E = 1;
-A = 2300E-6; % in m^2
-Iy = 1; 
-Iz = 1; 
-Iyz = 0;
-GJ = 0;
+% value are defined to match the BASIC_C in Material.h
+E = 1.1;
+A = 23E-4; % in m^2
+Iy = 1.2;
+Iz = 1.3;
+Iyz = 0; % TODO: need to find real values
+GJ = 1.4;
 alpha = 0; % in degrees
 
 % topology of the 
@@ -41,13 +44,13 @@ sup = [[1,1];[1,2];[1,3];[1,4];[1,5];[1,6];...
 % constructing the data
 beams = init_data(beam_start_pt, beam_end_pt, E, A, Iy, Iz, Iyz, GJ, alpha);
 %% solve the system
-[~,~,~,K] = solve_structure(beams,fext,sup,cyclic,verbose);
+[delem,felem,fsup,K] = solve_structure(beams,fext,sup,cyclic,verbose);
 
 %% save the resultes
 if( ispc() == 1 )
-	save(strcat(data_path,'\Kg_two_horizontal_beams.mat'), 'K', '-ascii');
+	save(strcat(data_path,'\Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
 else
-	save(strcat(data_path,'/Kg_two_horizontal_beams.mat'), 'K', '-ascii');
+	save(strcat(data_path,'/Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
 end
 
 
@@ -60,6 +63,7 @@ if(verbose)
     fprintf('Element forces in local coodinates:\n');
     disp(felem);
 end
+
 
 end
 
