@@ -72,10 +72,10 @@ if( cyclic )
     % cyclic structure: the last point is the first, the last element connect
     % p1 and p3
     for j=1:NDOF
-        edof(3,j) = j; % last beam connect point 1 and 2, here connections with 3
+        edof(3,j) = (2-1)*NDOF + j+NDOF; % last beam connect point 1 and 2, here connections with 3
     end
     for j=7:12
-        edof(3,j) = (2-1)*NDOF + j; % last beam connect point 1 and 2, here connections with 1
+        edof(3,j) = j - NDOF;  % last beam connect point 1 and 2, here connections with 1
     end
     
 end

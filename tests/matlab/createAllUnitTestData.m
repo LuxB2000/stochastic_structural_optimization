@@ -27,4 +27,4 @@ end
 %% Build, evaluate and write the matrix for different scructures
 transformed_beam(data_path,verbose);
 two_horizontal_beams(data_path,verbose);
-
+triangle_beams(data_path,verbose);
