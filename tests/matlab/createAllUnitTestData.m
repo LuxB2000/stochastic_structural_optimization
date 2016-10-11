@@ -28,3 +28,4 @@ end
 transformed_beam(data_path,verbose);
 two_horizontal_beams(data_path,verbose);
 triangle_beams(data_path,verbose);
+frame_beams(data_path,verbose);

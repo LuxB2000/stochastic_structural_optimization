@@ -47,7 +47,7 @@ beams = init_data(beam_start_pt, beam_end_pt, E, A, Iy, Iz, Iyz, GJ, alpha);
 %% solve the system
 [delem,felem,fsup,K] = solve_structure(beams,fext,sup,cyclic,verbose);
 
-%% save the resultes
+%% save the results
 if( ispc() == 1 )
 	save(strcat(path,'\Kg_triangle_beams.mat'), 'K', '-ascii');
 else
