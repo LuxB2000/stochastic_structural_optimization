@@ -75,6 +75,8 @@ private:
 
 	typedef StiffnessBuilder<TrussType> TrussStiffnessBuilder;
 	typedef StiffnessBuilder<BeamType>  BeamStiffnessBuilder;
+	
+	std::string data_path;
 };
 
 

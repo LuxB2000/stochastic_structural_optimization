@@ -19,6 +19,14 @@
 #include "StiffnessBuilderTest.h"
 CPPUNIT_TEST_SUITE_REGISTRATION(StiffnessBuilderTest);
 StiffnessBuilderTest::StiffnessBuilderTest(){
+	data_path = std::string();
+
+	#ifdef _DATATESTPATH // from CMakeLists file
+		data_path = _DATATESTPATH;
+	#else
+		// default path
+		data_path = std::string("../tests/data");
+	#endif
 }
 
 StiffnessBuilderTest::~StiffnessBuilderTest(){
@@ -539,7 +547,7 @@ void StiffnessBuilderTest::beam_building_file_tests(void){
 	builder_b.Build(el_b1.GetLocalStiffnessMatrix(), el_b1.GetTransformationMatrix(), 0, 1 );
 	builder_b.Build(el_b2.GetLocalStiffnessMatrix(), el_b2.GetTransformationMatrix(), 1, 2 );
 
-	bool check = expected.load("../tests/data/Kg_two_horizontal_beams.mat");
+	bool check = expected.load(data_path + std::string("/Kg_two_horizontal_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file Kg_two_horizontal_beams, may be you haven't run Matlab script",
 			check,
@@ -601,7 +609,7 @@ void StiffnessBuilderTest::triangle_beam_structure_building_file_tests(void){
 	arma::umat test;
 	BeamStiffnessBuilder builder = BeamStiffnessBuilder(N);
 
-	bool check = expected.load("../tests/data/Kg_triangle_beams.mat");
+	bool check = expected.load(data_path + std::string("/Kg_triangle_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file Kg_triangle_beams, may be you haven't run Matlab script...",
 			check,
@@ -683,7 +691,7 @@ void StiffnessBuilderTest::frame_beam_structre_building_file_tests(void){
 
 	StiffnessMatrixType stiffness = builder.GetStiffnessMatrix(),
 											expected;
-	bool check = expected.load("../tests/data/Kg_frame_beams.mat");
+	bool check = expected.load(data_path + std::string("/Kg_frame_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file Kg_frame_beams, may be you haven't run Matlab script...",
 			check,

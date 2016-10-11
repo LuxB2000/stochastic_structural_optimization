@@ -125,6 +125,9 @@ include_directories(${UTESTS_FH_DIR})
 include_directories(${UTESTS_ST_DIR})
 include_directories(${UTESTS_EH_DIR})
 
+# set the repertory containing the data
+add_definitions(-D_DATATESTPATH="${UTESTS_DIR}/data")
+
 # set tests files
 	set(UTESTS_FILES
 					core/headers/Types.h
