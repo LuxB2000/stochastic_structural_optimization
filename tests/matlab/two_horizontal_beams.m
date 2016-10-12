@@ -1,4 +1,4 @@
-function [ output_args ] = two_horizontal_beams( path, verbose )
+function [ output_args ] = two_horizontal_beams( data_path, verbose )
 % Create a simple scenario with 2 horizontal beams and 3 nodes:
 %
 %  p1       p2       p3
