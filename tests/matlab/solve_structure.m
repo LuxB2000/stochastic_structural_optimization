@@ -1,7 +1,7 @@
-function [delem,felem,fsup,K] = solve_structure(beams, fext, sup, cyclic, verbose)
-% [DELEM,FELEM,FSUP,K] = SOLVE_STRUCTURE(BEAMS,EXTERNAL_FORCES, SUPPORT, CYCLIC)
+function [d,felem,fsup,K] = solve_structure(beams, fext, sup, cyclic, verbose)
+% [D,FELEM,FSUP,K] = SOLVE_STRUCTURE(BEAMS,EXTERNAL_FORCES, SUPPORT, CYCLIC)
 % outputs:
-% the nodal displacements DELEM and the element forces FELEM based
+% the nodal displacements D and the element forces FELEM based
 % in local coordinates. FSUP is the forces localised at the supports.
 % K is the global stiffness matrix in global coordinates.
 % inputs: 

@@ -44,13 +44,15 @@ sup = [[1,1];[1,2];[1,3];[1,4];[1,5];[1,6];...
 % constructing the data
 beams = init_data(beam_start_pt, beam_end_pt, E, A, Iy, Iz, Iyz, GJ, alpha);
 %% solve the system
-[delem,felem,fsup,K] = solve_structure(beams,fext,sup,cyclic,verbose);
+[d,felem,fsup,K] = solve_structure(beams,fext,sup,cyclic,verbose);
 
 %% save the resultes
 if( ispc() == 1 )
 	save(strcat(data_path,'\Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
+    save(strcat(data_path,'\disp_Ctwo_horizontal_beams.mat'), 'd', '-ascii');
 else
 	save(strcat(data_path,'/Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
+    save(strcat(data_path,'/disp_Ctwo_horizontal_beams.mat'), 'd', '-ascii');
 end
 
 

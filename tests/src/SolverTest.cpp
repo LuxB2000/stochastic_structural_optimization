@@ -51,11 +51,12 @@ SolverTest::horizontal_beam_test(void){
 	      *p2 = PointManager::GetInstance().GetPoint(4.0,0.0,0.0);
 
 	float cross_sec =  23E-4, // in m^2
-				alpha = 0.0;
+				alpha = 0.0,
+				f1y=-5E3;
 
 	Material m = BASIC_C;
 
-	int N = 3; // number of points
+	int N = 3; // number of nodes/points
 	arma::umat test;
 	StiffnessMatrixType expected;
 
@@ -67,15 +68,16 @@ SolverTest::horizontal_beam_test(void){
 			true
 	);
 
-	// create the barElement
+	// create the element objects
 	BeamBarElement b1 = BeamBarElement(p0, p1, cross_sec, m, alpha);
 	BeamBarElement b2 = BeamBarElement(p1, p2, cross_sec, m, alpha);
 
-	// create the stiffness builder
+	// create the stiffness matrix of the structure
 	BeamStiffnessBuilder builder = BeamStiffnessBuilder(N);
 	builder.Build(b1.GetStiffnessMatrix(), {0,1});
 	builder.Build(b2.GetStiffnessMatrix(), {1,2});
 	
+	// test the stiffness matrix values
 	test = arma::abs(expected-builder.GetStiffnessMatrix())<1E-6;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect to find the same stiffness matrix as the file.",
@@ -83,7 +85,47 @@ SolverTest::horizontal_beam_test(void){
 			static_cast<int>(sum(sum(test,1)))
 	);
 
-	// solve the system
+	// Boundary conditions
+	BoundaryConditionsVectorType bc = BoundaryConditionsVectorType();
+	// all supports are fixed supports -> all reactions are constraint
+	for( unsigned int i=0; i<N; i=i+2 ){
+		bc.push_back({i,0}); // Vx is constraint at pt 0
+		bc.push_back({i,1}); // Vy is constraint at pt 0
+		bc.push_back({i,2}); // Vz is constraint at pt 0
+		bc.push_back({i,3}); // Mx is constraint at pt 0
+		bc.push_back({i,4}); // My is constraint at pt 0
+		bc.push_back({i,5}); // Mz is constraint at pt 0
+	}
+
+	DisplacementVectorType disp = DisplacementVectorType(N); // size = #nodes
+	DisplacementVectorType test_disp, expected_disp;
+	ForceVectorType f_ext = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
+	check = expected_disp.load(m_data_path + std::string("/disp_Ctwo_horizontal_beams.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file disp_Ctwo_horizontal_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+
+	// ================
+	// Solve the system
+	// ================
+	BeamSolverType  solver = BeamSolverType();
+	// 1- find displacements of the nodes.
+	f_ext(7) = f1y;
+	solver.ComputeNodeDisplacements(&disp,builder.GetStiffnessMatrix(),&f_ext,&bc);
+	test = arma::abs(disp-expected_disp)<1E-6;
+	//std::cout << disp << std::endl;
+	//std::cout << expected_disp << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We expect to find the same stiffness matrix as the file.",
+			(int)(N*6),
+			static_cast<int>(sum(sum(test,1)))
+	);
+
+	// 2- find the support's reactions
+
+	// 3- find the elements' internal forces
 }
 
 void
@@ -97,7 +139,7 @@ SolverTest::beam_triangle_tests(void){
 	 *
 	 *      |
 	 *      | 10kN
-	 *     \/     _
+	 *     \/    _
 	 *     /|    |
 	 *    / |    | 2m
 	 *   /  |    |

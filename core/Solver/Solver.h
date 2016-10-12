@@ -32,7 +32,7 @@ public:
 
 	/*
 	 * Basic Solver functions
-	 * Find the nodal displacements and the element forces based on
+	 * Find the nodal displacements based on the external forces
 	 * ForceVectorType with size equals to K.n_col
 	 * BoundaryConditionsVectorType contains a certain number of Boundary.
 	 * Each boundary will restrict the stiffness matrix and the force vector
@@ -43,7 +43,7 @@ public:
 	void ComputeNodeDisplacements( 
 			DisplacementVectorType* disp, 
 			StiffnessMatrixType K,
-			ForceVectorType *f,
+			ForceVectorType *f_ext,
 			BoundaryConditionsVectorType* bcv);
 
 	void ComputeElementForces(
