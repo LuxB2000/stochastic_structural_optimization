@@ -46,6 +46,9 @@ public:
 	 *	bcv.at(i) := std::vector with size=1
 	 *	bcv.at(i).at(o) = node_id
 	 *	bcv.at(i).at(1) = dof
+	 *
+	 * These functions are not dedicated to compute forces in elements since
+	 * the solver doesn't have access to transformation matrix
 	 */
 	void ComputeNodeDisplacements();
 			/*
@@ -62,12 +65,6 @@ public:
 			ForceVectorType *f_ext,
 			BoundaryConditionsVectorType* bcv);
 			*/
-
-	void ComputeElementForces(
-			DisplacementVectorType* disp,
-			StiffnessMatrixType K,
-			ForceVectorType *f,
-			BoundaryConditionsVectorType* bcv);
 
 private:
 	ForceVectorType *m_f_ext, *m_f_reaction_sup, m_f_elem;

@@ -100,12 +100,4 @@ Solver<StructuralElementType>::ComputeSupportReactions()
 	}
 }
 
-template<class StructuralElementType>
-void
-Solver<StructuralElementType>::ComputeElementForces(
-		DisplacementVectorType* disp,
-		StiffnessMatrixType K,
-		ForceVectorType *f,
-		BoundaryConditionsVectorType* bcv){
-}
 

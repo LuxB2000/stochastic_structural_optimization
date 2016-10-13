@@ -45,18 +45,17 @@ sup = [[1,1];[1,2];[1,3];[1,4];[1,5];[1,6];...
 beams = init_data(beam_start_pt, beam_end_pt, E, A, Iy, Iz, Iyz, GJ, alpha);
 %% solve the system
 [d,felem,fsup,K] = solve_structure(beams,fext,sup,cyclic,verbose);
-
+felem = felem(:);
 %% save the resultes
 if( ispc() == 1 )
-	save(strcat(data_path,'\Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
-    save(strcat(data_path,'\disp_Ctwo_horizontal_beams.mat'), 'd', '-ascii');
-    save(strcat(data_path,'\fsup_Ctwo_horizontal_beams.mat'), 'fsup', '-ascii');
+    p='\';
 else
-	save(strcat(data_path,'/Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
-    save(strcat(data_path,'/disp_Ctwo_horizontal_beams.mat'), 'd', '-ascii');
-    save(strcat(data_path,'/fsup_Ctwo_horizontal_beams.mat'), 'fsup', '-ascii');
+    p='/';
 end
-
+save(strcat(data_path,p,'Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
+save(strcat(data_path,p,'disp_Ctwo_horizontal_beams.mat'), 'd', '-ascii');
+save(strcat(data_path,p,'fsup_Ctwo_horizontal_beams.mat'), 'fsup', '-ascii');
+save(strcat(data_path,p,'felem_Ctwo_horizontal_beams.mat'), 'felem', '-ascii');
 
 %% display the results
 if(verbose)

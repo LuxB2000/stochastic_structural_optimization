@@ -115,6 +115,12 @@ SolverTest::horizontal_beam_test(void){
 			check,
 			true
 	);
+	check = f_elem_expected.load(m_data_path + std::string("/felem_Ctwo_horizontal_beams.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file felem_Ctwo_horizontal_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
 
 	// initialize the data
 	DisplacementVectorType disp = DisplacementVectorType(N*BeamType::NDOF); // size = #nodes
@@ -149,6 +155,13 @@ SolverTest::horizontal_beam_test(void){
 	);
 
 	// 3- find the elements' internal forces
+	//solver.ComputeElementForcesInGlobalCoord();
+	//arma::umat test_f_elem = arma::abs(f_elem-f_elem_expected)<1E-6;
+	//CPPUNIT_ASSERT_EQUAL_MESSAGE(
+	//	"We expect to find the same support reactions vector as the file.",
+	//		(int)(2*2*6), // 2 elements, 2 nodes per element, 6 DOF
+	//		static_cast<int>(sum(sum(test_sup,1)))
+	//);
 }
 
 void
