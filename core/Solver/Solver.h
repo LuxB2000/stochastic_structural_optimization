@@ -27,6 +27,13 @@ public:
 
 	// constructor
 	Solver();
+	Solver(
+				StiffnessMatrixType Kg,
+				BoundaryConditionsVectorType *bc,
+				ForceVectorType *f_ext,
+				DisplacementVectorType *disp,
+				ForceVectorType *f_reaction_sup,
+				ForceVectorType *f_elem);
 	~Solver();
 
 
@@ -40,19 +47,35 @@ public:
 	 *	bcv.at(i).at(o) = node_id
 	 *	bcv.at(i).at(1) = dof
 	 */
-	void ComputeNodeDisplacements( 
+	void ComputeNodeDisplacements();
+			/*
 			DisplacementVectorType* disp, 
 			StiffnessMatrixType K,
 			ForceVectorType *f_ext,
 			BoundaryConditionsVectorType* bcv);
+			*/
+
+	void ComputeSupportReactions();
+			/*
+			DisplacementVectorType* disp, 
+			StiffnessMatrixType K,
+			ForceVectorType *f_ext,
+			BoundaryConditionsVectorType* bcv);
+			*/
 
 	void ComputeElementForces(
-			DisplacementVectorType* disp, 
+			DisplacementVectorType* disp,
 			StiffnessMatrixType K,
 			ForceVectorType *f,
 			BoundaryConditionsVectorType* bcv);
 
 private:
+	ForceVectorType *m_f_ext, *m_f_reaction_sup, m_f_elem;
+	DisplacementVectorType *m_disp;
+	StiffnessMatrixType m_K_reduced, m_K;
+	BoundaryConditionsVectorType *m_bc;
+	std::vector< unsigned int > m_active_dof;
+
 
 
 };

@@ -50,9 +50,11 @@ beams = init_data(beam_start_pt, beam_end_pt, E, A, Iy, Iz, Iyz, GJ, alpha);
 if( ispc() == 1 )
 	save(strcat(data_path,'\Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
     save(strcat(data_path,'\disp_Ctwo_horizontal_beams.mat'), 'd', '-ascii');
+    save(strcat(data_path,'\fsup_Ctwo_horizontal_beams.mat'), 'fsup', '-ascii');
 else
 	save(strcat(data_path,'/Kg_Ctwo_horizontal_beams.mat'), 'K', '-ascii');
     save(strcat(data_path,'/disp_Ctwo_horizontal_beams.mat'), 'd', '-ascii');
+    save(strcat(data_path,'/fsup_Ctwo_horizontal_beams.mat'), 'fsup', '-ascii');
 end
 
 

@@ -60,7 +60,7 @@ SolverTest::horizontal_beam_test(void){
 	arma::umat test;
 	StiffnessMatrixType expected;
 
-	// load the data
+	// load the expected stiffness matrix
 	bool check = expected.load(m_data_path + std::string("/Kg_Ctwo_horizontal_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file Kg_Ctwo_horizontal_beams, may be you haven't run Matlab script",
@@ -88,42 +88,65 @@ SolverTest::horizontal_beam_test(void){
 	// Boundary conditions
 	BoundaryConditionsVectorType bc = BoundaryConditionsVectorType();
 	// all supports are fixed supports -> all reactions are constraint
-	for( unsigned int i=0; i<N; i=i+2 ){
+	// all happens in a single plan -> only 1 DOF is free -> TRIVIAL CASE
+	for( unsigned int i=0; i<N; i++ ){
 		bc.push_back({i,0}); // Vx is constraint at pt 0
-		bc.push_back({i,1}); // Vy is constraint at pt 0
+		if( i!=1) bc.push_back({i,1}); // Vy is constraint at pt 0
 		bc.push_back({i,2}); // Vz is constraint at pt 0
 		bc.push_back({i,3}); // Mx is constraint at pt 0
 		bc.push_back({i,4}); // My is constraint at pt 0
 		bc.push_back({i,5}); // Mz is constraint at pt 0
 	}
-
-	DisplacementVectorType disp = DisplacementVectorType(N); // size = #nodes
-	DisplacementVectorType test_disp, expected_disp;
+	// external forces
 	ForceVectorType f_ext = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
+	f_ext(7) = f1y;
+
+	DisplacementVectorType expected_disp;
 	check = expected_disp.load(m_data_path + std::string("/disp_Ctwo_horizontal_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file disp_Ctwo_horizontal_beams, may be you haven't run Matlab script",
 			check,
 			true
 	);
+	ForceVectorType f_reaction_sup_expected, f_elem_expected;
+	check = f_reaction_sup_expected.load(m_data_path + std::string("/fsup_Ctwo_horizontal_beams.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file fsup_Ctwo_horizontal_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+
+	// initialize the data
+	DisplacementVectorType disp = DisplacementVectorType(N*BeamType::NDOF); // size = #nodes
+	ForceVectorType f_reaction_sup = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
+	ForceVectorType f_elem = ForceVectorType((N-1)*2*BeamType::NDOF); // size = #element*2*NDOF, 2: two nodes per elements)
 
 	// ================
 	// Solve the system
 	// ================
-	BeamSolverType  solver = BeamSolverType();
+	BeamSolverType  solver = BeamSolverType(builder.GetStiffnessMatrix(),&bc,&f_ext,&disp,&f_reaction_sup,&f_elem);
 	// 1- find displacements of the nodes.
-	f_ext(7) = f1y;
-	solver.ComputeNodeDisplacements(&disp,builder.GetStiffnessMatrix(),&f_ext,&bc);
-	test = arma::abs(disp-expected_disp)<1E-6;
+	solver.ComputeNodeDisplacements();
+	//solver.ComputeNodeDisplacements(&disp,builder.GetStiffnessMatrix(),&f_ext,&bc);
+	arma::umat test_disp = arma::abs(disp-expected_disp)<1E-6;
 	//std::cout << disp << std::endl;
 	//std::cout << expected_disp << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
-			"We expect to find the same stiffness matrix as the file.",
+			"We expect to find the same node displacement vector the file.",
 			(int)(N*6),
-			static_cast<int>(sum(sum(test,1)))
+			static_cast<int>(sum(sum(test_disp,1)))
 	);
 
 	// 2- find the support's reactions
+	solver.ComputeSupportReactions();
+	arma::umat test_sup=arma::abs(f_reaction_sup-f_reaction_sup_expected)<1E-6;
+	std::cout << f_reaction_sup_expected << std::endl;
+	std::cout << f_reaction_sup << std::endl;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We expect to find the same support reactions vector as the file.",
+			(int)(N*6),
+			static_cast<int>(sum(sum(test_sup,1)))
+	);
 
 	// 3- find the elements' internal forces
 }
