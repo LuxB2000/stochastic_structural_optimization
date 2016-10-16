@@ -101,8 +101,14 @@ SolverTest::horizontal_beam_test(void){
 	ForceVectorType f_ext = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
 	f_ext(7) = f1y;
 
-	DisplacementVectorType expected_disp;
-	check = expected_disp.load(m_data_path + std::string("/disp_Ctwo_horizontal_beams.mat"));
+	DisplacementVectorType expected_disp_gc, expected_disp_lc;
+	check = expected_disp_gc.load(m_data_path + std::string("/disp_Ctwo_horizontal_beams.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file disp_Ctwo_horizontal_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+	check = expected_disp_lc.load(m_data_path + std::string("/disp_lc_Ctwo_horizontal_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file disp_Ctwo_horizontal_beams, may be you haven't run Matlab script",
 			check,
@@ -134,9 +140,9 @@ SolverTest::horizontal_beam_test(void){
 	// 1- find displacements of the nodes.
 	solver.ComputeNodeDisplacements();
 	//solver.ComputeNodeDisplacements(&disp,builder.GetStiffnessMatrix(),&f_ext,&bc);
-	arma::umat test_disp = arma::abs(disp-expected_disp)<1E-6;
+	arma::umat test_disp = arma::abs(disp-expected_disp_gc)<1E-6;
 	//std::cout << disp << std::endl;
-	//std::cout << expected_disp << std::endl;
+	//std::cout << expected_disp_gc << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect to find the same node displacement vector the file.",
 			(int)(N*6),
@@ -146,22 +152,61 @@ SolverTest::horizontal_beam_test(void){
 	// 2- find the support's reactions
 	solver.ComputeSupportReactions();
 	arma::umat test_sup=arma::abs(f_reaction_sup-f_reaction_sup_expected)<1E-6;
-	std::cout << f_reaction_sup_expected << std::endl;
-	std::cout << f_reaction_sup << std::endl;
+	//std::cout << f_reaction_sup_expected << std::endl;
+	//std::cout << f_reaction_sup << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect to find the same support reactions vector as the file.",
 			(int)(N*6),
 			static_cast<int>(sum(sum(test_sup,1)))
 	);
 
-	// 3- find the elements' internal forces
-	//solver.ComputeElementForcesInGlobalCoord();
-	//arma::umat test_f_elem = arma::abs(f_elem-f_elem_expected)<1E-6;
-	//CPPUNIT_ASSERT_EQUAL_MESSAGE(
-	//	"We expect to find the same support reactions vector as the file.",
-	//		(int)(2*2*6), // 2 elements, 2 nodes per element, 6 DOF
-	//		static_cast<int>(sum(sum(test_sup,1)))
-	//);
+	// 3- find the elements' internal forces and displacement in local coordinates
+	// Parse all the Element and set the displacements in global coordinates
+	// Then, build the f_elem vector getting back the displacements in local coordinates
+	// as well as the internal forces in local coordinates
+	DisplacementVectorType disp1_gc = DisplacementVectorType(2*BeamType::NDOF),
+												 disp2_gc = DisplacementVectorType(2*BeamType::NDOF),
+												 disp1_lc = DisplacementVectorType(2*BeamType::NDOF),
+												 disp2_lc = DisplacementVectorType(2*BeamType::NDOF),
+													disp_lc = DisplacementVectorType(4*BeamType::NDOF);
+	for( unsigned int n=0; n<2*BeamType::NDOF; n++ ){
+		disp1_gc[n] = disp[n];
+		disp2_gc[n] = disp[n+BeamType::NDOF];
+	}
+	// set the displacements to each Element
+	b1.SetDisplacementInGlobalCoord(disp1_gc);
+	b2.SetDisplacementInGlobalCoord(disp2_gc);
+	// get the displacements in local coordinates
+	disp1_lc = b1.GetDisplacementInLocalCoord();
+	disp2_lc = b2.GetDisplacementInLocalCoord();
+
+	// set all the local displacements into a single vector
+	for( unsigned int n=0; n<2*BeamType::NDOF; n++ ){
+		disp_lc[n] = disp1_gc[n];
+		disp_lc[n+2*BeamType::NDOF] = disp2_gc[n];
+	}
+	test_disp = arma::abs(disp_lc  - expected_disp_lc )<1E-6;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We expect to find the displacement in local coordinates.",
+			(int)(4*BeamType::NDOF), // 2 beams and 2 points -> 4*NDOF
+			static_cast<int>(sum(sum(test_disp,1)))
+	);
+	// find all the element forces in local coordinates
+	ForceVectorType f1_lc = DisplacementVectorType(2*BeamType::NDOF),
+									f2_lc = DisplacementVectorType(2*BeamType::NDOF),
+									 f_lc = DisplacementVectorType(4*BeamType::NDOF);
+	f1_lc = b1.GetForceInLocalCoord();
+	f2_lc = b2.GetForceInLocalCoord();
+	for( unsigned int n=0; n<2*BeamType::NDOF; n++ ){
+		f_lc[n] = f1_lc[n];
+		f_lc[n+2*BeamType::NDOF] = f2_lc[n];
+	}
+	arma::umat test_f = arma::abs(f_lc - f_elem_expected) < 1E-6;
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We expect to find the force elements in local coordinates.",
+			(int)(4*BeamType::NDOF), // 2 beams and 2 points -> 4*NDOF
+			static_cast<int>(sum(sum(test_f,1)))
+	);
 }
 
 void

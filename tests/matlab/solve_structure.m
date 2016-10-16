@@ -1,5 +1,5 @@
-function [d,felem,fsup,K] = solve_structure(beams, fext, sup, cyclic, verbose)
-% [D,FELEM,FSUP,K] = SOLVE_STRUCTURE(BEAMS,EXTERNAL_FORCES, SUPPORT, CYCLIC)
+function [d,d_lc,felem,fsup,K] = solve_structure(beams, fext, sup, cyclic, verbose)
+% [D,DLC,FELEM,FSUP,K] = SOLVE_STRUCTURE(BEAMS,EXTERNAL_FORCES, SUPPORT, CYCLIC)
 % outputs:
 % the nodal displacements D and the element forces FELEM based
 % in local coordinates. FSUP is the forces localised at the supports.
@@ -138,3 +138,4 @@ for i=1:nel
     felem(:,i) = ko * delem(:,i);
 
 end
+d_lc = delem;

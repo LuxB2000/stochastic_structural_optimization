@@ -4,6 +4,12 @@
 CPPUNIT_TEST_SUITE_REGISTRATION(BarElementTest);
 
 BarElementTest::BarElementTest(){
+	#ifdef _DATATESTPATH // from CMakeLists file
+		m_data_path = _DATATESTPATH;
+	#else
+		// default path
+		m_data_path = std::string("../tests/data");
+	#endif
 }
 
 BarElementTest::~BarElementTest(){
@@ -343,7 +349,7 @@ BarElementTest::truss_stiffness_files_tests(void){
 				*end   = PointManager::GetInstance().GetPoint(x2,y2,z2);
 	BeamBarElement bar_b = BeamBarElement(start,end,cross_sect,m);
 	StiffnessMatrixType expected_K;
-	bool check = expected_K.load("../tests/data/Kg_transformed_beam.mat",arma::raw_ascii);//TODO: better path
+	bool check = expected_K.load( m_data_path + std::string("/Kg_transformed_beam.mat"),arma::raw_ascii);
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"File Kg_transformed_beam.mat can't be read.",
 			true,

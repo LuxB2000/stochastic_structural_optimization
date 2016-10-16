@@ -45,6 +45,13 @@ public:
 	virtual unsigned int GetNumberOfNodes(){ return 0; }
 	unsigned int GetNumberOfElements(){ return this->GetNumberOfNodes() - 1; }
 
+	// set the displacement in local coordinate system
+	void SetDisplacementInGlobalCoord(DisplacementVectorType disp_gc);
+	// return a 2xNDOF vector
+	DisplacementVectorType GetDisplacementInLocalCoord();
+	// return a 2xNDOF vector
+	ForceVectorType GetForceInLocalCoord();
+
 protected:
   double m_A, m_E, m_L, m_alpha;
 	Material m_material;
@@ -61,7 +68,7 @@ protected:
 	StiffnessMatrixType m_k;
 	TransformationMatrixType m_c;
 
-	ElementForceVectorType* m_elementForces;
+	//std::vector<float> m_elementForces;
 	NodeDisplacementVectorType* m_nodeDisplacements;
 
 	// populate the force and displacement vectors
@@ -69,6 +76,10 @@ protected:
 
 	// compute the length
 	void m_ComputeLength();
+
+	// displacements and foces
+	DisplacementVectorType m_disp_gc, m_disp_lc;
+	ForceVectorType m_f_elem_lc;
 
 };
 

@@ -47,13 +47,21 @@ public:
 		return m_c;
 	}
 
+	//TODO: remove
 	DisplacementVectorType GetNodalDisplacementInLocalCoordinates(){
-		return m_disp_local_coord;
+		return m_disp_lc;
 	}
 
+	DisplacementVectorType GetDisplacementInLocalCoord(){
+		return m_disp_lc;
+	}
+
+	// TODO: change name to have the same as in AbstractElement
 	ForceVectorType GetElementForcesInLocalCoordinates(){
 		return m_f;
 	}
+
+	void SetDisplacementInGlobalCoord(DisplacementVectorType disp_gc);
 
 private:
 	// variables
@@ -66,7 +74,7 @@ private:
 
 	// structural vectors and matrices
 	StiffnessMatrixType m_k;
-	DisplacementVectorType m_disp_local_coord;
+	DisplacementVectorType m_disp_lc, m_disp_gc;
 	ForceVectorType m_f;
   TransformationMatrixType m_c;
 

@@ -56,5 +56,6 @@ private:
 	typedef BarElement<BeamType>  BeamBarElement;
 	// note: this method has been tested in InternalStructuralElementObjectTest
 	void copy_R_in_T(TransformationMatrixType R, TransformationMatrixType* T);
+	std::string m_data_path;
 };
 #endif

@@ -33,6 +33,12 @@ BarElement(
 
 	// compute the length
 	this->m_ComputeLength();
+
+	// initialize the local and global coordinates displacements, and local coordinates forces
+	// WARNING: this should be done at each Element
+	this->m_disp_gc = DisplacementVectorType(this->GetNumberOfNodes()*StructuralElementType::NDOF);
+	this->m_disp_lc = DisplacementVectorType(this->GetNumberOfNodes()*StructuralElementType::NDOF);
+	this->m_f_elem_lc = ForceVectorType(this->GetNumberOfNodes()*StructuralElementType::NDOF);
 }
 
 template<class StructuralElementType>
