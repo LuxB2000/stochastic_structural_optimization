@@ -34,3 +34,4 @@ frame_beams(data_path,verbose);
 % Basic tests using only BASIC_C Material
 Ctwo_horizontal_beams(data_path,verbose);
 Ctriangle_beams(data_path,verbose);
+Cframe_beams(data_path,verbose);

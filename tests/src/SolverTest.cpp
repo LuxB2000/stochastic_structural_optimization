@@ -250,7 +250,7 @@ SolverTest::beam_triangle_tests(void){
 	ForceVectorType f_ext = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
 	f_ext(12) = f2x;
 
-	// load the expected matrix
+	// load the expected matrices
 	bool check = expected_K.load(m_data_path + std::string("/Kg_Ctriangle_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file Kg_Ctriangle_beams, may be you haven't run Matlab script",
@@ -410,10 +410,10 @@ SolverTest::beam_triangle_tests(void){
 			static_cast<int>(sum(sum(test_disp,1)))
 	);
 
-	std::cout << f_elem_lc << std::endl;
-	std::cout << f_elem_expected << std::endl;
+	//std::cout << f_elem_lc << std::endl;
+	//std::cout << f_elem_expected << std::endl;
 	arma::umat test_f_lc = arma::abs(f_elem_expected - f_elem_lc)<1E-3; // strange ... epsilon has to be bigger
-	std::cout << test_f_lc << std::endl;
+	//std::cout << test_f_lc << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect to find the element force in local coordinates.",
 			(int)(6*BeamType::NDOF), // 2 beams and 2 points -> 4*NDOF
@@ -427,4 +427,120 @@ SolverTest::truss_frame_tests(void){
 
 void
 SolverTest::beam_frame_tests(void){
+	/*
+	 *        | 10N
+   *        |
+   *        \/      _
+   *        /\     |1.5 m
+   *       /  \    |_
+   *      |    |   | 2m
+   *      |    |   |_
+   *     ///  ///
+   *      <-><->
+   *      1m  1m
+	 */
+	Point *p0 = PointManager::GetInstance().GetPoint(0.0,0.0,0.0),
+	      *p1 = PointManager::GetInstance().GetPoint(0.0,1.0,0.0),
+	      *p2 = PointManager::GetInstance().GetPoint(0.0,2.0,0.0),
+	      *p3 = PointManager::GetInstance().GetPoint(0.5,2.75,0.0),
+	      *p4 = PointManager::GetInstance().GetPoint(1.0,3.5,0.0),
+	      *p5 = PointManager::GetInstance().GetPoint(1.5,2.75,0.0),
+	      *p6 = PointManager::GetInstance().GetPoint(2.0,2.0,0.0),
+	      *p7 = PointManager::GetInstance().GetPoint(2.0,1.0,0.0),
+	      *p8 = PointManager::GetInstance().GetPoint(2.0,0.0,0.0);
+
+	float cross_sec =  23, // in m^2
+				alpha = 0.0,
+				f4y=-10;
+
+	Material m = BASIC_C;
+
+	int N = 9; // number of nodes/points
+	arma::umat test;
+	StiffnessMatrixType expected_K;
+
+	ForceVectorType f_ext = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
+	f_ext(3*BeamType::NDOF+1) = f4y;
+
+	// load the expected matrices
+	bool check = expected_K.load(m_data_path + std::string("/Cframe_beams_Kg.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file Kg_Ctriangle_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+
+	DisplacementVectorType expected_disp_gc, expected_disp_lc;
+	check = expected_disp_gc.load(m_data_path + std::string("/Cframe_beams_disp.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file disp_Ctriangle_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+	check = expected_disp_lc.load(m_data_path + std::string("/Cframe_beams_disp_lc.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file disp_Ctriangle_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+	ForceVectorType f_reaction_sup_expected, f_elem_expected;
+	check = f_reaction_sup_expected.load(m_data_path + std::string("/Cframe_beams_fsup.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file fsup_Ctriangle_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+	check = f_elem_expected.load(m_data_path + std::string("/Cframe_beams_felem.mat"));
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We couldn't open the file felem_Ctriangle_beams, may be you haven't run Matlab script",
+			check,
+			true
+	);
+
+	// create the element objects
+	// TODO: use a loop
+	BeamBarElement b0 = BeamBarElement(p0, p1, cross_sec, m, alpha);
+	BeamBarElement b1 = BeamBarElement(p1, p2, cross_sec, m, alpha);
+	BeamBarElement b2 = BeamBarElement(p2, p3, cross_sec, m, alpha);
+	BeamBarElement b3 = BeamBarElement(p3, p4, cross_sec, m, alpha);
+	BeamBarElement b4 = BeamBarElement(p4, p5, cross_sec, m, alpha);
+	BeamBarElement b5 = BeamBarElement(p5, p6, cross_sec, m, alpha);
+	BeamBarElement b6 = BeamBarElement(p6, p7, cross_sec, m, alpha);
+	BeamBarElement b7 = BeamBarElement(p7, p8, cross_sec, m, alpha);
+
+	// create the stiffness matrix of the structure
+	BeamStiffnessBuilder builder = BeamStiffnessBuilder(N);
+	builder.Build(b0.GetStiffnessMatrix(), {0,1});
+	builder.Build(b1.GetStiffnessMatrix(), {1,2});
+	builder.Build(b2.GetStiffnessMatrix(), {2,3});
+	builder.Build(b3.GetStiffnessMatrix(), {3,4});
+	builder.Build(b4.GetStiffnessMatrix(), {4,5});
+	builder.Build(b5.GetStiffnessMatrix(), {5,6});
+	builder.Build(b6.GetStiffnessMatrix(), {6,7});
+	builder.Build(b7.GetStiffnessMatrix(), {7,8});
+	
+	// test the stiffness matrix values
+	//std::cout << arma::abs(expected_K-builder.GetStiffnessMatrix()) << std::endl;
+	test = arma::abs(expected_K-builder.GetStiffnessMatrix())<1E-5; // !! Not 1E-6
+	CPPUNIT_ASSERT_EQUAL_MESSAGE(
+			"We expect to find the same stiffness matrix as the file.",
+			(int)(N*6*N*6),
+			static_cast<int>(sum(sum(test,1)))
+	);
+
+	// Boundary conditions
+	BoundaryConditionsVectorType bc = BoundaryConditionsVectorType();
+	// all supports are fixed supports -> all reactions are constraint
+	// all happens in 2D -> u_z = 0 and theta_x and theta_y = 0
+	for( unsigned int i=0; i<N; i++ ){
+		if( i==0 || i==8 ){
+			bc.push_back({i,0}); // Ux
+			bc.push_back({i,1}); // Uy
+			bc.push_back({i,5}); // Mz
+		}
+		bc.push_back({i,2}); // Vy is constraint at pt 0 and pt 1
+		bc.push_back({i,3}); // Mx is constraint at all points
+		bc.push_back({i,4}); // My is constraint at all points
+	}
+
 }
