@@ -82,7 +82,7 @@ void
 StiffnessBuilder<StructuralElementType>::
 Build(StiffnessMatrixType kg, JointIdVectorType jointIdList){
 		// be sure we the ids are ordered
-	std::sort( jointIdList.begin(), jointIdList.end() );
+	//std::sort( jointIdList.begin(), jointIdList.end() );
 
 	// construct the new stiffness matrix
 	unsigned int c=0, r=0, nbrDOF=StructuralElementType::NDOF,

@@ -221,7 +221,7 @@ m_init()
 		Cz = (m_end->z - m_start->z)/m_L;
 		s = sin(m_alpha);
 		c = cos(m_alpha);
-		Cxz = sqrt(pow(Cx,2.0) + pow(Cz,2.0)) + 1E-8; // to prevent division by 0
+		Cxz = sqrt(pow(Cx,2.0) + pow(Cz,2.0)) + 1E-12; // to prevent division by 0
 		TransformationMatrixType R = {
 			{Cx, Cy, Cz},
 			{(-Cx*Cy*c-Cz*s)/Cxz,  Cxz*c, (-Cy*Cz*c+Cx*s)/Cxz},
@@ -250,6 +250,8 @@ void
 InternalStructuralElementObject<StructuralElementType>::
 SetDisplacementInGlobalCoord(DisplacementVectorType disp){
 	m_disp_gc = disp;
-	m_disp_lc = m_c.t() * m_disp_gc;
+	//std::cout << m_c << std::endl;
+	m_disp_lc = m_c * m_disp_gc;
+	//std::cout << m_k << std::endl;
 	m_f = m_k * m_disp_lc;
 }

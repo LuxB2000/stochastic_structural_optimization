@@ -41,7 +41,7 @@ sup = [[1,1];[1,2];[1,3];[1,4];[1,5];[1,6];...
 % constructing the data
 beams = init_data(beam_start_pt, beam_end_pt, E, A, Iy, Iz, Iyz, GJ, alpha);
 %% solve the system
-[~,~,~,K] = solve_structure(beams,fext,sup,cyclic,verbose);
+[~,delem,felem,fsup,K] = solve_structure(beams,fext,sup,cyclic,verbose);
 
 %% save the resultes
 if( ispc() == 1 )

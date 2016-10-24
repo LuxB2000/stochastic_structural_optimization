@@ -2,7 +2,7 @@
 %% 3D BEAM ELEMENT Fiber-Reinforced Materials [ko] and [mo]
 % original code from: "A 3D Finite Beam Element for the Modelling of 
 % Composite Wind Turbine Wings" - R. DE FRIAS LOPE
-function [ko,mo,Tk]=FR_Beam_Element(EA,EIy,EIyz,EIz,GJ,...
+function [ko,mo,Tk,kel]=FR_Beam_Element(EA,EIy,EIyz,EIz,GJ,...
     FT,LT,AT,m,I1,I2,alpham,yt,zt,yc,zc,yg,zg,a,start_pt,end_pt)
 % General Axis: Y-Y,Z-Z (Flap,Lag)
 % Mass Inertia Principal Axis: 1-1,2-2

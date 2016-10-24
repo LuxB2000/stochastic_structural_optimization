@@ -129,13 +129,13 @@ fsup(active_dof) = 0;
 f=zeros(NDOF*n,1);
 for i=1:nel
     a = sqrt( sum( (beams.end_pt(i,:)-beams.start_pt(i,:)).^2 ) ); %/nel;
-    [ko,~,Co]=FR_Beam_Element(...
+    [~,~,Co,kl]=FR_Beam_Element(...
         beams.EA(i),beams.EIy(i),beams.EIyz(i),beams.EIz(i),beams.GJ(i),...
         0,0,0,0,0,0,... % NOT USED SO FAR
         beams.alpha(i),0,0,0,0,0,0, a, beams.start_pt(i,:), beams.end_pt(i,:));
 
-    delem(:,i) =  Co' * d(edof(i,:));
-    felem(:,i) = ko * delem(:,i);
+    delem(:,i) =  Co * d(edof(i,:));
+    felem(:,i) = kl * delem(:,i);
 
 end
 d_lc = delem;
