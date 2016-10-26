@@ -20,6 +20,7 @@ Solver(
 	m_K = StiffnessMatrixType(Kg);
 	// init the pointers
 	m_f_ext = f_ext;
+	m_f_ext_reduced = ForceVectorType(*f_ext);
 	m_f_reaction_sup = f_reaction_sup;
 	m_disp = disp;
 	m_bc = bcv;
@@ -28,10 +29,13 @@ Solver(
 	unsigned long R=0,C=0,L=0;
 	unsigned int NDOF = StructuralElementType::NDOF;
 
+	/*
 	R = m_K_reduced.n_rows;
 	C = m_K_reduced.n_cols;
+	*/
 	L = m_bc->size();
 
+	/*
 	for(i=0; i<L; i++){
 			j=m_bc->at(i).bc[0]*NDOF; // at joint j
 			d=m_bc->at(i).bc[1]; // direction d
@@ -41,6 +45,14 @@ Solver(
 			for(r=0;r<R;r++){
 					m_K_reduced.at(r,j+d) = 0;
 			}
+	}
+	*/
+	for(i=0; i<L; i++){
+			j=m_bc->at(i).bc[0]*NDOF; // at joint j
+			d=m_bc->at(i).bc[1]; // direction d
+			m_K_reduced.shed_row(j+d-i); // -i since we removed some row or column => the size of the matrix is changing
+			m_K_reduced.shed_col(j+d-i);
+			m_f_ext_reduced.shed_row(j+d-i);
 	}
 
 	// find the active degree of freedom
@@ -74,13 +86,21 @@ Solver<StructuralElementType>::
 ComputeNodeDisplacements()
 {
 
+	unsigned int L = m_active_dof.size();
+	DisplacementVectorType d;
+
 		// solve the system using armadillo
 		// check if the matrix is singular (det==0)
 		if( det(m_K_reduced) == 0 ){
 			// matrix is singular, used the Moore-Penrose pseudoinverse
-			*m_disp = pinv(m_K_reduced)*(*m_f_ext);
+			LOG(WARNING) << "The matrix is singular, attempt to solve the system with Moore-Penrose pseudoinverse." << std::endl;
+			d =  pinv(m_K_reduced)*(m_f_ext_reduced);
 		}else{
-	    solve(*m_disp,m_K_reduced,*m_f_ext,arma::solve_opts::fast);
+	    solve(d,m_K_reduced,m_f_ext_reduced,arma::solve_opts::fast);
+		}
+
+		for( unsigned int i=0, c=0; i<L; i++, c++ ){
+			(*m_disp)[m_active_dof.at(i)] = d[c];
 		}
 }
 

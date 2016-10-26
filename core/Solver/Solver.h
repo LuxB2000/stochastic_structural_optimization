@@ -67,7 +67,7 @@ public:
 			*/
 
 private:
-	ForceVectorType *m_f_ext, *m_f_reaction_sup, m_f_elem;
+	ForceVectorType *m_f_ext, m_f_ext_reduced, *m_f_reaction_sup, m_f_elem;
 	DisplacementVectorType *m_disp;
 	StiffnessMatrixType m_K_reduced, m_K;
 	BoundaryConditionsVectorType *m_bc;

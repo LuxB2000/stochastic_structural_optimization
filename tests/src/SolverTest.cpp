@@ -129,9 +129,9 @@ SolverTest::horizontal_beam_test(void){
 	);
 
 	// initialize the data
-	DisplacementVectorType disp = DisplacementVectorType(N*BeamType::NDOF); // size = #nodes
-	ForceVectorType f_reaction_sup = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
-	ForceVectorType f_elem = ForceVectorType((N-1)*2*BeamType::NDOF); // size = #element*2*NDOF, 2: two nodes per elements)
+	DisplacementVectorType disp = DisplacementVectorType(N*BeamType::NDOF,arma::fill::zeros); // size = #nodes
+	ForceVectorType f_reaction_sup = ForceVectorType(N*BeamType::NDOF,arma::fill::zeros); // size = #nodes*NDOF
+	ForceVectorType f_elem = ForceVectorType((N-1)*2*BeamType::NDOF,arma::fill::zeros); // size = #element*2*NDOF, 2: two nodes per elements)
 
 	// ================
 	// Solve the system
@@ -144,7 +144,7 @@ SolverTest::horizontal_beam_test(void){
 	//std::cout << disp << std::endl;
 	//std::cout << expected_disp_gc << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
-			"We expect to find the same node displacement vector the file.",
+			"We expect to find the same node displacements in GC.",
 			(int)(N*6),
 			static_cast<int>(sum(sum(test_disp,1)))
 	);
@@ -164,11 +164,11 @@ SolverTest::horizontal_beam_test(void){
 	// Parse all the Element and set the displacements in global coordinates
 	// Then, build the f_elem vector getting back the displacements in local coordinates
 	// as well as the internal forces in local coordinates
-	DisplacementVectorType disp1_gc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp2_gc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp1_lc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp2_lc = DisplacementVectorType(2*BeamType::NDOF),
-													disp_lc = DisplacementVectorType(4*BeamType::NDOF);
+	DisplacementVectorType disp1_gc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp2_gc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp1_lc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp2_lc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+													disp_lc = DisplacementVectorType(4*BeamType::NDOF,arma::fill::zeros);
 	for( unsigned int n=0; n<2*BeamType::NDOF; n++ ){
 		disp1_gc[n] = disp[n];
 		disp2_gc[n] = disp[n+BeamType::NDOF];
@@ -258,7 +258,8 @@ SolverTest::beam_triangle_tests(void){
 			true
 	);
 
-	DisplacementVectorType expected_disp_gc, expected_disp_lc;
+	DisplacementVectorType expected_disp_gc = DisplacementVectorType(N*BeamType::NDOF),
+												 expected_disp_lc = DisplacementVectorType(N*BeamType::NDOF);
 	check = expected_disp_gc.load(m_data_path + std::string("/disp_Ctriangle_beams.mat"));
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We couldn't open the file disp_Ctriangle_beams, may be you haven't run Matlab script",
@@ -321,7 +322,7 @@ SolverTest::beam_triangle_tests(void){
 	}
 
 	// initialize the data
-	DisplacementVectorType disp = DisplacementVectorType(N*BeamType::NDOF); // size = #nodes
+	DisplacementVectorType disp = DisplacementVectorType(N*BeamType::NDOF,arma::fill::zeros); // size = #nodes
 	ForceVectorType f_reaction_sup = ForceVectorType(N*BeamType::NDOF); // size = #nodes*NDOF
 	ForceVectorType f_elem = ForceVectorType((N-1)*2*BeamType::NDOF); // size = #element*2*NDOF, 2: two nodes per elements)
 
@@ -332,9 +333,9 @@ SolverTest::beam_triangle_tests(void){
 	// 1- find displacements of the nodes.
 	solver.ComputeNodeDisplacements();
 	//solver.ComputeNodeDisplacements(&disp,builder.GetStiffnessMatrix(),&f_ext,&bc);
-	arma::umat test_disp = arma::abs(disp-expected_disp_gc)<1E-6;
 	//std::cout << disp << std::endl;
-	//std::cout << expected_disp_gc - disp << std::endl;
+	//std::cout << expected_disp_gc << std::endl;
+	arma::umat test_disp = arma::abs(disp-expected_disp_gc)<1E-6;
 	//std::cout << "******" << std::endl;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect to find the node displacements in GC.",
@@ -400,9 +401,9 @@ SolverTest::beam_triangle_tests(void){
 	}
 	//std::cout << disp1_lc << std::endl;
 	//std::cout << disp2_lc << std::endl;
-	//std::cout << disp_lc << std::endl;
-	//std::cout << expected_disp_lc << std::endl;
-	//std::cout << disp_lc - expected_disp_lc << std::endl;
+	std::cout << disp_lc << std::endl;
+	std::cout << expected_disp_lc << std::endl;
+	std::cout << disp_lc - expected_disp_lc << std::endl;
 	test_disp = arma::abs(disp_lc  - expected_disp_lc )<1E-6;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect to find the displacement in local coordinates.",
