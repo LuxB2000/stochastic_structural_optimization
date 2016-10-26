@@ -58,8 +58,8 @@ SetDisplacementInGlobalCoord(DisplacementVectorType disp_gc){
 	unsigned int i=0, L=0, n=0, ndof = StructuralElementType::NDOF;
 	L = m_internalElementVector->size();
 	// 2 points per internal element
-	DisplacementVectorType disp_i_gc = DisplacementVectorType(2*StructuralElementType::NDOF);
-	DisplacementVectorType disp_i_lc;
+	DisplacementVectorType disp_i_gc = DisplacementVectorType(2*StructuralElementType::NDOF, arma::fill::zeros);
+	DisplacementVectorType disp_i_lc = DisplacementVectorType(2*StructuralElementType::NDOF, arma::fill::zeros);
 	ForceVectorType f_elem_i_lc;
 
 	// set the global displacement for each internal element

@@ -358,23 +358,29 @@ SolverTest::beam_triangle_tests(void){
 	// Parse all the Element and set the displacements in global coordinates
 	// Then, build the f_elem vector getting back the displacements in local coordinates
 	// as well as the internal forces in local coordinates
-	DisplacementVectorType disp0_gc = DisplacementVectorType(2*BeamType::NDOF), // 1 beams and 2 nodes
-												 disp1_gc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp2_gc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp0_lc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp1_lc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp2_lc = DisplacementVectorType(2*BeamType::NDOF),
-												 disp_lc = DisplacementVectorType(3*2*BeamType::NDOF); // 3 beams and 2 nodes
-	ForceVectorType f_elem_lc0 = ForceVectorType(2*BeamType::NDOF),
-									f_elem_lc1 = ForceVectorType(2*BeamType::NDOF),
-									f_elem_lc2 = ForceVectorType(2*BeamType::NDOF),
-									f_elem_lc = ForceVectorType(3*2*BeamType::NDOF);
+	DisplacementVectorType disp0_gc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros), // 1 beams and 2 nodes
+												 disp1_gc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp2_gc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp0_lc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp1_lc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp2_lc = DisplacementVectorType(2*BeamType::NDOF,arma::fill::zeros),
+												 disp_lc = DisplacementVectorType(3*2*BeamType::NDOF,arma::fill::zeros); // 3 beams and 2 nodes
+	ForceVectorType f_elem_lc0 = ForceVectorType(2*BeamType::NDOF,arma::fill::zeros),
+									f_elem_lc1 = ForceVectorType(2*BeamType::NDOF,arma::fill::zeros),
+									f_elem_lc2 = ForceVectorType(2*BeamType::NDOF,arma::fill::zeros),
+									f_elem_lc = ForceVectorType(3*2*BeamType::NDOF,arma::fill::zeros);
 
 	for( unsigned int n=0; n<2*BeamType::NDOF; n++ ){
 		disp0_gc[n] = disp[n];
 		disp1_gc[n] = disp[n+BeamType::NDOF];
+		//disp2_gc[n] = disp[n+2*BeamType::NDOF]; --> cyclic !! not true here
+	}
+
+	for( unsigned int n=0; n<BeamType::NDOF; n++ ){
+		disp2_gc[n+BeamType::NDOF] = disp[n];
 		disp2_gc[n] = disp[n+2*BeamType::NDOF];
 	}
+
 	// set the displacements to each Element
 	b0.SetDisplacementInGlobalCoord(disp0_gc);
 	b1.SetDisplacementInGlobalCoord(disp1_gc);
@@ -399,11 +405,12 @@ SolverTest::beam_triangle_tests(void){
 		f_elem_lc[n+2*BeamType::NDOF] = f_elem_lc1[n];
 		f_elem_lc[n+4*BeamType::NDOF] = f_elem_lc2[n];
 	}
+
 	//std::cout << disp1_lc << std::endl;
 	//std::cout << disp2_lc << std::endl;
-	std::cout << disp_lc << std::endl;
-	std::cout << expected_disp_lc << std::endl;
-	std::cout << disp_lc - expected_disp_lc << std::endl;
+	//std::cout << disp_lc << std::endl;
+	//std::cout << expected_disp_lc << std::endl;
+	//std::cout << disp_lc - expected_disp_lc << std::endl;
 	test_disp = arma::abs(disp_lc  - expected_disp_lc )<1E-6;
 	CPPUNIT_ASSERT_EQUAL_MESSAGE(
 			"We expect to find the displacement in local coordinates.",

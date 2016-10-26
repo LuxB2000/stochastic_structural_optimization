@@ -54,8 +54,8 @@ m_init()
 	// stfiness matrix
 	m_k = StiffnessMatrixType(m_nbrOfPoints*StructuralElementType::NDOF,m_nbrOfPoints*StructuralElementType::NDOF,arma::fill::zeros);
 	// local displacement vector
-	m_disp_lc = DisplacementVectorType(m_nbrOfPoints*StructuralElementType::NDOF);
-	m_disp_gc = DisplacementVectorType(m_nbrOfPoints*StructuralElementType::NDOF);
+	m_disp_lc = DisplacementVectorType(m_nbrOfPoints*StructuralElementType::NDOF,arma::fill::zeros);
+	m_disp_gc = DisplacementVectorType(m_nbrOfPoints*StructuralElementType::NDOF,arma::fill::zeros);
 	// local forces vector
 	m_f = ForceVectorType(StructuralElementType::NDOF);
 	// transformation matrix
