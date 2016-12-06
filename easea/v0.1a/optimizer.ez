@@ -1,0 +1,207 @@
+/*_____________________________________________________________
+
+This is a simple version of the building structure design with 
+genetic algorithm. The structure is a simple corner
+
+ ^ y
+ |
+ ---> x
+
+       (2)
+       /| --> 120 N
+    2 / |
+     /  | 1
+    /   |
+(0) ----- (1)
+      0
+	The two parameters are: 
+	- the Y coordinate of node (1)
+	- the X coordinate of node (2)
+_______________________________________________________________*/
+
+// =================== FUNCTIONS AND CONSTANTS =================== 
+
+\User declarations : // This section is copied on top of the output file
+#define SIGMA 1.0 // mutation parameter
+#define GENOME_SIZE 2 // 2 parameters are required to define the v0.1a structure
+// first parameter is the Y position of node (3)
+#define X0_MIN 1.5 // minimal value of the first parameter in meter
+#define X0_MAX 4.0 // maximal value of the first parameter in meter
+// second parameter is the X position of node (2)
+#define X1_MIN 0.25
+#define X1_MAX 2.0
+// force applied to the structure, in Newton
+#define F2 120.0
+// useful function
+#define MAX(x,y) ((x)>(y)?(x):(y))
+#define MIN(x,y) ((x)<(y)?(x):(y))
+// probability of mutation per gene
+float probaMutPerGene=0.1;
+\end
+
+\User functions:
+
+#include <math.h>
+#include "prob_def.h"
+
+float gauss()
+/* Generates a normally distributed random value with variance 1 and 0 mean.
+    Algorithm based on "gasdev" from Numerical recipes' pg. 203. */
+{
+  static int iset = 0;
+  float gset = 0.0;
+  float v1 = 0.0, v2 = 0.0, r = 0.0;
+  float factor = 0.0;
+
+  if (iset) {
+        iset = 0;
+        return gset;
+      	}
+  else {    
+        do {
+            v1 = (float)random(0.,1.) * 2.0 - 1.0;
+            v2 = (float)random(0.,1.) * 2.0 - 1.0;
+            r = v1 * v1 + v2 * v2;
+	                }
+        while (r > 1.0);
+        factor = sqrt (-2.0 * log (r) / r);
+        gset = v1 * factor;
+        iset = 1;
+        return (v2 * factor);
+    	}
+}
+
+\end
+
+\User CUDA:
+//Transfert some variables to GPU here (cudaMalloc, MemCpy)
+\end
+
+\Before everything else function:
+//cout<<"Before everything else function called "<<endl;
+\end
+
+\After everything else function:
+//cout << "After everything else function called" << endl;
+\end
+
+\At the beginning of each generation function:
+//cout << "At the beginning of each generation function called" << endl;
+\end
+
+\At the end of each generation function:
+//cout << "At the end of each generation function called" << endl;
+\end
+
+\At each generation before reduce function:
+//cout << "At each generation before replacement function called" << endl;
+\end
+
+// =================== GENOME DEFINITION =================== 
+\User classes :
+GenomeClass { 
+  // need to declare the genome here
+	float x[GENOME_SIZE];
+	// auto-adaptive mutation parameter
+	float sigma[GENOME_SIZE];
+}
+\end
+
+\GenomeClass::display:
+\end
+
+\GenomeClass::initialiser : // "initializer" is also accepted
+	unsigned int i=0;
+	Genome.x[0] = (float)random(X0_MIN,X0_MAX);
+	Genome.x[1] = (float)random(X1_MIN,X1_MAX);
+	for( i=0; i<GENOME_SIZE; i++ ){
+		Genome.sigma[i] = (float)random(0.0,0.5);
+	}
+\end
+
+\GenomeClass::crossover : 
+  // must create "child" out of "parent1" and "parent2"
+	// basic barycentric crossover
+	float alpha = 0.0;
+	for( unsigned int i=0; i<GENOME_SIZE; i++ ){
+		alpha = (float)random(0.,1.);
+		child.x[i] = alpha*parent1.x[i] + (1-alpha)*parent2.x[i];
+	}
+\end
+
+\GenomeClass::mutator : // Must return the number of mutations
+	unsigned int nbrMut = 0, i=0;
+	float pond = 1.0/sqrt((float)GENOME_SIZE);
+
+	for( i=0; i<GENOME_SIZE; i++ ){
+		if(tossCoin(probaMutPerGene)){
+			nbrMut++;
+			Genome.sigma[i] = Genome.sigma[i] * exp( SIGMA*pond*(float)gauss() );
+			Genome.sigma[i] = MIN(0.5,Genome.sigma[i]);
+			Genome.sigma[i] = MAX(0.0,Genome.sigma[i]);
+			Genome.x[i] += Genome.sigma[i] * (float)gauss();
+			if( i==0 ){
+				Genome.x[i] = MIN(X0_MIN,Genome.x[i]);
+				Genome.x[i] = MAX(X0_MAX,Genome.x[i]);
+			}else if( i==1 ){
+				Genome.x[i] = MIN(X1_MIN,Genome.x[i]);
+				Genome.x[i] = MAX(X1_MAX,Genome.x[i]);
+			}
+		}
+	}
+
+  return nbrMut;
+\end
+
+\GenomeClass::evaluator : // Returns the score as a real value
+  // uses Genome to evaluate the quality of the individual
+	float max_f = 0.0, width = 0.0, height = 0.0, score = 0.0;
+	BuildStructure(Genome.x[0], Genome.x[1], F2, &max_f,&width,&height);
+
+	// simple version: no actual dimension so return the max_f
+	score = max_f;
+	return score;
+\end
+
+// =================== MAKEFILE =================== 
+
+\User Makefile options: 
+	CPPFLAGS += -std=c++11 -l./../../build/libsso.so -I./../../core/headers/Frame/  -I./../../core/headers/Truss/ -I./../../core/headers/ -I./../../core/headers/Exception -I./../../libs/easyloggingpp/
+	
+	LDFLAGS += -g ./../../build/libsso.so -larmadillo -std=c++11 -L./../../build -Wl,-rpath=./../../build
+\end
+
+// =================== PARAMETERS =================== 
+
+\Default run parameters :        // Please let the parameters appear in this order
+  Number of generations : 100    // NB_GEN
+  Time limit: 0 			           // In seconds, 0 to deactivate
+  Population size : 1024			   //POP_SIZE
+  Offspring size : 100% // or a xx%
+  Mutation probability : 1       // MUT_PROB
+  Crossover probability : 1      // XOVER_PROB
+  Evaluator goal : minimize      // maximise
+  Selection operator: Tournament 2.0
+  Surviving parents: 100%        // Percentage or absolute  
+  Surviving offspring: 100%      // Percentage or absolute  
+  Reduce parents operator: Tournament 2
+  Reduce offspring operator: Tournament 2
+  Final reduce operator: Tournament 2
+
+  Elitism: Strong			           // Weak or Strong
+  Elite: 1
+  Print stats: true				       // Default: 1
+  Generate csv stats file:false			
+  Generate gnuplot script:false
+  Generate R script:false
+  Plot stats:true				         // Default: 0
+
+  Remote island model: false
+  IP file: ip.txt 			         // List of IP:PORT of islands to send individuals to
+  Migration probability: 0.5    // Probability of sending an individual per generation
+  Server port : 2929
+
+  Save population: true
+  Start from file:false
+\end
+

@@ -1,0 +1,7 @@
+A simple example a simple triangular 2D frame with 3 SimpleTruss. This example is used for the grant application.
+HowTo:
+easea optimizer.ez
+make
+./optimzer
+make easeaclean
+
